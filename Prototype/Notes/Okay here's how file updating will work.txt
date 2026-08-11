@@ -1,0 +1,28 @@
+C: "give me a list of all the files and when they were last updated."
+
+(GET request)
+
+C: "I've updated my list of all files and when they were last updated. Here's one file I need:"
+
+(use POST requests for this.) https://stackoverflow.com/questions/2659952/maximum-length-of-http-get-request
+
+C: "Here's another file I need..."
+C: "Here's another file I need..."
+(and so on, and so forth...)
+
+
+
+
+
+
+
+
+Actions needed:
+
+
+- Get file list (GET)
+
+- Get singular image (POST, in=plaintext, out=image)
+
+- Upload singular image (POST, in=image, out=plaintext)
+(UPDATES the file list)
