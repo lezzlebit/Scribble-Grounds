@@ -65,7 +65,8 @@ class MyHandler(BaseHTTPRequestHandler):
 		self.send_response(200)
 		self.send_header("Access-control-request-method", "POST")
 
-		content_length = int(self.headers['Content-Length'])
+		print(self.headers)
+		content_length = int(self.headers['Content-length'])
 		content_type = self.headers['Content-Type']
 		content_name = self.headers['Content-Name']
 
@@ -118,7 +119,23 @@ class MyHandler(BaseHTTPRequestHandler):
 		self.send_response(200)
 
 		changelogfile = open(changelog_path).read()
-		content = bytes(changelogfile, "utf-8")
+
+
+		content_length = int(self.headers['Content-Length'])
+		content_type = self.headers['Content-Type']
+		content_name = self.headers['Content-Name']
+
+		recieved = self.rfile.read(content_length)
+		message = recieved.decode("utf-8")
+
+		check_response = "graffiti_server_online"
+
+		content = ""
+		if message == "retrieve_drawings_list":
+			content = bytes(changelogfile, "utf-8")
+		if message == "ping_graffiti_server":
+			content = bytes(check_response, "utf-8")
+		
 
 		self.send_header("Content-length", len(content))
 		self.send_header("Content-type", "text/plain")

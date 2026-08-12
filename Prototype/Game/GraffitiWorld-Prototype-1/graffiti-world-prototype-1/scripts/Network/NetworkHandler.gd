@@ -43,6 +43,7 @@ func create_request(headers, method, body):
 	add_child(request)
 	request.network_handler = self
 	request.request_completed.connect(request._http_request_completed)
+
 	request.request_raw(network_address, headers, method, body)
 
 
@@ -85,7 +86,7 @@ func retrieve_list():
 		current_images = text_list_to_dictionary(read.get_as_text())
 	
 	
-	var body = "".to_ascii_buffer()
+	var body = "retrieve_drawings_list".to_ascii_buffer()
 	
 	create_request([], HTTPClient.METHOD_GET, body)
 
@@ -185,7 +186,7 @@ func upload_image(filename: String):
 	img.load(directory + filename)
 	var body: PackedByteArray = img.save_png_to_buffer()
 	
-	var headers = ["Content-type: image/png","Content-name: " + filename]
+	var headers = ["Content-type: image/png","Content-name: " + filename, "Content-length: " + str(len(body))]
 	
 	create_request(headers, HTTPClient.METHOD_POST, body)
 

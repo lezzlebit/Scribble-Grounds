@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Graffiti World Prototype 1"
-run/main_scene="uid://devhs1ubfdtuc"
+run/main_scene="uid://bd7q164qfy36s"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 

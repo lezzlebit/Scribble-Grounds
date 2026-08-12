@@ -1,0 +1,133 @@
+[gd_scene format=3 uid="uid://bd7q164qfy36s"]
+
+[ext_resource type="PackedScene" uid="uid://cwjseksrvlt6" path="res://scenes/title/elements/server_button.tscn" id="1_ds13r"]
+[ext_resource type="PackedScene" uid="uid://dy3e5aqx816tb" path="res://scenes/title/elements/input_line.tscn" id="1_gl121"]
+[ext_resource type="Script" uid="uid://pw8sxnlx1gjq" path="res://scripts/Title/TitleServerManager.gd" id="2_ds13r"]
+[ext_resource type="PackedScene" uid="uid://devhs1ubfdtuc" path="res://scenes/prototype_0/prototype_0.tscn" id="4_7hvf5"]
+
+[node name="Title" type="Control" unique_id=15814928]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=989683783]
+custom_minimum_size = Vector2(384, 0)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=217783798]
+layout_mode = 2
+
+[node name="Server Button" type="Control" parent="PanelContainer/VBoxContainer" unique_id=1279676831]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="PanelContainer/VBoxContainer/Server Button" unique_id=904294646]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/Server Button/Panel" unique_id=454785568]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Add Server" type="Button" parent="PanelContainer/VBoxContainer/Server Button/Panel/HBoxContainer" unique_id=1376297296]
+layout_mode = 2
+text = "Add New Server"
+
+[node name="Refresh" type="Button" parent="PanelContainer/VBoxContainer/Server Button/Panel/HBoxContainer" unique_id=1805540089]
+layout_mode = 2
+text = "Refresh All"
+
+[node name="Directory" type="Button" parent="PanelContainer/VBoxContainer/Server Button/Panel/HBoxContainer" unique_id=358865333]
+layout_mode = 2
+text = "Open Directory"
+
+[node name="Edit" type="PanelContainer" parent="." unique_id=934110546]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Edit" unique_id=873618233]
+layout_mode = 2
+
+[node name="Folder" parent="Edit/VBoxContainer" unique_id=1650912141 instance=ExtResource("1_gl121")]
+layout_mode = 2
+label_text = "Server Name (folder)"
+edit_value = "folder"
+
+[node name="Address" parent="Edit/VBoxContainer" unique_id=1319260046 instance=ExtResource("1_gl121")]
+layout_mode = 2
+label_text = "Server Address"
+edit_value = "address"
+
+[node name="Control" type="Control" parent="Edit/VBoxContainer" unique_id=1274782295]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Edit/VBoxContainer/Control" unique_id=259704879]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -15.5
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Create" type="Button" parent="Edit/VBoxContainer/Control/HBoxContainer" unique_id=2039508755]
+layout_mode = 2
+text = "Create"
+
+[node name="Edit" type="Button" parent="Edit/VBoxContainer/Control/HBoxContainer" unique_id=1382692949]
+layout_mode = 2
+text = "Confirm"
+
+[node name="Delete" type="Button" parent="Edit/VBoxContainer/Control/HBoxContainer" unique_id=436281677]
+layout_mode = 2
+text = "Delete"
+
+[node name="Cancel" type="Button" parent="Edit/VBoxContainer/Control/HBoxContainer" unique_id=961815581]
+layout_mode = 2
+text = "Cancel"
+
+[node name="Server Manager" type="Node" parent="." unique_id=919283246 node_paths=PackedStringArray("button_parent", "editor_parent", "address_setter", "folder_setter", "create_server_button", "edit_server_button", "delete_server_button")]
+script = ExtResource("2_ds13r")
+server_button = ExtResource("1_ds13r")
+main_game = ExtResource("4_7hvf5")
+button_parent = NodePath("../PanelContainer/VBoxContainer")
+editor_parent = NodePath("../Edit")
+address_setter = NodePath("../Edit/VBoxContainer/Address")
+folder_setter = NodePath("../Edit/VBoxContainer/Folder")
+create_server_button = NodePath("../Edit/VBoxContainer/Control/HBoxContainer/Create")
+edit_server_button = NodePath("../Edit/VBoxContainer/Control/HBoxContainer/Edit")
+delete_server_button = NodePath("../Edit/VBoxContainer/Control/HBoxContainer/Delete")
+
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Server Button/Panel/HBoxContainer/Add Server" to="Server Manager" method="start_create_server"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Server Button/Panel/HBoxContainer/Refresh" to="Server Manager" method="refresh"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/Server Button/Panel/HBoxContainer/Directory" to="Server Manager" method="open_path"]
+[connection signal="pressed" from="Edit/VBoxContainer/Control/HBoxContainer/Create" to="Server Manager" method="create_server"]
+[connection signal="pressed" from="Edit/VBoxContainer/Control/HBoxContainer/Edit" to="Server Manager" method="create_server"]
+[connection signal="pressed" from="Edit/VBoxContainer/Control/HBoxContainer/Delete" to="Server Manager" method="delete_server"]
+[connection signal="pressed" from="Edit/VBoxContainer/Control/HBoxContainer/Cancel" to="Server Manager" method="close_editor"]
