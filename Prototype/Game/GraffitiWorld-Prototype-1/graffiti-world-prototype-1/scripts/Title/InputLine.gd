@@ -15,8 +15,13 @@ var text: String:
 
 func _ready() -> void:
 	label.text = label_text
-	pass # Replace with function body.
+	text_input.text_changed.connect(correct_input)
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func correct_input(new_text):
+	var input_pos = text_input.caret_column
+	var input: String = new_text
+	var unwanted = ['/','=','?',"\n"]
+	for i in unwanted:
+		input = input.replace(i, "")
+	text_input.text = input
+	text_input.caret_column = input_pos

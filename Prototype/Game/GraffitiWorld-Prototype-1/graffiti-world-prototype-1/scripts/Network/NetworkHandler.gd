@@ -43,7 +43,7 @@ func create_request(headers, method, body):
 	add_child(request)
 	request.network_handler = self
 	request.request_completed.connect(request._http_request_completed)
-
+	request.timeout = 10
 	request.request_raw(network_address, headers, method, body)
 
 
@@ -52,6 +52,7 @@ func _http_request_completed(result, response_code, headers, body):
 	
 	if response_code == 0:
 		print("No response from web server!")
+		GlobalGameplayValues.user_error_log("No response from web server")
 		return
 	
 	var headers_dictionary = headers_to_dictionary(headers)

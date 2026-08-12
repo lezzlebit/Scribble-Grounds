@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dy3e5aqx816tb" path="res://scenes/title/elements/input_line.tscn" id="1_gl121"]
 [ext_resource type="Script" uid="uid://pw8sxnlx1gjq" path="res://scripts/Title/TitleServerManager.gd" id="2_ds13r"]
 [ext_resource type="PackedScene" uid="uid://devhs1ubfdtuc" path="res://scenes/prototype_0/prototype_0.tscn" id="4_7hvf5"]
+[ext_resource type="PackedScene" uid="uid://ckjxfqndgkrk5" path="res://scenes/ui/logger.tscn" id="5_yjwoi"]
 
 [node name="Title" type="Control" unique_id=15814928]
 layout_mode = 3
@@ -112,17 +113,34 @@ text = "Delete"
 layout_mode = 2
 text = "Cancel"
 
-[node name="Server Manager" type="Node" parent="." unique_id=919283246 node_paths=PackedStringArray("button_parent", "editor_parent", "address_setter", "folder_setter", "create_server_button", "edit_server_button", "delete_server_button")]
+[node name="Username" parent="." unique_id=1552471214 instance=ExtResource("1_gl121")]
+custom_minimum_size = Vector2(256, 64)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -128.0
+offset_right = 128.0
+offset_bottom = 64.0
+grow_horizontal = 2
+label_text = "Username"
+edit_value = "username"
+
+[node name="Server Manager" type="Node" parent="." unique_id=919283246 node_paths=PackedStringArray("button_parent", "username_setter", "editor_parent", "address_setter", "folder_setter", "create_server_button", "edit_server_button", "delete_server_button")]
 script = ExtResource("2_ds13r")
 server_button = ExtResource("1_ds13r")
 main_game = ExtResource("4_7hvf5")
 button_parent = NodePath("../PanelContainer/VBoxContainer")
+username_setter = NodePath("../Username")
 editor_parent = NodePath("../Edit")
 address_setter = NodePath("../Edit/VBoxContainer/Address")
 folder_setter = NodePath("../Edit/VBoxContainer/Folder")
 create_server_button = NodePath("../Edit/VBoxContainer/Control/HBoxContainer/Create")
 edit_server_button = NodePath("../Edit/VBoxContainer/Control/HBoxContainer/Edit")
 delete_server_button = NodePath("../Edit/VBoxContainer/Control/HBoxContainer/Delete")
+
+[node name="Logger" parent="." unique_id=278674006 instance=ExtResource("5_yjwoi")]
+layout_mode = 1
 
 [connection signal="pressed" from="PanelContainer/VBoxContainer/Server Button/Panel/HBoxContainer/Add Server" to="Server Manager" method="start_create_server"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/Server Button/Panel/HBoxContainer/Refresh" to="Server Manager" method="refresh"]

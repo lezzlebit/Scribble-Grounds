@@ -4,10 +4,11 @@ extends CharacterBody3D
 @export var CameraPivot: Node3D
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
-const SENSITIVITY = 0.005
+@export var SENSITIVITY = 0.005
 var vertical_look: float
 
 var GameValues = GlobalGameplayValues
+var first_person_switch: bool = false
 
 
 func _unhandled_input(event: InputEvent):
@@ -46,4 +47,13 @@ func process_movement(delta: float):
 
 func _physics_process(delta: float) -> void:
 	if GameValues.first_person:
+
 		process_movement(delta)
+		if !first_person_switch: 
+			get_parent().reset_physics_interpolation()
+			get_parent().physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_ON
+	else:
+		if first_person_switch:
+			get_parent().reset_physics_interpolation()
+			get_parent().physics_interpolation_mode = Node.PHYSICS_INTERPOLATION_MODE_OFF
+	first_person_switch = GameValues.first_person

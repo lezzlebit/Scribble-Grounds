@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://bee8rbpc1guq8" path="res://scripts/World/DrawTile.gd" id="2_tpvh5"]
 [ext_resource type="Material" uid="uid://bbd81fh1gg72i" path="res://assets/Materials/draw_tile/draw_tile_material.tres" id="3_2bsob"]
 [ext_resource type="PackedScene" uid="uid://bqw6025khq3bg" path="res://scenes/player/player.tscn" id="6_6mgld"]
+[ext_resource type="PackedScene" uid="uid://ckjxfqndgkrk5" path="res://scenes/ui/logger.tscn" id="7_4gfgv"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_g4v7s"]
 size = Vector2(12, 12)
@@ -60,3 +61,5 @@ script = ExtResource("2_tpvh5")
 shape = SubResource("ConcavePolygonShape3D_6mgld")
 
 [node name="Player" parent="." unique_id=1751317177 instance=ExtResource("6_6mgld")]
+
+[node name="Logger" parent="." unique_id=278674006 instance=ExtResource("7_4gfgv")]

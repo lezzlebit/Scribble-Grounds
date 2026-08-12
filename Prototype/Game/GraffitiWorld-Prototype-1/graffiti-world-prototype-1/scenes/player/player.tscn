@@ -13,6 +13,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 collision_layer = 2
 script = ExtResource("1_gmlin")
 CameraPivot = NodePath("CameraPivot")
+SENSITIVITY = 0.001
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=679124615]
 shape = SubResource("CapsuleShape3D_0w266")
@@ -27,7 +28,7 @@ raycast = NodePath("RayCast3D")
 first_person_pivot = NodePath("../CharacterBody3D/CameraPivot")
 wall_sticker = NodePath("WallSticker")
 wall_camera_pivot = NodePath("WallSticker/WallPivot")
-lerp_speed = 50.0
+lerp_speed = 25.0
 
 [node name="RayCast3D" type="RayCast3D" parent="Camera3D" unique_id=1981828520]
 target_position = Vector3(0, 0, -5)

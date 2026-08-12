@@ -7,6 +7,7 @@ class_name TitleServerManager
 @export var server_button: PackedScene
 @export var main_game: PackedScene
 @export var button_parent: Control
+@export var username_setter: TitleInputLine
 
 @export_subgroup("Editor")
 @export var editor_parent: Control
@@ -18,19 +19,44 @@ class_name TitleServerManager
 
 var server_path: String = GlobalNetworkValues.server_directory
 var file_extension: String = ".txt"
+var username_path: String = GlobalNetworkValues.game_directory + "username.txt"
 
 var created_instances: Array[ServerButton]
 
 func _ready() -> void:
 	DirAccess.make_dir_absolute(GlobalNetworkValues.game_directory)
 	DirAccess.make_dir_absolute(server_path)
+	
+	username_setter.text_input.text_changed.connect(update_username_to)
+	get_username()
+	
 	refresh()
 	close_editor()
+
+
+func get_username():
+	if FileAccess.file_exists(username_path):
+		var r = FileAccess.open(username_path, FileAccess.READ).get_as_text()
+		username_setter.text = r
+
+func update_username_to(new_name: String):
+	update_username()
+
+func update_username():
+	var w = FileAccess.open(username_path, FileAccess.WRITE)
+	w.store_string(username_setter.text)
 
 func open_path():
 	OS.shell_open( ProjectSettings.globalize_path(GlobalNetworkValues.game_directory) )
 
 func connect_to_server(button: ServerButton):
+	update_username()
+	GlobalNetworkValues.username = username_setter.text
+	
+	if (len(username_setter.text)) <= 0:
+		GlobalGameplayValues.user_error_log("Please enter a username")
+		return
+	
 	GlobalNetworkValues.network_address = "http://" + button.server_network_address
 	GlobalNetworkValues.save_folder = button.server_folder + "/"
 	DirAccess.make_dir_absolute(GlobalNetworkValues.save_directory)
@@ -96,6 +122,11 @@ func create_server():
 	var new_dictionary: Dictionary[String, String]
 	new_dictionary["folder"] = folder_setter.text
 	new_dictionary["address"] = address_setter.text
+	
+	if len(folder_setter.text) <= 1 and len(address_setter.text) <= 1:
+		GlobalGameplayValues.user_error_log("Please enter server info")
+		return
+	
 	var text_to_write: String = dictionary_to_text(new_dictionary)
 	
 	var path = text_file_path(new_dictionary["folder"])
