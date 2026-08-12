@@ -5,7 +5,7 @@ import json
 import os
 import datetime
 
-PORT = 8000
+PORT = 55555
 HOST = "192.168.50.72"
 
 
@@ -46,7 +46,8 @@ def getPathOnly(fullpath):
 
 
 
-
+if not os.path.isdir(image_path):
+	os.mkdir(image_path)
 
 # https://stackoverflow.com/questions/66514500/how-do-i-configure-a-python-server-for-post
 
@@ -57,6 +58,8 @@ class MyHandler(BaseHTTPRequestHandler):
 	#	pass
 
 	def do_POST(self):
+
+
 
 
 		self.send_response(200)
