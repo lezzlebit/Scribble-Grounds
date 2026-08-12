@@ -8,6 +8,8 @@ var draw_tile_shader: Shader = preload("res://assets/Materials/draw_tile/draw_ti
 
 var standard_texture_size: int = 512
 
+var undo_limit = 8
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.

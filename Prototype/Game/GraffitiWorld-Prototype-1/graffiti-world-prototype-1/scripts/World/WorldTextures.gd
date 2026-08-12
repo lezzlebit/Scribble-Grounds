@@ -7,6 +7,10 @@ var image_pool: Dictionary[String, Image]
 
 var painted_tiles: Array[DrawTile]
 
+var directory: String = GlobalNetworkValues.save_directory + GlobalNetworkValues.save_folder
+
+var updated_image_queue: Dictionary[String, float]
+
 func _init() -> void:
 	GlobalGameplayValues.world_textures = self
 
@@ -21,16 +25,19 @@ func check_tiles_dictionary():
 				tiles[child.name] = child
 
 
+
 func get_file_name(path: String):
 	var splitted: PackedStringArray = path.split("/")
 	var name: String = splitted[splitted.size() - 1]
-	return name.split(".")[0]
+	return name
 
 func save_unsaved_textures():
 	print(painted_tiles)
 	var path = GlobalNetworkValues.save_directory + GlobalNetworkValues.save_folder
 	
 	for i in painted_tiles:
+		
+		i.clear_undo_buffer()
 		
 		var name_path = GlobalNetworkValues.username + "/"
 		var save_id = i.name + ".png"
@@ -39,43 +46,82 @@ func save_unsaved_textures():
 		
 		DirAccess.make_dir_absolute(path + name_path)
 		image_to_save.save_png(path + name_path + save_id)
-		GlobalGameplayValues.network_handler.create_image_offline(name_path + save_id)
+		# GlobalGameplayValues.network_handler.create_image_offline(name_path + save_id)
+		GlobalGameplayValues.network_handler.upload_image(name_path + save_id)
 	
 	painted_tiles.clear()
 
 
-func update_image_pool():
+func update_one_image(image_path: String):
+	
+	
+	
+	var imported_image: Image = Image.new()
+	var err = imported_image.load(directory + image_path)
+	if err != OK:
+		print("no image found (singular)")
+		return false
+	var name = image_path.split(".")[0]
+	
+	var file_name: String = get_file_name(name)
+	var image_username: String = name.split("/")[0]
+	
+	var tile_found: DrawTile = tiles[file_name]
+	tile_found.set_image(image_username, imported_image)
+	
+	
+
+func update_image_pool(update_all: bool):
 	
 	check_tiles_dictionary()
 	
 	var network_handler: NetworkHandler = GlobalGameplayValues.network_handler
 	
-	var files_to_get: Dictionary[String, String] = network_handler.current_images
-	var directory: String = GlobalNetworkValues.save_directory + GlobalNetworkValues.save_folder
+	var files_to_get: Dictionary[String, String]
+	if update_all: files_to_get = network_handler.current_images
+	if !update_all: files_to_get = network_handler.required_images
 	
 	for i in files_to_get:
 		
-		var name = get_file_name(i)
+		var name = i.split(".")[0]
 		
 		var imported_image: Image = Image.new()
 		var err = imported_image.load(directory + i)
 		if err != OK:
-			print("no image found")
+			print("no image found (load)")
 			return false
 
 		image_pool[name] = imported_image
-
+	
 	assign_all_textures()
 
 	pass
 
 func assign_all_textures():
 	for i in image_pool:
-		if tiles.has(i):
-			var tile_found: DrawTile = tiles[i]
-			tile_found.set_image(image_pool[i])
+		var file_name: String = get_file_name(i)
+		var image_username: String = i.split("/")[0]
+		if tiles.has(file_name):
+			var tile_found: DrawTile = tiles[file_name]
+			tile_found.set_image(image_username, image_pool[i])
 
+func add_image_to_queue(image_path: String):
+	updated_image_queue[image_path] = 1
+
+func process_image_queue(delta: float):
+	
+	var items_to_erase: Array[String]
+	
+	for i in updated_image_queue:
+		updated_image_queue[i] -= delta
+		if updated_image_queue[i] < 0:
+			update_one_image(i)
+			items_to_erase.append(i)
+	
+	for i in items_to_erase:
+		updated_image_queue.erase(i)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	process_image_queue(delta)
 	pass

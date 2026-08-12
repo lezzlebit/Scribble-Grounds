@@ -53,6 +53,9 @@ def getPathOnly(fullpath):
 class MyHandler(BaseHTTPRequestHandler):
 
 
+	#def log_message(self, format, *args):
+	#	pass
+
 	def do_POST(self):
 
 

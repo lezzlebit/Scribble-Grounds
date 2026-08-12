@@ -1,8 +1,6 @@
-extends HTTPRequest
+extends Node
 
 class_name NetworkHandler
-
-var http_requester: HTTPRequest = self as HTTPRequest
 
 var network_address: String = GlobalNetworkValues.network_address
 var directory: String = GlobalNetworkValues.save_directory + GlobalNetworkValues.save_folder
@@ -17,19 +15,34 @@ func _init():
 	GlobalGameplayValues.network_handler = self
 
 func _ready():
-	
-	
-	
-	http_requester.request_completed.connect(_http_request_completed)
 	retrieve_list()
+	initialize_process_timers()
 
 func _process(delta: float) -> void:
-	return
-	# if (Input.is_action_just_pressed("ui_accept")):
-	# 	upload_image("FirstGuy/drawing1.png")
+	if (Input.is_action_just_pressed("debug_action")):
+		get_one_required_image()
+	if (Input.is_action_just_pressed("ui_down")):
+		retrieve_list()
 
+func initialize_process_timers():
+	initialize_single_timer("RetrieveTimer", 5, retrieve_list)
+	initialize_single_timer("ImageTimer", 0.5, get_one_required_image)
 
+func initialize_single_timer(timer_name: String, timer_length: float, signal_out: Callable):
+	var added_timer: Timer = Timer.new()
+	add_child(added_timer)
+	added_timer.wait_time = timer_length
+	added_timer.autostart = true
+	added_timer.name = timer_name
+	added_timer.timeout.connect(signal_out)
+	added_timer.start()
 
+func create_request(headers, method, body):
+	var request: SingleRequest = SingleRequest.new()
+	add_child(request)
+	request.network_handler = self
+	request.request_completed.connect(request._http_request_completed)
+	request.request_raw(network_address, headers, method, body)
 
 
 # Select the correct response to data
@@ -69,10 +82,11 @@ func retrieve_list():
 
 		var read = FileAccess.open(directory + changelog_filename, FileAccess.READ)
 		current_images = text_list_to_dictionary(read.get_as_text())
-		print(current_images)
-	GlobalGameplayValues.world_textures.update_image_pool()
+	GlobalGameplayValues.world_textures.update_image_pool(true)
 	
-	http_requester.request_raw(network_address, [], HTTPClient.METHOD_GET)
+	var body = "".to_ascii_buffer()
+	
+	create_request([], HTTPClient.METHOD_GET, body)
 
 func _on_retrieve_list(headers, body):
 	
@@ -80,6 +94,7 @@ func _on_retrieve_list(headers, body):
 	new_images = text_list_to_dictionary(new_read)
 	
 	required_images = compare_dictionaries(current_images, new_images)
+	print(required_images)
 	# required_images = remove_username_from_dictionary(required_images)
 
 func compare_dictionaries(dict_1, dict_2):
@@ -127,6 +142,7 @@ func dictionary_to_text(in_dict: Dictionary[String, String]):
 
 # Get image from server (POST)
 func get_one_required_image():
+
 	var earliest: float = -1
 	var selected: String = ""
 	
@@ -146,7 +162,7 @@ func request_image(filename: String):
 	var headers = ["Content-type: text/plain"]
 	var body = filename.to_ascii_buffer()
 	
-	http_requester.request_raw(network_address, headers, HTTPClient.METHOD_POST, body)
+	create_request(headers, HTTPClient.METHOD_POST, body)
 
 func _on_retrieve_image(headers, body):
 	
@@ -155,8 +171,10 @@ func _on_retrieve_image(headers, body):
 	current_images[filename] = new_images[filename]
 	save_current_changelog()
 	
+	DirAccess.make_dir_absolute(directory + get_only_directory(filename))
 	var image_file = FileAccess.open(directory + filename, FileAccess.WRITE)
 	image_file.store_buffer(body)
+	GlobalGameplayValues.world_textures.add_image_to_queue(filename)
 
 
 
@@ -168,7 +186,7 @@ func upload_image(filename: String):
 	
 	var headers = ["Content-type: image/png","Content-name: " + filename]
 	
-	http_requester.request_raw(network_address, headers, HTTPClient.METHOD_POST, body)
+	create_request(headers, HTTPClient.METHOD_POST, body)
 
 func create_image_offline(filename):
 	current_images[filename] = str(Time.get_unix_time_from_system()).split(".")[0]
@@ -182,3 +200,6 @@ func _on_image_uploaded(headers, body):
 	
 	print(content)
 	print("successfully uploaded " + pair[0])
+	
+func get_only_directory(directory):
+	return directory.split("/")[0]

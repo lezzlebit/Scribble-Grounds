@@ -8,9 +8,6 @@ var last_raycast_pos: Vector3
 
 var previous_frame_available: bool = false
 
-var tiles_painted: Array[DrawTile]
-
-
 func draw_line(pos_1, pos_2, obj: DrawTile):
 	var distance: int = (pos_1.distance_to(pos_2) + 0.1) * 64
 	for i in range(distance):
@@ -21,9 +18,17 @@ func draw_line(pos_1, pos_2, obj: DrawTile):
 
 func paint(obj: DrawTile):
 	
+
+	
 	if Input.is_action_pressed("pen_down"):
 		
-		
+
+		var world_textures: WorldTextures = GlobalGameplayValues.world_textures
+		if !world_textures.painted_tiles.has(obj):
+			world_textures.painted_tiles.append(obj)
+
+		if Input.is_action_just_pressed("pen_down"):
+			add_to_undo_buffer()
 		
 		var collision_point: Vector3 = get_collision_point()
 		
@@ -43,11 +48,24 @@ func paint(obj: DrawTile):
 		last_raycast_pos = collision_point
 		previous_frame_available = true
 		
+		
+		
 		pass
 	else:
 		previous_frame_available = false
 
 
+
+
+func add_to_undo_buffer():
+	var edited_objects: Array[DrawTile] = GlobalGameplayValues.world_textures.painted_tiles
+	for i in edited_objects:
+		i.add_undo()
+
+func move_undo(index: int):
+	var edited_objects: Array[DrawTile] = GlobalGameplayValues.world_textures.painted_tiles
+	for i in edited_objects:
+		i.move_undo(index)
 
 func raycast_draw(ray_length: float):
 	
@@ -61,6 +79,7 @@ func raycast_draw(ray_length: float):
 	var result: Object = get_collider()
 	
 	
+	
 	var could_reach: bool = false
 	if result as StaticBody3D:
 		var parent = result.get_parent()
@@ -71,5 +90,10 @@ func raycast_draw(ray_length: float):
 	if !could_reach:
 		previous_frame_available = false
 		current_mesh = null
+	
+	if Input.is_action_just_pressed("undo"):
+		move_undo(-1)
+	if Input.is_action_just_pressed("redo"):
+		move_undo(1)
 	
 	pass

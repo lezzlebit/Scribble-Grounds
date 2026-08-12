@@ -1,9 +1,10 @@
 import requests
 
 
-headers = {'Content-type': 'image/png'}
-test_image = open("test_image.png", "rb").read()
+r = requests.get("http://98.111.128.146:55555")
 
-r = requests.post("http://localhost:8000/", test_image, headers=headers)
-print(r.status_code)
-print(r.content)
+if r.status_code != 0:
+	print("Got code " + str(r.status_code) + "! Succeeded!")
+else:
+	print("Nothing returned")
+

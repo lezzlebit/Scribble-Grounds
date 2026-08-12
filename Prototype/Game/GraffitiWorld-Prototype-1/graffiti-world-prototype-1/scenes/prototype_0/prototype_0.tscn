@@ -3,11 +3,9 @@
 [ext_resource type="Script" uid="uid://dh27jx5i4ixab" path="res://scripts/Network/NetworkHandler.gd" id="1_0w266"]
 [ext_resource type="Script" uid="uid://dbruja1g6egnu" path="res://scripts/World/WorldTextures.gd" id="2_4gfgv"]
 [ext_resource type="ArrayMesh" uid="uid://rik0xj22vr0r" path="res://assets/3D/Wall.obj" id="2_8rfx5"]
-[ext_resource type="Script" uid="uid://cl6gkiap7v71q" path="res://scripts/Player/PlayerMovement.gd" id="2_bda5n"]
 [ext_resource type="Script" uid="uid://bee8rbpc1guq8" path="res://scripts/World/DrawTile.gd" id="2_tpvh5"]
 [ext_resource type="Material" uid="uid://bbd81fh1gg72i" path="res://assets/Materials/draw_tile/draw_tile_material.tres" id="3_2bsob"]
-[ext_resource type="Script" uid="uid://o1qhy5lt543m" path="res://scripts/Player/CameraController.gd" id="5_8rfx5"]
-[ext_resource type="Script" uid="uid://c7dcj7o6a10jc" path="res://scripts/Player/RaycastPainter.gd" id="6_6mgld"]
+[ext_resource type="PackedScene" uid="uid://bqw6025khq3bg" path="res://scenes/player/player.tscn" id="6_6mgld"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_g4v7s"]
 size = Vector2(12, 12)
@@ -18,11 +16,9 @@ data = PackedVector3Array(6, 0, 6, -6, 0, 6, 6, 0, -6, -6, 0, 6, -6, 0, -6, 6, 0
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_6mgld"]
 data = PackedVector3Array(-1, 4.8946, 1, -1, -1, 1, -1, 4.8946, -1, -1, 4.8946, -1, -1, -1, 1, -1, -1, -1, -1, 4.8946, -1, -1, -1, -1, 1, 4.8946, -1, 1, 4.8946, -1, -1, -1, -1, 1, -1, -1, 1, 4.8946, -1, 1, -1, -1, 1, 4.8946, 1, 1, 4.8946, 1, 1, -1, -1, 1, -1, 1, 1, 4.8946, 1, 1, -1, 1, -1, 4.8946, 1, -1, 4.8946, 1, 1, -1, 1, -1, -1, 1, 1, -1, -1, -1, -1, -1, 1, -1, 1, 1, -1, 1, -1, -1, -1, -1, -1, 1, -1, 4.8946, -1, 1, 4.8946, -1, -1, 4.8946, 1, -1, 4.8946, 1, 1, 4.8946, -1, 1, 4.8946, 1, -3.4807, 2.9877, 1, -3.4807, -1, 1, -3.4807, 2.9877, -1, -3.4807, 2.9877, -1, -3.4807, -1, 1, -3.4807, -1, -1, -3.4807, 2.9877, -1, -3.4807, -1, -1, -1.4807999, 2.9877, -1, -1.4807999, 2.9877, -1, -3.4807, -1, -1, -1.4807999, -1, -1, -1.4807999, 2.9877, -1, -1.4807999, -1, -1, -1.4807999, 2.9877, 1, -1.4807999, 2.9877, 1, -1.4807999, -1, -1, -1.4807999, -1, 1, -1.4807999, 2.9877, 1, -1.4807999, -1, 1, -3.4807, 2.9877, 1, -3.4807, 2.9877, 1, -1.4807999, -1, 1, -3.4807, -1, 1, -1.4807999, -1, -1, -3.4807, -1, -1, -1.4807999, -1, 1, -1.4807999, -1, 1, -3.4807, -1, -1, -3.4807, -1, 1, -3.4807, 2.9877, -1, -1.4807999, 2.9877, -1, -3.4807, 2.9877, 1, -3.4807, 2.9877, 1, -1.4807999, 2.9877, -1, -1.4807999, 2.9877, 1)
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0w266"]
-
 [node name="prototype_0" type="Node3D" unique_id=1504437528]
 
-[node name="NetworkHandler" type="HTTPRequest" parent="." unique_id=1217657825]
+[node name="NetworkHandler" type="Node" parent="." unique_id=472813323]
 script = ExtResource("1_0w266")
 metadata/_custom_type_script = "uid://dh27jx5i4ixab"
 
@@ -39,7 +35,8 @@ mesh = SubResource("PlaneMesh_g4v7s")
 shape = SubResource("ConcavePolygonShape3D_0w266")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="World" unique_id=228738822]
-transform = Transform3D(1, 0, 0, 0, 0.86249477, 0.506066, 0, -0.506066, 0.86249477, 4.7683716e-07, 4.9647985, -2.7310467)
+transform = Transform3D(0.48698083, 0.44200447, -0.75331384, 0, 0.86249477, 0.506066, 0.87341267, -0.24644445, 0.4200184, 4.7683716e-07, 4.9647985, -2.7310467)
+shadow_enabled = true
 
 [node name="drawing1" type="MeshInstance3D" parent="World" unique_id=1372314496]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1857305, 0.40769106, -3.250479)
@@ -62,30 +59,4 @@ script = ExtResource("2_tpvh5")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="World/drawing2/StaticBody3D" unique_id=1806979665]
 shape = SubResource("ConcavePolygonShape3D_6mgld")
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=322545219 node_paths=PackedStringArray("CameraPivot")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-collision_layer = 2
-script = ExtResource("2_bda5n")
-CameraPivot = NodePath("CameraPivot")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=215441245]
-shape = SubResource("CapsuleShape3D_0w266")
-
-[node name="CameraPivot" type="Node3D" parent="CharacterBody3D" unique_id=1986023412]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
-
-[node name="Camera3D" type="Camera3D" parent="." unique_id=1444818371 node_paths=PackedStringArray("raycast", "first_person_pivot", "wall_sticker", "wall_camera_pivot")]
-script = ExtResource("5_8rfx5")
-raycast = NodePath("RayCast3D")
-first_person_pivot = NodePath("../CharacterBody3D/CameraPivot")
-wall_sticker = NodePath("WallSticker")
-wall_camera_pivot = NodePath("WallSticker/WallPivot")
-lerp_speed = 50.0
-
-[node name="RayCast3D" type="RayCast3D" parent="Camera3D" unique_id=1417852764]
-target_position = Vector3(0, 0, -5)
-script = ExtResource("6_6mgld")
-
-[node name="WallSticker" type="Node3D" parent="Camera3D" unique_id=1804065326]
-
-[node name="WallPivot" type="Node3D" parent="Camera3D/WallSticker" unique_id=1148721376]
+[node name="Player" parent="." unique_id=1751317177 instance=ExtResource("6_6mgld")]

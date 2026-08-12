@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://bqw6025khq3bg"]
+
+[ext_resource type="Script" uid="uid://cl6gkiap7v71q" path="res://scripts/Player/PlayerMovement.gd" id="1_gmlin"]
+[ext_resource type="Script" uid="uid://o1qhy5lt543m" path="res://scripts/Player/CameraController.gd" id="2_lvxji"]
+[ext_resource type="Script" uid="uid://c7dcj7o6a10jc" path="res://scripts/Player/RaycastPainter.gd" id="3_p47bc"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0w266"]
+
+[node name="Player" type="Node" unique_id=1751317177]
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=373349286 node_paths=PackedStringArray("CameraPivot")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_layer = 2
+script = ExtResource("1_gmlin")
+CameraPivot = NodePath("CameraPivot")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=679124615]
+shape = SubResource("CapsuleShape3D_0w266")
+
+[node name="CameraPivot" type="Node3D" parent="CharacterBody3D" unique_id=30639229]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=2080823682 node_paths=PackedStringArray("raycast", "first_person_pivot", "wall_sticker", "wall_camera_pivot")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+script = ExtResource("2_lvxji")
+raycast = NodePath("RayCast3D")
+first_person_pivot = NodePath("../CharacterBody3D/CameraPivot")
+wall_sticker = NodePath("WallSticker")
+wall_camera_pivot = NodePath("WallSticker/WallPivot")
+lerp_speed = 50.0
+
+[node name="RayCast3D" type="RayCast3D" parent="Camera3D" unique_id=1981828520]
+target_position = Vector3(0, 0, -5)
+hit_back_faces = false
+script = ExtResource("3_p47bc")
+
+[node name="WallSticker" type="Node3D" parent="Camera3D" unique_id=799053121]
+
+[node name="WallPivot" type="Node3D" parent="Camera3D/WallSticker" unique_id=1560838560]
