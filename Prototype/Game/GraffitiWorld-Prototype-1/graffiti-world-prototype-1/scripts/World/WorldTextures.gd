@@ -54,8 +54,6 @@ func save_unsaved_textures():
 
 func update_one_image(image_path: String):
 	
-	
-	
 	var imported_image: Image = Image.new()
 	var err = imported_image.load(directory + image_path)
 	if err != OK:

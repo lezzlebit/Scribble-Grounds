@@ -16,6 +16,7 @@ func _init():
 
 func _ready():
 	retrieve_list()
+	GlobalGameplayValues.world_textures.update_image_pool(true)
 	initialize_process_timers()
 
 func _process(delta: float) -> void:
@@ -82,7 +83,7 @@ func retrieve_list():
 
 		var read = FileAccess.open(directory + changelog_filename, FileAccess.READ)
 		current_images = text_list_to_dictionary(read.get_as_text())
-	GlobalGameplayValues.world_textures.update_image_pool(true)
+	
 	
 	var body = "".to_ascii_buffer()
 	
