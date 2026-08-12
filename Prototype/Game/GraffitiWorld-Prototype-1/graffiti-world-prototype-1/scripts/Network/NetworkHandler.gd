@@ -102,7 +102,7 @@ func compare_dictionaries(dict_1, dict_2):
 	var return_list: Dictionary[String, String]
 	for i in dict_2:
 		if (dict_1.has(i)):
-			if (dict_2[i] > dict_1[i]):
+			if (int(dict_2[i]) > int(dict_1[i])):
 				return_list[i] = dict_2[i]
 			
 		else:
