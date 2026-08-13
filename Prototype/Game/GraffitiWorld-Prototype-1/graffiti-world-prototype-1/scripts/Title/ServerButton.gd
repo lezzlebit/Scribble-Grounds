@@ -36,12 +36,14 @@ func set_online(is_online: bool):
 	if is_online:
 		connect_button.process_mode = Node.PROCESS_MODE_INHERIT
 		connect_button.visible = true
-		server_status_label.text = "(response recieved!)"
+		server_status_label.text = "(online)"
+		server_status_label.modulate = Color.AQUA
 		
 	if !is_online:
 		connect_button.process_mode = Node.PROCESS_MODE_DISABLED
 		connect_button.visible = false
 		server_status_label.text = "(no response)"
+		server_status_label.modulate = Color.DARK_GRAY
 
 
 func _http_request_completed(result, response_code, headers, body):
@@ -51,10 +53,12 @@ func _http_request_completed(result, response_code, headers, body):
 			set_online(true)
 		else:
 			server_status_label.text = "(incompatible server)"
+			server_status_label.modulate = Color.DARK_GRAY
 	elif response_code == 0:
 		set_online(false)
 	else:
 		server_status_label.text = "(unusual response code)"
+		server_status_label.modulate = Color.DARK_GRAY
 		
 		
 	pass

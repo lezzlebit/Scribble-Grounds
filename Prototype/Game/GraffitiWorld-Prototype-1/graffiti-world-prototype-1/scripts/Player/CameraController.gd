@@ -9,6 +9,7 @@ var GameValues = GlobalGameplayValues
 @export var first_person_pivot: Node3D
 @export var wall_sticker: Node3D
 @export var wall_camera_pivot: Node3D
+@export var drawing_controls: Control
 
 
 
@@ -38,6 +39,9 @@ func _unhandled_input(event: InputEvent):
 	
 	if !GameValues.first_person:
 
+		var camera_distance: float = get_camera_distance()
+		raycast.target_position.z = camera_distance * -10
+		raycast.raycast_draw(camera_distance)
 		
 		if event is InputEventMouseMotion:
 			if Input.is_action_pressed("pan_mouse"):
@@ -125,6 +129,9 @@ func update_position(delta: float):
 	var wall_pivot_position: Vector3 = wall_camera_pivot.global_position
 	var wall_pivot_rotation: Quaternion = wall_camera_pivot.global_basis.get_rotation_quaternion()
 	
+	var wall_pivot_fov: float = 30
+	var default_fov: float = 75
+	
 	var wall_pivot_camera_near: float = get_camera_distance() - 0.5
 	var default_near: float = 0.1
 	
@@ -133,6 +140,8 @@ func update_position(delta: float):
 	if !GameValues.first_person: lerp_desired_position = 1
 	camera_lerp_value = lerp(camera_lerp_value, lerp_desired_position, delta * lerp_speed)
 	camera_lerp_value = clamp(camera_lerp_value, 0, 1)
+	
+	fov = lerp(default_fov, wall_pivot_fov, camera_lerp_value)
 	
 	near = lerp(default_near, wall_pivot_camera_near, camera_lerp_value)
 	global_position = first_person_position.lerp(wall_pivot_position, camera_lerp_value)
@@ -146,6 +155,8 @@ func handle_zoom():
 		zoom_add = 1
 	if Input.is_action_just_pressed("zoom_out"):
 		zoom_add = -1
+	
+	
 	
 	current_zoom_level += zoom_add
 	
@@ -173,22 +184,23 @@ func _process(delta: float) -> void:
 	
 	handle_zoom()
 	
+	drawing_controls.visible = !GameValues.first_person
+	
 	if GameValues.first_person:
 		find_paint_wall()
 		raycast.position = Vector3.ZERO
 		raycast.rotation = Vector3.ZERO
 		raycast.target_position.z = -5
-		near = 0.05
 
 	elif Input.is_action_just_pressed("toggle_drawing"):
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		GameValues.first_person = true
 		GameValues.world_textures.save_unsaved_textures()
 	
-	if !GameValues.first_person:
-		var camera_distance: float = get_camera_distance()
-		raycast.target_position.z = camera_distance * -2
-		raycast.raycast_draw(camera_distance)
+	#if !GameValues.first_person:
+		#var camera_distance: float = get_camera_distance()
+		#raycast.target_position.z = camera_distance * -2
+		#raycast.raycast_draw(camera_distance)
 	
 	
 	

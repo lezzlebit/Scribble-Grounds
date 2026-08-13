@@ -33,11 +33,11 @@ func paint(obj: DrawTile):
 	for i in range(distance):
 		var lerpPos: Vector3 = last_raycast_pos.lerp(collision_point, float(i)/float(distance))
 		var coords = UvPosition.get_uv_coords(lerpPos - obj.position, Raycast.get_collision_normal(), false)
-		if coords:
-			obj.set_pixel(coords.x, coords.y)
+		# if coords:
+			# obj.set_pixel(coords.x, coords.y)
 	
 	var coords = UvPosition.get_uv_coords(Raycast.get_collision_point() - obj.position, Raycast.get_collision_normal(), false)
-	obj.set_pixel(coords.x, coords.y)
+	# obj.set_pixel(coords.x, coords.y)
 	
 	last_raycast_pos = Raycast.get_collision_point()
 	

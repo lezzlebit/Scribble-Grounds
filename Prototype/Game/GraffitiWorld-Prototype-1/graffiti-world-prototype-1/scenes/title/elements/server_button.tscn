@@ -1,11 +1,15 @@
 [gd_scene format=3 uid="uid://cwjseksrvlt6"]
 
+[ext_resource type="Theme" uid="uid://dr757m870tmqg" path="res://assets/UI/Theme/graffiti_theme.tres" id="1_o75xn"]
 [ext_resource type="Script" uid="uid://doeme1xc3awes" path="res://scripts/Title/ServerButton.gd" id="1_w7by7"]
+[ext_resource type="Texture2D" uid="uid://ddek6acp027j3" path="res://assets/UI/ButtonIcons/edit.PNG" id="2_8sjr6"]
+[ext_resource type="Texture2D" uid="uid://bgukvj8qog42s" path="res://assets/UI/ButtonIcons/connect.PNG" id="3_o75xn"]
 
 [node name="Server Button" type="Control" unique_id=1151335501 node_paths=PackedStringArray("server_name_label", "server_status_label", "edit_button", "connect_button", "requester")]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 3
 anchors_preset = 0
+theme = ExtResource("1_o75xn")
 script = ExtResource("1_w7by7")
 server_name_label = NodePath("Panel/HBoxContainer2/Title")
 server_status_label = NodePath("Panel/HBoxContainer2/Status")
@@ -52,10 +56,12 @@ alignment = 2
 [node name="Edit Button" type="Button" parent="Panel/HBoxContainer" unique_id=1681973622]
 layout_mode = 2
 text = "Edit"
+icon = ExtResource("2_8sjr6")
 
 [node name="Connect Button" type="Button" parent="Panel/HBoxContainer" unique_id=1376297296]
 layout_mode = 2
 text = "Connect"
+icon = ExtResource("3_o75xn")
 
 [node name="HTTPRequest" type="HTTPRequest" parent="." unique_id=1091472796]
 timeout = 5.0

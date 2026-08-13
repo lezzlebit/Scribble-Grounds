@@ -9,4 +9,4 @@ var save_directory: String = "user://game/saves/"
 var save_folder: String = ""
 var changelog_filename: String = "changelog_latest.txt"
 
-var network_address: String = "127.0.0.1:55555"
+var network_address: String = "http://127.0.0.1:55555"

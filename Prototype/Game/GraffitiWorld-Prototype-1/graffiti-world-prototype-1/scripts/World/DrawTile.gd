@@ -40,17 +40,24 @@ func check_add_username_to_index(username_in: String):
 
 func set_image(image_username: String, set_image: Image):
 	print("Updated " + name)
-	
+
+		
 	check_add_username_to_index(image_username)
 	painted_textures[image_username] = ImageTexture.create_from_image(set_image)
 	painted_textures[image_username].update(set_image)
 	
 	# print(image_username + " - " + str(index_of_username(image_username)))
-	
+	texture_material.set_shader_parameter("noise", load("res://assets/Textures/bluenoise.png"))
 	
 	texture_material.set_shader_parameter("texture_" + str(index_of_username(image_username)), painted_textures[image_username])
 
+func end_drawing():
+	texture_material.set_shader_parameter("selected", -1)
+
+
 func start_drawing():
+	
+
 	var player_username = GlobalNetworkValues.username
 	if painted_textures.has(player_username):
 		pass
@@ -59,6 +66,8 @@ func start_drawing():
 		empty_image.fill(Color(1, 1, 1, 0))
 		
 		set_image(player_username, empty_image)
+	
+	texture_material.set_shader_parameter("selected", index_of_username(player_username))
 	
 	if image == null:
 		image = painted_textures[player_username].get_image()
@@ -107,8 +116,18 @@ func undo_limit_push():
 
 
 
+func fill_spot(x: float, y: float, thickness: float, color: Color, overwrite: bool):
+	var t: float = (thickness * 2) - 1
+	var s: float = (thickness / 2)
+	for xi in range(t):
+		for yi in range(t):
+			
+			var x_addition: float = (float(xi)-s) / float(texture_height)
+			var y_addition: float = (float(yi)-s) / float(texture_width)
+			
+			set_pixel(x+x_addition, y+y_addition, color, overwrite)
 
-func set_pixel(x: float, y: float):
+func set_pixel(x: float, y: float, color: Color, overwrite: bool):
 	
 	start_drawing()
 	
@@ -117,9 +136,13 @@ func set_pixel(x: float, y: float):
 	
 	
 	var drawPos = Vector2i(int(texture_width * x), int(texture_height * y))
-	image.set_pixelv(drawPos, Color.BLUE)
+	drawPos.x = clampi(drawPos.x, 0, texture_width)
+	drawPos.y = clampi(drawPos.y, 0, texture_height)
+	
+	if overwrite:
+		image.set_pixelv(drawPos, color)
+	else:
+		var alpha = image.get_pixelv(drawPos).a
+		if alpha < 0.5: image.set_pixelv(drawPos, color)
 	painted_textures[player_username].update(image)
-
-func _process(delta: float) -> void:
-	pass
 	

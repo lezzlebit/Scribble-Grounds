@@ -65,12 +65,9 @@ class MyHandler(BaseHTTPRequestHandler):
 		self.send_response(200)
 		self.send_header("Access-control-request-method", "POST")
 
-		print(self.headers)
 		content_length = int(self.headers['Content-length'])
 		content_type = self.headers['Content-Type']
 		content_name = self.headers['Content-Name']
-
-		print(content_type)
 
 		saved = self.rfile.read(content_length)
 

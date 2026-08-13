@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dllhxt27u3ymw"]
+
+[ext_resource type="Script" uid="uid://3wwb824ujfbj" path="res://scripts/Prototype/websocketstester.gd" id="1_ux67u"]
+
+[node name="WebsocketsPrototype" type="Node3D" unique_id=1677609098]
+script = ExtResource("1_ux67u")

@@ -7,6 +7,7 @@
 [ext_resource type="Material" uid="uid://bbd81fh1gg72i" path="res://assets/Materials/draw_tile/draw_tile_material.tres" id="3_2bsob"]
 [ext_resource type="PackedScene" uid="uid://bqw6025khq3bg" path="res://scenes/player/player.tscn" id="6_6mgld"]
 [ext_resource type="PackedScene" uid="uid://ckjxfqndgkrk5" path="res://scenes/ui/logger.tscn" id="7_4gfgv"]
+[ext_resource type="Environment" uid="uid://dnoppw2hmxvf0" path="res://assets/Environment/environment.tres" id="8_2bsob"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_g4v7s"]
 size = Vector2(12, 12)
@@ -28,16 +29,13 @@ script = ExtResource("2_4gfgv")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="World" unique_id=1326311205]
 transform = Transform3D(3.455, 0, 0, 0, 3.455, 0, 0, 0, 3.455, 0, 0, 0)
+material_override = ExtResource("3_2bsob")
 mesh = SubResource("PlaneMesh_g4v7s")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="World/MeshInstance3D" unique_id=1460484840]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="World/MeshInstance3D/StaticBody3D" unique_id=999700399]
 shape = SubResource("ConcavePolygonShape3D_0w266")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="World" unique_id=228738822]
-transform = Transform3D(0.48698083, 0.44200447, -0.75331384, 0, 0.86249477, 0.506066, 0.87341267, -0.24644445, 0.4200184, 4.7683716e-07, 4.9647985, -2.7310467)
-shadow_enabled = true
 
 [node name="drawing1" type="MeshInstance3D" parent="World" unique_id=1372314496]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1857305, 0.40769106, -3.250479)
@@ -52,6 +50,7 @@ shape = SubResource("ConcavePolygonShape3D_6mgld")
 
 [node name="drawing2" type="MeshInstance3D" parent="World" unique_id=1021862917]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.1225595, -0.23002338, -4.467986)
+material_override = ExtResource("3_2bsob")
 mesh = ExtResource("2_8rfx5")
 script = ExtResource("2_tpvh5")
 
@@ -63,3 +62,14 @@ shape = SubResource("ConcavePolygonShape3D_6mgld")
 [node name="Player" parent="." unique_id=1751317177 instance=ExtResource("6_6mgld")]
 
 [node name="Logger" parent="." unique_id=278674006 instance=ExtResource("7_4gfgv")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=874664817]
+environment = ExtResource("8_2bsob")
+
+[node name="Light" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=228738822]
+transform = Transform3D(0.6598421, 0.5692726, -0.490446, -0.12149515, 0.72494704, 0.6780051, 0.74151695, -0.3877894, 0.5475144, 4.7683716e-07, 4.9647985, -2.7310467)
+light_color = Color(0.4467767, 0.44677716, 0.44677693, 1)
+light_angular_distance = 1.0
+light_specular = 0.0
+shadow_enabled = true
+shadow_blur = 1.7

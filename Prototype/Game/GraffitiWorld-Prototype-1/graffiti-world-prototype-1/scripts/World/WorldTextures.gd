@@ -37,6 +37,7 @@ func save_unsaved_textures():
 	
 	for i in painted_tiles:
 		
+		i.end_drawing()
 		i.clear_undo_buffer()
 		
 		var name_path = GlobalNetworkValues.username + "/"

@@ -27,7 +27,7 @@ func _process(delta: float) -> void:
 
 func initialize_process_timers():
 	initialize_single_timer("RetrieveTimer", 5, retrieve_list)
-	initialize_single_timer("ImageTimer", 0.5, get_one_required_image)
+	initialize_single_timer("ImageTimer", 0.1, get_one_required_image)
 
 func initialize_single_timer(timer_name: String, timer_length: float, signal_out: Callable):
 	var added_timer: Timer = Timer.new()
@@ -159,7 +159,7 @@ func get_one_required_image():
 	if len(selected) > 1:
 		request_image(selected)
 	else:
-		print("no images required!")
+		pass
 
 func request_image(filename: String):
 	var headers = ["Content-type: text/plain"]

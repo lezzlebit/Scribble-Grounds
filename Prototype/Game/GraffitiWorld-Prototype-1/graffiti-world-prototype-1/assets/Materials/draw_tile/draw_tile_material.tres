@@ -1,10 +1,9 @@
 [gd_resource type="ShaderMaterial" format=3 uid="uid://bbd81fh1gg72i"]
 
 [ext_resource type="Shader" uid="uid://ckimige8ahtvd" path="res://assets/Materials/draw_tile/draw_tile.gdshader" id="1_r462j"]
-[ext_resource type="Texture2D" uid="uid://dtfpmnv3bc7ip" path="res://assets/TestDrawing.png" id="2_xppn2"]
 
 [resource]
 render_priority = 0
 shader = ExtResource("1_r462j")
-shader_parameter/base_color = Color(1, 0.9, 0.8, 1)
-shader_parameter/texture_7 = ExtResource("2_xppn2")
+shader_parameter/base_color = Color(0.8, 0.8, 0.9, 1)
+shader_parameter/selected = -1
