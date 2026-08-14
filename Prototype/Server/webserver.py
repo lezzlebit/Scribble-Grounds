@@ -49,6 +49,10 @@ def getPathOnly(fullpath):
 if not os.path.isdir(image_path):
 	os.mkdir(image_path)
 
+if not os.path.isfile(changelog_path):
+	with open(changelog_path, "w") as w:
+		w.write("")
+
 # https://stackoverflow.com/questions/66514500/how-do-i-configure-a-python-server-for-post
 
 class MyHandler(BaseHTTPRequestHandler):

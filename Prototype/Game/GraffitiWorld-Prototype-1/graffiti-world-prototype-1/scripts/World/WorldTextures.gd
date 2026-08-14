@@ -57,12 +57,13 @@ func save_unsaved_textures():
 		var name_path = GlobalNetworkValues.username + "/"
 		var save_id = i.name + ".png"
 		
-		var image_to_save: Image = i.image
-		
-		DirAccess.make_dir_absolute(path + name_path)
-		image_to_save.save_png(path + name_path + save_id)
-		# GlobalGameplayValues.network_handler.create_image_offline(name_path + save_id)
-		GlobalGameplayValues.network_handler.upload_image(name_path + save_id)
+		if i.image:
+			var image_to_save: Image = i.image
+			
+			DirAccess.make_dir_absolute(path + name_path)
+			image_to_save.save_png(path + name_path + save_id)
+			# GlobalGameplayValues.network_handler.create_image_offline(name_path + save_id)
+			GlobalGameplayValues.network_handler.upload_image(name_path + save_id)
 	
 	painted_tiles.clear()
 

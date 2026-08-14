@@ -117,11 +117,12 @@ func undo_limit_push():
 
 
 
-func blit_texture(x: float, y: float, paste_image: Image, draw_behind: bool, round_scale: int):
+func blit_texture(x: float, y: float, paste_image: Image, draw_behind: bool, round_scale: int, erase: bool):
 	
 	start_drawing()
 	var paste_size: Vector2i = Vector2i(paste_image.get_width(), paste_image.get_height())
 	
+	if erase: draw_behind = false
 	
 	var previous_image = null
 	if draw_behind:
@@ -132,7 +133,15 @@ func blit_texture(x: float, y: float, paste_image: Image, draw_behind: bool, rou
 	draw_position -= paste_size / 2
 	draw_position.x = roundi(draw_position.x/round_scale)*round_scale
 	draw_position.y = roundi(draw_position.y/round_scale)*round_scale
-	image.blend_rect(paste_image, paste_rect, draw_position)
+	
+	if erase:
+		var erase_color = paste_image.duplicate()
+		erase_color.fill(Color.TRANSPARENT)
+		image.blit_rect_mask(erase_color, paste_image, paste_rect, draw_position)
+	else:
+		image.blend_rect(paste_image, paste_rect, draw_position)
+	
+	
 	
 	if draw_behind:
 		var previous_rect = Rect2i(0, 0, image.get_width(), image.get_height())

@@ -26,9 +26,11 @@ var current_texture_scale: int = 1
 
 
 var current_zoom_level: int = 3
-var zoom_values: Array[int] = [1, 2, 3, 4, 6, 8, 16]
+var zoom_values: Array[int] = [1, 2, 3, 4, 6, 8, 16, 24, 32]
 
 var pan_pixels: Vector2
+var currently_panning: bool = false
+var hit_paint_wall: bool = false
 
 
 func _ready() -> void:
@@ -47,8 +49,11 @@ func _unhandled_input(event: InputEvent):
 	
 		
 		if event is InputEventMouseMotion:
-			if Input.is_action_pressed("pan_mouse"):
+			if Input.is_action_pressed("pan_mouse") or (Input.is_action_pressed("pen_down") and currently_panning):
+				currently_panning = true
 				pan_pixels += event.relative / float(screen_pixel_size)
+				pan_pixels.x = clamp(pan_pixels.x, -512, 512)
+				pan_pixels.y = clamp(pan_pixels.y, -512, 512)
 
 func find_paint_wall():
 	
@@ -65,24 +70,32 @@ func find_paint_wall():
 			
 			wall_sticker.reparent(result.get_parent())
 			wall_sticker.global_position = collision_position
-			wall_sticker.look_at(wall_sticker.global_position - collision_normal, parent.basis.y)
+			wall_sticker.look_at(wall_sticker.global_position - collision_normal, Vector3.UP)
+			
+			
+			
 			set_mesh(parent)
 
 			current_texture_scale = parent.texture_height
-			if get_pixel_scale(collision_position - parent.position, collision_normal):
+			if get_pixel_scale(collision_position, collision_normal, parent):
 				GameValues.first_person = false
 
 
 # https://discussions.unity.com/t/fit-object-exactly-into-perspective-cameras-field-of-view-focus-the-object/677696/2
 
-func get_pixel_scale(position: Vector3, normal: Vector3):
+func get_pixel_scale(hit_position: Vector3, normal: Vector3, obj: DrawTile):
 	
 	var sample_distance: float = 0.05
 	
+	set_mesh(obj)
 	
-	var side_position: Vector3 = wall_sticker.global_basis.x * sample_distance
-	var pos_1 = UvPosition.get_uv_coords(position, normal, true)
-	var pos_2 = UvPosition.get_uv_coords(position + side_position, normal, true)
+	var side_position: Vector3 = wall_sticker.global_basis.y * sample_distance
+	
+
+	
+	var pos_1 = UvPosition.get_uv_coords(hit_position, normal, false)
+	var pos_2 = UvPosition.get_uv_coords(hit_position + side_position, normal, false)
+
 	
 	if pos_1 == null or pos_2 == null:
 		print("oh no")
@@ -107,7 +120,7 @@ func get_camera_distance():
 func set_mesh(obj: MeshInstance3D):
 	var new_mesh = obj
 	if current_mesh != new_mesh: 
-		UvPosition.set_mesh(obj as MeshInstance3D)
+		UvPosition.set_mesh(obj as MeshInstance3D, true)
 	current_mesh = new_mesh
 
 
@@ -161,22 +174,26 @@ func handle_zoom():
 	
 	
 	
+	
 	current_zoom_level += zoom_add
 	
-	var old_screen_pixel_size: float = screen_pixel_size
+	
+	
+	
 	
 	current_zoom_level = clampi(current_zoom_level, 0, zoom_values.size() - 1)
+	
+	var old_screen_pixel_size: float = screen_pixel_size
 	screen_pixel_size = zoom_values[current_zoom_level]
 	
-	#if zoom_add != 0: 
-		#
-		#var middle: Vector2 = get_viewport().size / 2
-		#
-		#var pixel_size_delta: float = old_screen_pixel_size - float(screen_pixel_size)
-		#print(pixel_size_delta)
-		#
-		##if pixel_size_delta > 0:
-			##pan_pixels += (middle / old_screen_pixel_size) / 10
+	if zoom_add != 0: 
+		
+		var middle: Vector2 = get_viewport().size / 2
+		var mouse_pos = (get_viewport().get_mouse_position() - middle)
+		
+		var pixel_size_delta: float = 1/(1-(old_screen_pixel_size / float(screen_pixel_size)))
+		
+		pan_pixels -= (mouse_pos / pixel_size_delta) / old_screen_pixel_size
 	
 	
 	
@@ -189,19 +206,45 @@ func _process(delta: float) -> void:
 	
 	drawing_controls.visible = !GameValues.first_person
 	
+	
+	
+	if (Input.is_action_just_released("pen_down") \
+	or Input.is_action_just_released("pan_mouse")) \
+	and !Input.is_action_pressed("begin_pan"):
+		currently_panning = false
+	
+	if Input.is_action_just_pressed("begin_pan"):
+		currently_panning = true
+	
+	if Input.is_action_just_released("begin_pan")\
+	and (!Input.is_action_pressed("pen_down") \
+	and !Input.is_action_pressed("pan_mouse")):
+		currently_panning = false
+	
+	
 	if GameValues.first_person:
 		find_paint_wall()
 		raycast.position = Vector3.ZERO
 		raycast.rotation = Vector3.ZERO
-		raycast.target_position.z = -5
+		raycast.target_position = Vector3(0, 0, -2)
 
 	elif Input.is_action_just_pressed("toggle_drawing"):
+		
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		GameValues.first_person = true
 		GameValues.world_textures.save_unsaved_textures()
 	
-	
-	
 	update_position(delta)
+	
+	if currently_panning:
+		if Input.is_action_pressed("pan_mouse") or Input.is_action_pressed("pen_down"):
+			Input.set_default_cursor_shape(Input.CURSOR_DRAG)
+		else:
+			Input.set_default_cursor_shape(Input.CURSOR_MOVE)
+	else:
+		if hit_paint_wall:
+			Input.set_default_cursor_shape(Input.CURSOR_CROSS)
+		else:
+			Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 	
 	pass

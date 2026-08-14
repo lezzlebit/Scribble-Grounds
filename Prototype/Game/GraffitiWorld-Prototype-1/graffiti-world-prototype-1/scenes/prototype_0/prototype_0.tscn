@@ -16,7 +16,7 @@ metadata/_custom_type_script = "uid://dh27jx5i4ixab"
 [node name="World" type="Node3D" parent="." unique_id=1620861158]
 script = ExtResource("2_4gfgv")
 
-[node name="Wall" parent="World" unique_id=1283947781 instance=ExtResource("3_6mgld")]
+[node name="Wall" parent="World" unique_id=2135470131 instance=ExtResource("3_6mgld")]
 
 [node name="Player" parent="." unique_id=1751317177 instance=ExtResource("6_6mgld")]
 
@@ -24,14 +24,3 @@ script = ExtResource("2_4gfgv")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=874664817]
 environment = ExtResource("8_2bsob")
-
-[node name="Light" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=228738822]
-transform = Transform3D(0.6598421, 0.5692726, -0.490446, -0.12149515, 0.72494704, 0.6780051, 0.74151695, -0.3877894, 0.5475144, 4.7683716e-07, 4.9647985, -2.7310467)
-light_color = Color(0.4467767, 0.44677716, 0.44677693, 1)
-light_angular_distance = 5.01
-light_specular = 0.0
-shadow_enabled = true
-shadow_normal_bias = 0.0
-shadow_blur = 1.102
-directional_shadow_mode = 1
-directional_shadow_max_distance = 1000.0

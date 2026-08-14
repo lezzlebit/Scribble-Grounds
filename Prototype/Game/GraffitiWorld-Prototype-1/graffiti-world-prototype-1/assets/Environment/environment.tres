@@ -2,6 +2,9 @@
 
 [resource]
 background_mode = 1
-background_color = Color(0.8757664, 0.90424114, 0.9267559, 1)
-ambient_light_source = 2
-ambient_light_color = Color(0.61920005, 0.68472004, 0.72, 1)
+background_color = Color(0.46164244, 0.56594306, 0.7628768, 1)
+ambient_light_source = 1
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 1.19
+reflected_light_source = 1
+fog_enabled = true

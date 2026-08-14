@@ -97,7 +97,7 @@ func _on_retrieve_list(headers, body):
 	new_images = text_list_to_dictionary(new_read)
 	
 	required_images = compare_dictionaries(current_images, new_images)
-	print(required_images)
+	# print(required_images)
 	# required_images = remove_username_from_dictionary(required_images)
 
 func compare_dictionaries(dict_1, dict_2):

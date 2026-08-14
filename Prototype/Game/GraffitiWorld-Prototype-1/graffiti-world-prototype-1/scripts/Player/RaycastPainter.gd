@@ -15,78 +15,20 @@ var undo_triggered: bool = false
 
 var current_color: Color = Color.BLACK
 var overwrite_alpha: bool = true
-var brush_thickness: int = 1
 
-func set_thickness(is_thick: bool):
-	if is_thick:
-		brush_thickness = 2
-	else:
-		brush_thickness = 1
+@export var brush_type: Brush
 
 func set_overwrite_alpha(set_to: bool):
 	overwrite_alpha = !set_to
 
-func draw_line(pos_1, pos_2, obj: DrawTile):
-	
-	var distance_requirement: float
-	if brush_thickness <= 1: 
-		distance_requirement = 64
-	else: distance_requirement = 2
-	
-	var should_overwrite_alpha: bool = overwrite_alpha
-	
-	if current_color == Color.TRANSPARENT: should_overwrite_alpha = true
-		
-	
-	var distance: int = (pos_1.distance_to(pos_2) * distance_requirement) + 5
-	distance = clampi(distance, 1, 256)
-	for i in range(distance):
-		var lerpPos: Vector3 = pos_2.lerp(pos_1, float(i)/float(distance))
-		var coords = UvPosition.get_uv_coords(lerpPos - obj.position, get_collision_normal(), false)
-		if !coords:
-			return
-		if brush_thickness <= 1:
-			obj.set_pixel(coords.x, coords.y, current_color, should_overwrite_alpha)
-		else:
-			obj.fill_spot(coords.x, coords.y, brush_thickness, current_color, should_overwrite_alpha)
-
-
-#func make_stamp(obj: DrawTile, normal: Vector3):
-	#
-	#var sample_point = get_collision_point() - obj.position
-	#var cam = GlobalGameplayValues.main_camera
-	#
-	#var center_coords: Vector2 = UvPosition.get_uv_coords(sample_point, get_collision_normal(), false)
-	#var corner_coords: Array[Vector2]
-	#
-	#var sample_distance = 0.1
-	#
-	#var sample_corner_positions: Array[Vector3]
-	#sample_corner_positions.append((cam.basis.y - cam.basis.x) * sample_distance)
-	#sample_corner_positions.append((cam.basis.y + cam.basis.x) * sample_distance)
-	#sample_corner_positions.append((-cam.basis.y - cam.basis.x) * sample_distance)
-	#sample_corner_positions.append((-cam.basis.y + cam.basis.x) * sample_distance)
-	#
-	#var top_left_coords = UvPosition.get_uv_coords(sample_point + sample_corner_positions[0], get_collision_normal(), false)
-	#var top_right_coords = UvPosition.get_uv_coords(sample_point + sample_corner_positions[1], get_collision_normal(), false)
-	#var bottom_left_coords = UvPosition.get_uv_coords(sample_point + sample_corner_positions[2], get_collision_normal(), false)
-	#var bottom_right_coords = UvPosition.get_uv_coords(sample_point + sample_corner_positions[3], get_collision_normal(), false)
-	#
-	#if top_left_coords: corner_coords.append(top_left_coords)
-	#if top_right_coords: corner_coords.append(top_right_coords)
-	#if bottom_left_coords: corner_coords.append(bottom_left_coords)
-	#if bottom_right_coords: corner_coords.append(bottom_right_coords)
-	#
-	#for i in corner_coords:
-		#if i != null:
-			#print(i.distance_to(center_coords))
 
 
 func paint(obj: DrawTile):
 	
 
+
 	
-	if Input.is_action_pressed("pen_down"):
+	if Input.is_action_pressed("pen_down") and !GameValues.main_camera.currently_panning:
 		
 
 		var world_textures: WorldTextures = GlobalGameplayValues.world_textures
@@ -101,7 +43,7 @@ func paint(obj: DrawTile):
 		
 		var new_mesh = obj as MeshInstance3D
 		if current_mesh != new_mesh: 
-			UvPosition.set_mesh(obj as MeshInstance3D)
+			UvPosition.set_mesh(obj as MeshInstance3D, true)
 			previous_frame_available = false
 		current_mesh = new_mesh
 		
@@ -110,12 +52,23 @@ func paint(obj: DrawTile):
 		if previous_frame_available:
 			# draw_line(last_raycast_pos, collision_point, obj)
 			pass
-		var coords = UvPosition.get_uv_coords(get_collision_point() - obj.position, get_collision_normal(), false)
-		# obj.set_pixel(coords.x, coords.y, current_color, overwrite_alpha)
+		var coords = UvPosition.get_uv_coords(get_collision_point(), get_collision_normal(), false)
 		
 		if coords:
-			blit_texture(obj, coords.x, coords.y)
-
+			
+			var hit_data = HitData.new()
+			
+			hit_data.hit_position = get_collision_point()
+			hit_data.hit_normal = get_collision_normal()
+			hit_data.hit_color = current_color
+			hit_data.should_overwrite_alpha = overwrite_alpha
+			hit_data.has_last_hit_position = previous_frame_available
+			hit_data.last_hit_position = last_raycast_pos
+			hit_data.hit_tile = obj
+			
+			brush_type.draw(hit_data)
+		else:
+			print("no coords")
 		
 		last_raycast_pos = collision_point
 		previous_frame_available = true
@@ -142,15 +95,6 @@ func move_undo(index: int):
 func _process(delta: float) -> void:
 	if !Input.is_action_pressed("pen_down"):
 		undo_triggered = false
-
-func blit_texture(obj: DrawTile, x:float, y:float):
-	
-	color_rect.color = current_color
-	blit_viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
-	await RenderingServer.frame_post_draw
-	var image = blit_viewport.get_texture().get_image()
-	image.convert(Image.FORMAT_RGBA8)
-	obj.blit_texture(x, y, image, !overwrite_alpha, 2)
 	
 
 
@@ -180,6 +124,8 @@ func raycast_draw(ray_length: float):
 	if !could_reach:
 		previous_frame_available = false
 		current_mesh = null
+	
+	GameValues.main_camera.hit_paint_wall = could_reach
 	
 	if Input.is_action_just_pressed("undo"):
 		move_undo(-1)

@@ -6,6 +6,7 @@ class_name PaletteButtons
 @export var palette_button_scene: PackedScene
 @export var button_parent: Control
 @export var eraser: TextureButton
+@export var brush_buttons: BrushButtons
 
 var colors: Array[String] = [
 	"#ffffff","#000000",
@@ -40,11 +41,13 @@ func set_erase():
 	selection_indicator.reparent(eraser)
 	selection_indicator.position = Vector2.ZERO
 	GlobalGameplayValues.main_camera.raycast.current_color = Color.TRANSPARENT
+	brush_buttons.set_color(Color.WHITE)
 
 func set_color(color_id: int):
 	selection_indicator.reparent(all_buttons[color_id])
 	selection_indicator.position = Vector2.ZERO
 	GlobalGameplayValues.main_camera.raycast.current_color = colors[color_id]
+	brush_buttons.set_color(colors[color_id])
 
 func _process(delta: float) -> void:
 	pass

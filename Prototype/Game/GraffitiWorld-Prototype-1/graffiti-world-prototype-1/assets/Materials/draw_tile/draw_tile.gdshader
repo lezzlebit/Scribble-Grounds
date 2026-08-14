@@ -1,6 +1,7 @@
 shader_type spatial;
+render_mode unshaded;
 
-uniform sampler2D lightmap_texture;
+uniform sampler2D lightmap_texture : source_color;
 uniform vec3 base_color : source_color = vec3(0.8, 0.8, 0.9);
 uniform int selected = -1;
 
@@ -29,22 +30,22 @@ vec4 single_texture(sampler2D tex, vec2 uv, int selection, int current, vec2 scr
 
 
 
-uniform sampler2D texture_15 : filter_nearest, hint_default_transparent;
-uniform sampler2D texture_14 : filter_nearest, hint_default_transparent;
-uniform sampler2D texture_13 : filter_nearest, hint_default_transparent;
-uniform sampler2D texture_12 : filter_nearest, hint_default_transparent;
-uniform sampler2D texture_11 : filter_nearest, hint_default_transparent;
-uniform sampler2D texture_10 : filter_nearest, hint_default_transparent;
-uniform sampler2D texture_9 : filter_nearest, hint_default_transparent;
-uniform sampler2D texture_8 : filter_nearest, hint_default_transparent;
-uniform sampler2D texture_7 : filter_nearest, hint_default_transparent;
-uniform sampler2D texture_6 : filter_nearest, hint_default_transparent;
-uniform sampler2D texture_5 : filter_nearest, hint_default_transparent;
-uniform sampler2D texture_4 : filter_nearest, hint_default_transparent;
-uniform sampler2D texture_3 : filter_nearest, hint_default_transparent;
-uniform sampler2D texture_2 : filter_nearest, hint_default_transparent;
-uniform sampler2D texture_1 : filter_nearest, hint_default_transparent;
-uniform sampler2D texture_0 : filter_nearest, hint_default_transparent;
+uniform sampler2D texture_15 : filter_nearest, hint_default_transparent, source_color;
+uniform sampler2D texture_14 : filter_nearest, hint_default_transparent, source_color;
+uniform sampler2D texture_13 : filter_nearest, hint_default_transparent, source_color;
+uniform sampler2D texture_12 : filter_nearest, hint_default_transparent, source_color;
+uniform sampler2D texture_11 : filter_nearest, hint_default_transparent, source_color;
+uniform sampler2D texture_10 : filter_nearest, hint_default_transparent, source_color;
+uniform sampler2D texture_9 : filter_nearest, hint_default_transparent, source_color;
+uniform sampler2D texture_8 : filter_nearest, hint_default_transparent, source_color;
+uniform sampler2D texture_7 : filter_nearest, hint_default_transparent, source_color;
+uniform sampler2D texture_6 : filter_nearest, hint_default_transparent, source_color;
+uniform sampler2D texture_5 : filter_nearest, hint_default_transparent, source_color;
+uniform sampler2D texture_4 : filter_nearest, hint_default_transparent, source_color;
+uniform sampler2D texture_3 : filter_nearest, hint_default_transparent, source_color;
+uniform sampler2D texture_2 : filter_nearest, hint_default_transparent, source_color;
+uniform sampler2D texture_1 : filter_nearest, hint_default_transparent, source_color;
+uniform sampler2D texture_0 : filter_nearest, hint_default_transparent, source_color;
 
 vec4 sample_textures(vec4 base, vec2 uv, vec2 screenuv, vec2 resolution) {
         vec4 sample = vec4(0.0);
@@ -100,21 +101,23 @@ void fragment() {
 	
 	tex = sample_textures(tex, UV, SCREEN_UV, screen_resolution);
 	
+	
 	vec4 lightmap = texture(lightmap_texture, UV2);
 	
-	ALBEDO = mix(lightmap.rgb, tex.rgb, tex.a);
+	ALBEDO = tex.rgb * lightmap.rgb;
 }
 
-void light() {
-	
-	if (LIGHT_IS_AREA) {
-		DIFFUSE_LIGHT += LIGHT_COLOR * LIGHT_AREA_DIFFUSE_MULTIPLIER;
-	}
-	
-	vec2 screen_resolution = FRAGCOORD.xy / SCREEN_UV;
-	float dither = (noise_dither(SCREEN_UV, screen_resolution, false) - 0.5) * 0.1;
-	float light_dither = ATTENUATION + dither;
-	light_dither = clamp(round(light_dither), 0.0, 1.0);
-	
-	DIFFUSE_LIGHT = vec3(0.5);
-}
+//void light() {
+	//
+	//if (LIGHT_IS_AREA) {
+		//DIFFUSE_LIGHT += LIGHT_COLOR * LIGHT_AREA_DIFFUSE_MULTIPLIER;
+	//}
+	//
+	//vec2 screen_resolution = FRAGCOORD.xy / SCREEN_UV;
+	//float dither = (noise_dither(SCREEN_UV, screen_resolution, false) - 0.5) * 0.1;
+	//float light_dither = ATTENUATION + dither;
+	//light_dither = clamp(round(light_dither), 0.0, 1.0);
+	//
+	//SPECULAR_LIGHT = vec3(0.0);
+	//DIFFUSE_LIGHT = vec3(1.0);
+//}

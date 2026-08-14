@@ -13,10 +13,18 @@ var _local_face_vertices := []
 
 # https://www.youtube.com/watch?v=4DFpLnEnKFk
 
-func set_mesh(_mesh_instance):
+func set_mesh(_mesh_instance, should_clear: bool = false):
+	
+	if should_clear:
+		transform_vertex_to_global = true
+		_face_count = 0
+		_local_face_vertices.clear()
+		_world_vertices.clear()
+		_world_normals.clear()
+	
 	mesh_instance = _mesh_instance
 	mesh = _mesh_instance.mesh
-  
+	
 	meshtool = MeshDataTool.new()
 	meshtool.create_from_surface(mesh, 0)  
 	
@@ -24,7 +32,7 @@ func set_mesh(_mesh_instance):
 	_world_normals.resize(_face_count)
   
 	_load_mesh_data()
-  
+
 func _resize_pools():
 	pass
 
@@ -38,6 +46,8 @@ func _load_mesh_data():
 		
 		_local_face_vertices.append([fv1, fv2, fv3])    
 		
+		
+		
 		_world_vertices.append([
 			mesh_instance.global_transform.basis * meshtool.get_vertex(fv1),
 			mesh_instance.global_transform.basis * meshtool.get_vertex(fv2),
@@ -48,7 +58,6 @@ func get_face(point, normal, epsilon = 0.1) -> Array:
 	var matches = []
 	for idx in range(_face_count):
 		var world_normal = _world_normals[idx]
-	
 		if !equals_with_epsilon(world_normal, mesh_instance.global_transform.basis * normal, epsilon):
 			continue  
 		var vertices = _world_vertices[idx]    
@@ -77,8 +86,9 @@ func get_uv_coords(point, normal, transform = true):
 	# Gets the uv coordinates on the mesh given a point on the mesh and normal
 	# these values can be obtained from a raycast
 	transform_vertex_to_global = transform
-  
+	
 	var face = get_face(point, normal)
+	
 	if face.size() < 3:
 		return null
 	face = face as Array
