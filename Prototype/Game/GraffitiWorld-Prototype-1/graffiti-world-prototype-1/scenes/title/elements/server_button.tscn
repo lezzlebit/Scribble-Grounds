@@ -55,11 +55,13 @@ alignment = 2
 
 [node name="Edit Button" type="Button" parent="Panel/HBoxContainer" unique_id=1681973622]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "Edit"
 icon = ExtResource("2_8sjr6")
 
 [node name="Connect Button" type="Button" parent="Panel/HBoxContainer" unique_id=1376297296]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "Connect"
 icon = ExtResource("3_o75xn")
 

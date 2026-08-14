@@ -15,8 +15,8 @@ var undo_index: int = 0
 var undo_buffer: Array[Image]
 var full_buffer_storage: Array[Image]
 
-var texture_width: int = 512
-var texture_height: int = 512
+var texture_width: int = GlobalNetworkValues.texture_dimensions.x
+var texture_height: int = GlobalNetworkValues.texture_dimensions.y
 
 var in_undo_selection: bool = false
 
@@ -117,11 +117,12 @@ func undo_limit_push():
 
 
 
-func blit_texture(x: float, y: float, paste_image: Image, draw_behind: bool, round_scale: int, erase: bool):
+func blit_texture(x: float, y: float, paste_image: Image, h: HitData, round_scale: int, erase: bool):
 	
 	start_drawing()
 	var paste_size: Vector2i = Vector2i(paste_image.get_width(), paste_image.get_height())
 	
+	var draw_behind: bool = !h.should_overwrite
 	if erase: draw_behind = false
 	
 	var previous_image = null
@@ -150,18 +151,18 @@ func blit_texture(x: float, y: float, paste_image: Image, draw_behind: bool, rou
 	painted_textures[GlobalNetworkValues.username].update(image)
 	
 
-func fill_spot(x: float, y: float, thickness: float, color: Color, overwrite: bool):
-	var t: float = (thickness * 2) - 1
-	var s: float = (thickness / 2)
-	for xi in range(t):
-		for yi in range(t):
-			
-			var x_addition: float = (float(xi)-s) / float(texture_height)
-			var y_addition: float = (float(yi)-s) / float(texture_width)
-			
-			set_pixel(x+x_addition, y+y_addition, color, overwrite)
+#func fill_spot(x: float, y: float, thickness: float, color: Color, overwrite: bool):
+	#var t: float = (thickness * 2) - 1
+	#var s: float = (thickness / 2)
+	#for xi in range(t):
+		#for yi in range(t):
+			#
+			#var x_addition: float = (float(xi)-s) / float(texture_height)
+			#var y_addition: float = (float(yi)-s) / float(texture_width)
+			#
+			#set_pixel(x+x_addition, y+y_addition, color, overwrite)
 
-func set_pixel(x: float, y: float, color: Color, overwrite: bool):
+func set_pixel(x: float, y: float, color: Color, h: HitData):
 	
 	start_drawing()
 	
@@ -173,7 +174,7 @@ func set_pixel(x: float, y: float, color: Color, overwrite: bool):
 	drawPos.x = clampi(drawPos.x, 0, texture_width)
 	drawPos.y = clampi(drawPos.y, 0, texture_height)
 	
-	if overwrite:
+	if h.should_overwrite:
 		image.set_pixelv(drawPos, color)
 	else:
 		var alpha = image.get_pixelv(drawPos).a

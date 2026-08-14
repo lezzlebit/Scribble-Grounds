@@ -46,6 +46,8 @@ border_width_bottom = 1
 border_color = Color(0, 0, 0, 1)
 anti_aliasing = false
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g4v7s"]
+
 [node name="Player" type="Node" unique_id=1751317177]
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=373349286 node_paths=PackedStringArray("CameraPivot")]
@@ -101,7 +103,7 @@ grow_vertical = 2
 visible = false
 mesh = SubResource("PrismMesh_g4v7s")
 
-[node name="Drawing Controls" type="Control" parent="." unique_id=2036386123 node_paths=PackedStringArray("selection_indicator", "button_parent", "eraser", "brush_buttons")]
+[node name="Drawing Controls" type="Control" parent="." unique_id=2036386123 node_paths=PackedStringArray("selection_indicator", "button_parent", "eraser", "brush_buttons", "replace_color", "mute_on_selection")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -116,6 +118,8 @@ palette_button_scene = ExtResource("4_lvxji")
 button_parent = NodePath("MarginContainer/VBoxContainer/GridContainer")
 eraser = NodePath("MarginContainer/VBoxContainer/GridContainer/Erase")
 brush_buttons = NodePath("Brush Selector")
+replace_color = NodePath("MarginContainer/VBoxContainer/Options/HBoxContainer/Replace")
+mute_on_selection = [NodePath("MarginContainer/VBoxContainer/Options"), NodePath("MarginContainer/VBoxContainer/Brushes")]
 metadata/_custom_type_script = "uid://rip4hs5mbpcf"
 
 [node name="Color Selection" type="TextureRect" parent="Drawing Controls" unique_id=113881339]
@@ -145,6 +149,7 @@ alignment = 2
 [node name="Options" type="Panel" parent="Drawing Controls/MarginContainer/VBoxContainer" unique_id=2059390905]
 custom_minimum_size = Vector2(0, 49)
 layout_mode = 2
+mouse_behavior_recursive = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_fm80t")
 
 [node name="Label" type="Label" parent="Drawing Controls/MarginContainer/VBoxContainer/Options" unique_id=1314362142]
@@ -155,7 +160,7 @@ anchor_right = 1.0
 offset_bottom = 16.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 12
-text = "underlay"
+text = "draw over"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Drawing Controls/MarginContainer/VBoxContainer/Options" unique_id=1132036088]
 layout_mode = 1
@@ -170,15 +175,21 @@ theme_override_constants/separation = 0
 
 [node name="Alpha" type="TextureButton" parent="Drawing Controls/MarginContainer/VBoxContainer/Options/HBoxContainer" unique_id=1726986221]
 layout_mode = 2
-mouse_behavior_recursive = 2
 toggle_mode = true
 action_mode = 0
 texture_normal = ExtResource("6_5gtgg")
 texture_pressed = ExtResource("7_h17s1")
 
+[node name="Replace" type="TextureButton" parent="Drawing Controls/MarginContainer/VBoxContainer/Options/HBoxContainer" unique_id=1149392180]
+visible = false
+layout_mode = 2
+action_mode = 0
+texture_normal = ExtResource("6_qek5x")
+
 [node name="Brushes" type="Panel" parent="Drawing Controls/MarginContainer/VBoxContainer" unique_id=2093834330]
 custom_minimum_size = Vector2(0, 49)
 layout_mode = 2
+mouse_behavior_recursive = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_uf5tr")
 
 [node name="Label" type="Label" parent="Drawing Controls/MarginContainer/VBoxContainer/Brushes" unique_id=637539122]
@@ -202,7 +213,6 @@ theme_override_constants/separation = 0
 
 [node name="Brush 1" type="TextureButton" parent="Drawing Controls/MarginContainer/VBoxContainer/Brushes/HBoxContainer" unique_id=20391077]
 layout_mode = 2
-mouse_behavior_recursive = 2
 action_mode = 0
 texture_normal = ExtResource("12_uf5tr")
 
@@ -217,13 +227,11 @@ texture = ExtResource("9_5gtgg")
 
 [node name="Brush 2" type="TextureButton" parent="Drawing Controls/MarginContainer/VBoxContainer/Brushes/HBoxContainer" unique_id=1936248680]
 layout_mode = 2
-mouse_behavior_recursive = 2
 action_mode = 0
 texture_normal = ExtResource("13_lgqa7")
 
 [node name="Brush 3" type="TextureButton" parent="Drawing Controls/MarginContainer/VBoxContainer/Brushes/HBoxContainer" unique_id=121942153]
 layout_mode = 2
-mouse_behavior_recursive = 2
 action_mode = 0
 texture_normal = ExtResource("14_8ydkj")
 
@@ -234,6 +242,11 @@ columns = 3
 [node name="Erase" parent="Drawing Controls/MarginContainer/VBoxContainer/GridContainer" unique_id=1850325773 instance=ExtResource("4_lvxji")]
 layout_mode = 2
 texture_normal = ExtResource("6_qek5x")
+
+[node name="Panel" type="Panel" parent="Drawing Controls/MarginContainer" unique_id=753478739]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_g4v7s")
 
 [node name="Brush Selector" type="Node" parent="Drawing Controls" unique_id=1347413319 node_paths=PackedStringArray("selection_indicator", "brush_types", "default_brush")]
 script = ExtResource("15_kvlxm")
@@ -316,5 +329,6 @@ grow_vertical = 2
 texture = ExtResource("20_8ydkj")
 stretch_mode = 2
 
-[connection signal="toggled" from="Drawing Controls/MarginContainer/VBoxContainer/Options/HBoxContainer/Alpha" to="Camera3D/Painter" method="set_overwrite_alpha"]
+[connection signal="toggled" from="Drawing Controls/MarginContainer/VBoxContainer/Options/HBoxContainer/Alpha" to="Drawing Controls" method="set_replace_mode"]
+[connection signal="pressed" from="Drawing Controls/MarginContainer/VBoxContainer/Options/HBoxContainer/Replace" to="Drawing Controls" method="set_replace_color"]
 [connection signal="pressed" from="Drawing Controls/MarginContainer/VBoxContainer/GridContainer/Erase" to="Drawing Controls" method="set_erase"]

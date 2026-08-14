@@ -29,4 +29,4 @@ func blit_texture(h: HitData, x:float, y:float):
 	image.convert(Image.FORMAT_RGBA8)
 	
 	var is_eraser = h.hit_color == Color.TRANSPARENT
-	h.hit_tile.blit_texture(x, y, image, !h.should_overwrite_alpha, round_position, is_eraser)
+	h.hit_tile.blit_texture(x, y, image, h, round_position, is_eraser)

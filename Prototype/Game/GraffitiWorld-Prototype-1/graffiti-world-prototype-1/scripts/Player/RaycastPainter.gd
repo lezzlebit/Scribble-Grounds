@@ -14,12 +14,12 @@ var able_to_draw: bool = true
 var undo_triggered: bool = false
 
 var current_color: Color = Color.BLACK
-var overwrite_alpha: bool = true
+var should_overwrite: bool = true
 
 @export var brush_type: Brush
 
-func set_overwrite_alpha(set_to: bool):
-	overwrite_alpha = !set_to
+func set_overwrite(set_to: bool):
+	should_overwrite = !set_to
 
 
 
@@ -61,7 +61,7 @@ func paint(obj: DrawTile):
 			hit_data.hit_position = get_collision_point()
 			hit_data.hit_normal = get_collision_normal()
 			hit_data.hit_color = current_color
-			hit_data.should_overwrite_alpha = overwrite_alpha
+			hit_data.should_overwrite = should_overwrite
 			hit_data.has_last_hit_position = previous_frame_available
 			hit_data.last_hit_position = last_raycast_pos
 			hit_data.hit_tile = obj
@@ -103,7 +103,7 @@ func raycast_draw(ray_length: float):
 	
 	var cam: Camera3D = GameValues.main_camera as Camera3D
 
-	var mousepos = get_viewport().get_mouse_position()
+	var mousepos = GameValues.main_camera.mouse_drawing_position
 	#global_position = cam.global_position + (-cam.transform.basis.z * cam.near)
 	global_position = cam.project_position(mousepos, cam.near)
 	var look_at_pos = global_position + cam.project_ray_normal(mousepos)

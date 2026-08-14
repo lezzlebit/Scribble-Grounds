@@ -85,14 +85,17 @@ alignment = 1
 
 [node name="Add Server" type="Button" parent="MarginContainer/Panel/PanelContainer/VBoxContainer/Server Button/Panel/HBoxContainer" unique_id=1376297296]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "Add New Server"
 
 [node name="Refresh" type="Button" parent="MarginContainer/Panel/PanelContainer/VBoxContainer/Server Button/Panel/HBoxContainer" unique_id=1805540089]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "Refresh All"
 
 [node name="Directory" type="Button" parent="MarginContainer/Panel/PanelContainer/VBoxContainer/Server Button/Panel/HBoxContainer" unique_id=358865333]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "Open Directory"
 
 [node name="Edit" type="PanelContainer" parent="MarginContainer/Panel" unique_id=934110546]
@@ -138,21 +141,25 @@ alignment = 1
 
 [node name="Create" type="Button" parent="MarginContainer/Panel/Edit/VBoxContainer/Control/HBoxContainer" unique_id=2039508755]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "Create"
 icon = ExtResource("3_dnyg8")
 
 [node name="Edit" type="Button" parent="MarginContainer/Panel/Edit/VBoxContainer/Control/HBoxContainer" unique_id=1382692949]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "Confirm"
 icon = ExtResource("4_4yl2o")
 
 [node name="Delete" type="Button" parent="MarginContainer/Panel/Edit/VBoxContainer/Control/HBoxContainer" unique_id=436281677]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "Delete"
 icon = ExtResource("5_awdk6")
 
 [node name="Cancel" type="Button" parent="MarginContainer/Panel/Edit/VBoxContainer/Control/HBoxContainer" unique_id=961815581]
 layout_mode = 2
+mouse_default_cursor_shape = 2
 text = "Cancel"
 icon = ExtResource("6_7uqqr")
 

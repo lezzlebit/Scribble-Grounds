@@ -7,8 +7,6 @@ var world_textures: WorldTextures = null
 var user_log: UserLog = null
 var draw_tile_shader: Shader = preload("res://assets/Materials/draw_tile/draw_tile.gdshader")
 
-var standard_texture_size: int = 512
-
 var undo_limit = 8
 
 func user_error_log(log: String):

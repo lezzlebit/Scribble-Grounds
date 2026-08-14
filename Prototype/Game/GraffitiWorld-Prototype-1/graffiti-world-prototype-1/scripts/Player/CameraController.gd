@@ -28,8 +28,10 @@ var current_texture_scale: int = 1
 var current_zoom_level: int = 3
 var zoom_values: Array[int] = [1, 2, 3, 4, 6, 8, 16, 24, 32]
 
+var mouse_drawing_position: Vector2
 var pan_pixels: Vector2
 var currently_panning: bool = false
+var picking_color_for_replace: bool = false
 var hit_paint_wall: bool = false
 
 
@@ -39,16 +41,18 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent):
 	
-	if !GameValues.first_person:
+	if !GameValues.first_person and !picking_color_for_replace:
 
 		var camera_distance: float = get_camera_distance()
 		raycast.target_position.z = camera_distance * -10
 		
-		
+		if !Input.is_action_pressed("pen_down"):
+			mouse_drawing_position = get_viewport().get_mouse_position()
 		raycast.raycast_draw(camera_distance)
 	
 		
 		if event is InputEventMouseMotion:
+			mouse_drawing_position += event.screen_relative
 			if Input.is_action_pressed("pan_mouse") or (Input.is_action_pressed("pen_down") and currently_panning):
 				currently_panning = true
 				pan_pixels += event.relative / float(screen_pixel_size)
@@ -199,15 +203,7 @@ func handle_zoom():
 	
 
 
-
-func _process(delta: float) -> void:
-	
-	handle_zoom()
-	
-	drawing_controls.visible = !GameValues.first_person
-	
-	
-	
+func begin_pan_input():
 	if (Input.is_action_just_released("pen_down") \
 	or Input.is_action_just_released("pan_mouse")) \
 	and !Input.is_action_pressed("begin_pan"):
@@ -220,6 +216,19 @@ func _process(delta: float) -> void:
 	and (!Input.is_action_pressed("pen_down") \
 	and !Input.is_action_pressed("pan_mouse")):
 		currently_panning = false
+
+
+func _process(delta: float) -> void:
+	
+	handle_zoom()
+	
+	drawing_controls.visible = !GameValues.first_person
+	
+	
+	if !Input.is_action_pressed("pen_down"):
+		mouse_drawing_position = get_viewport().get_mouse_position()
+	
+	if !picking_color_for_replace: begin_pan_input()
 	
 	
 	if GameValues.first_person:
@@ -228,7 +237,7 @@ func _process(delta: float) -> void:
 		raycast.rotation = Vector3.ZERO
 		raycast.target_position = Vector3(0, 0, -2)
 
-	elif Input.is_action_just_pressed("toggle_drawing"):
+	elif Input.is_action_just_pressed("toggle_drawing") and !picking_color_for_replace:
 		
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		GameValues.first_person = true
@@ -242,7 +251,7 @@ func _process(delta: float) -> void:
 		else:
 			Input.set_default_cursor_shape(Input.CURSOR_MOVE)
 	else:
-		if hit_paint_wall:
+		if hit_paint_wall and !picking_color_for_replace:
 			Input.set_default_cursor_shape(Input.CURSOR_CROSS)
 		else:
 			Input.set_default_cursor_shape(Input.CURSOR_ARROW)

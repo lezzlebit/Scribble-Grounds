@@ -7,6 +7,10 @@ class_name PaletteButtons
 @export var button_parent: Control
 @export var eraser: TextureButton
 @export var brush_buttons: BrushButtons
+@export var replace_color: TextureButton
+@export var mute_on_selection: Array[Control]
+
+var selecting_replace_color: bool = false
 
 var colors: Array[String] = [
 	"#ffffff","#000000",
@@ -35,19 +39,61 @@ func _ready() -> void:
 		button_object.self_modulate = Color.from_string(colors[i], Color.WHITE)
 		button_object.pressed.connect(set_color.bind(i))
 		all_buttons.append(button_object)
+	all_buttons.append(eraser)
 	set_color(1)
 
+func set_replace_color():
+	
+	GlobalGameplayValues.main_camera.picking_color_for_replace = true
+	for i in mute_on_selection:
+		i.modulate = Color(0.8, 0.8, 0.8, 0.5)
+		i.mouse_behavior_recursive = Control.MOUSE_BEHAVIOR_DISABLED
+	
+	for i in all_buttons:
+		i.mouse_default_cursor_shape = Control.CURSOR_CAN_DROP
+	
+	selection_indicator.visible = false
+	selecting_replace_color = true
+
+func end_replace_color():
+	
+	GlobalGameplayValues.main_camera.picking_color_for_replace = false
+	for i in mute_on_selection:
+		i.modulate = Color.WHITE
+		i.mouse_behavior_recursive = Control.MOUSE_BEHAVIOR_ENABLED
+	for i in all_buttons:
+		i.mouse_default_cursor_shape = Control.CURSOR_ARROW
+		
+	selection_indicator.visible = true
+
+func set_replace_mode(replace_on: bool):
+	GlobalGameplayValues.main_camera.raycast.should_overwrite = !replace_on
+	# replace_color.visible = replace_on
+
 func set_erase():
+	if selecting_replace_color:
+		replace_color.texture_normal = eraser.texture_normal
+		replace_color.self_modulate = Color.WHITE
+		selecting_replace_color = false
+		end_replace_color()
+		return
 	selection_indicator.reparent(eraser)
 	selection_indicator.position = Vector2.ZERO
 	GlobalGameplayValues.main_camera.raycast.current_color = Color.TRANSPARENT
 	brush_buttons.set_color(Color.WHITE)
 
 func set_color(color_id: int):
+	if selecting_replace_color:
+		replace_color.texture_normal = all_buttons[color_id].texture_normal
+		replace_color.self_modulate = all_buttons[color_id].self_modulate
+		selecting_replace_color = false
+		end_replace_color()
+		return
 	selection_indicator.reparent(all_buttons[color_id])
 	selection_indicator.position = Vector2.ZERO
 	GlobalGameplayValues.main_camera.raycast.current_color = colors[color_id]
 	brush_buttons.set_color(colors[color_id])
+	
 
 func _process(delta: float) -> void:
 	pass
