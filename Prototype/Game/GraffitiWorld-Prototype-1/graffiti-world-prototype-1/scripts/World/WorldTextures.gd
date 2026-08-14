@@ -18,9 +18,23 @@ func _ready() -> void:
 	check_tiles_dictionary()
 
 
+
+func get_all_children(node):
+	var nodes : Array = []
+	for N in node.get_children():
+		if N.get_child_count() > 0:
+			nodes.append(N)
+			nodes.append_array(get_all_children(N))
+		else:
+			nodes.append(N)
+	return nodes
+
 func check_tiles_dictionary():
+	
+	var all_children = get_all_children(self)
+	
 	if tiles.size() < 1:
-		for child in get_children():
+		for child in all_children:
 			if child is DrawTile: 
 				tiles[child.name] = child
 

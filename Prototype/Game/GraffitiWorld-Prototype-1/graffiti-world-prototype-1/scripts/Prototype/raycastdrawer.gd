@@ -2,6 +2,8 @@ extends Node
 
 @export var Camera: Camera3D
 @export var Raycast: RayCast3D
+
+
 var meshtool: MeshDataTool
 
 var current_mesh: Mesh

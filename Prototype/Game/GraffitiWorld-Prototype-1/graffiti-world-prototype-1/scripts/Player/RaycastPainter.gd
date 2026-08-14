@@ -2,6 +2,9 @@ extends RayCast3D
 
 class_name RaycastPainter
 
+@export var color_rect: ColorRect
+@export var blit_viewport: SubViewport
+
 var GameValues = GlobalGameplayValues
 var current_mesh: MeshInstance3D
 var last_raycast_pos: Vector3
@@ -10,7 +13,7 @@ var previous_frame_available: bool = false
 var able_to_draw: bool = true
 var undo_triggered: bool = false
 
-var current_color: Color
+var current_color: Color = Color.BLACK
 var overwrite_alpha: bool = true
 var brush_thickness: int = 1
 
@@ -47,6 +50,38 @@ func draw_line(pos_1, pos_2, obj: DrawTile):
 		else:
 			obj.fill_spot(coords.x, coords.y, brush_thickness, current_color, should_overwrite_alpha)
 
+
+#func make_stamp(obj: DrawTile, normal: Vector3):
+	#
+	#var sample_point = get_collision_point() - obj.position
+	#var cam = GlobalGameplayValues.main_camera
+	#
+	#var center_coords: Vector2 = UvPosition.get_uv_coords(sample_point, get_collision_normal(), false)
+	#var corner_coords: Array[Vector2]
+	#
+	#var sample_distance = 0.1
+	#
+	#var sample_corner_positions: Array[Vector3]
+	#sample_corner_positions.append((cam.basis.y - cam.basis.x) * sample_distance)
+	#sample_corner_positions.append((cam.basis.y + cam.basis.x) * sample_distance)
+	#sample_corner_positions.append((-cam.basis.y - cam.basis.x) * sample_distance)
+	#sample_corner_positions.append((-cam.basis.y + cam.basis.x) * sample_distance)
+	#
+	#var top_left_coords = UvPosition.get_uv_coords(sample_point + sample_corner_positions[0], get_collision_normal(), false)
+	#var top_right_coords = UvPosition.get_uv_coords(sample_point + sample_corner_positions[1], get_collision_normal(), false)
+	#var bottom_left_coords = UvPosition.get_uv_coords(sample_point + sample_corner_positions[2], get_collision_normal(), false)
+	#var bottom_right_coords = UvPosition.get_uv_coords(sample_point + sample_corner_positions[3], get_collision_normal(), false)
+	#
+	#if top_left_coords: corner_coords.append(top_left_coords)
+	#if top_right_coords: corner_coords.append(top_right_coords)
+	#if bottom_left_coords: corner_coords.append(bottom_left_coords)
+	#if bottom_right_coords: corner_coords.append(bottom_right_coords)
+	#
+	#for i in corner_coords:
+		#if i != null:
+			#print(i.distance_to(center_coords))
+
+
 func paint(obj: DrawTile):
 	
 
@@ -70,12 +105,16 @@ func paint(obj: DrawTile):
 			previous_frame_available = false
 		current_mesh = new_mesh
 		
-		if previous_frame_available:
-			draw_line(last_raycast_pos, collision_point, obj)
-		var coords = UvPosition.get_uv_coords(get_collision_point() - obj.position, get_collision_normal(), false)
-		obj.set_pixel(coords.x, coords.y, current_color, overwrite_alpha)
-
 		
+		
+		if previous_frame_available:
+			# draw_line(last_raycast_pos, collision_point, obj)
+			pass
+		var coords = UvPosition.get_uv_coords(get_collision_point() - obj.position, get_collision_normal(), false)
+		# obj.set_pixel(coords.x, coords.y, current_color, overwrite_alpha)
+		
+		if coords:
+			blit_texture(obj, coords.x, coords.y)
 
 		
 		last_raycast_pos = collision_point
@@ -104,12 +143,22 @@ func _process(delta: float) -> void:
 	if !Input.is_action_pressed("pen_down"):
 		undo_triggered = false
 
+func blit_texture(obj: DrawTile, x:float, y:float):
+	
+	color_rect.color = current_color
+	blit_viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
+	await RenderingServer.frame_post_draw
+	var image = blit_viewport.get_texture().get_image()
+	image.convert(Image.FORMAT_RGBA8)
+	obj.blit_texture(x, y, image, !overwrite_alpha, 2)
+	
+
+
+
 func raycast_draw(ray_length: float):
 	
 	var cam: Camera3D = GameValues.main_camera as Camera3D
-	
-	
-	
+
 	var mousepos = get_viewport().get_mouse_position()
 	#global_position = cam.global_position + (-cam.transform.basis.z * cam.near)
 	global_position = cam.project_position(mousepos, cam.near)

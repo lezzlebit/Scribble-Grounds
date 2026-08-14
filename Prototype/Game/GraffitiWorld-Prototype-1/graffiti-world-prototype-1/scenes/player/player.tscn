@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://o1qhy5lt543m" path="res://scripts/Player/CameraController.gd" id="2_lvxji"]
 [ext_resource type="Script" uid="uid://c7dcj7o6a10jc" path="res://scripts/Player/RaycastPainter.gd" id="3_p47bc"]
 [ext_resource type="Theme" uid="uid://dr757m870tmqg" path="res://assets/UI/Theme/graffiti_theme.tres" id="4_fm80t"]
+[ext_resource type="Material" uid="uid://dvi3wy2sx63m1" path="res://assets/Brushes/circle_brush.tres" id="4_gx1jg"]
 [ext_resource type="PackedScene" uid="uid://c6j8qgmfdlrre" path="res://scenes/player/UI/palette_button.tscn" id="4_lvxji"]
 [ext_resource type="Script" uid="uid://rip4hs5mbpcf" path="res://scripts/Player/UI/PaletteButtons.gd" id="4_p47bc"]
 [ext_resource type="Texture2D" uid="uid://d1n2gwheidamk" path="res://assets/UI/DrawingTextures/can_overwrite.PNG" id="6_5gtgg"]
@@ -50,10 +51,25 @@ wall_camera_pivot = NodePath("WallSticker/WallPivot")
 drawing_controls = NodePath("../Drawing Controls")
 lerp_speed = 25.0
 
-[node name="Painter" type="RayCast3D" parent="Camera3D" unique_id=1981828520]
+[node name="Painter" type="RayCast3D" parent="Camera3D" unique_id=1981828520 node_paths=PackedStringArray("color_rect", "blit_viewport")]
 target_position = Vector3(0, 0, -5)
 hit_back_faces = false
 script = ExtResource("3_p47bc")
+color_rect = NodePath("SubViewport/ColorRect")
+blit_viewport = NodePath("SubViewport")
+
+[node name="SubViewport" type="SubViewport" parent="Camera3D/Painter" unique_id=1063698787]
+transparent_bg = true
+size = Vector2i(11, 11)
+render_target_update_mode = 1
+
+[node name="ColorRect" type="ColorRect" parent="Camera3D/Painter/SubViewport" unique_id=367474606]
+material = ExtResource("4_gx1jg")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="WallSticker" type="Node3D" parent="Camera3D" unique_id=799053121]
 

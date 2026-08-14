@@ -11,7 +11,7 @@ HOST = "192.168.50.72"
 
 image_path = "images/"
 
-changelog_path = "changelog.txt"
+changelog_path = "images/changelog.txt"
 changelog_dict = {}
 
 

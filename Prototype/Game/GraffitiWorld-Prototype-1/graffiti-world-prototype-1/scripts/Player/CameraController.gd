@@ -41,7 +41,10 @@ func _unhandled_input(event: InputEvent):
 
 		var camera_distance: float = get_camera_distance()
 		raycast.target_position.z = camera_distance * -10
+		
+		
 		raycast.raycast_draw(camera_distance)
+	
 		
 		if event is InputEventMouseMotion:
 			if Input.is_action_pressed("pan_mouse"):
@@ -196,11 +199,6 @@ func _process(delta: float) -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		GameValues.first_person = true
 		GameValues.world_textures.save_unsaved_textures()
-	
-	#if !GameValues.first_person:
-		#var camera_distance: float = get_camera_distance()
-		#raycast.target_position.z = camera_distance * -2
-		#raycast.raycast_draw(camera_distance)
 	
 	
 	

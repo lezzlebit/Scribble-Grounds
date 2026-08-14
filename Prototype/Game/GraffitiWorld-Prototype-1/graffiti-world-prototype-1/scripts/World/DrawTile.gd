@@ -23,9 +23,9 @@ var in_undo_selection: bool = false
 
 func _init() -> void:
 	
-	texture_material = ShaderMaterial.new()
-	texture_material.shader = GlobalGameplayValues.draw_tile_shader
-	material_override = texture_material
+	material_override = get_surface_override_material(0).duplicate()
+	texture_material = material_override
+	# texture_material.shader = GlobalGameplayValues.draw_tile_shader
 	
 
 func index_of_username(username_in: String):
@@ -115,6 +115,31 @@ func undo_limit_push():
 	undo_index -= 1
 
 
+
+
+func blit_texture(x: float, y: float, paste_image: Image, draw_behind: bool, round_scale: int):
+	
+	start_drawing()
+	var paste_size: Vector2i = Vector2i(paste_image.get_width(), paste_image.get_height())
+	
+	
+	var previous_image = null
+	if draw_behind:
+		previous_image = image.duplicate()
+	
+	var paste_rect = Rect2i(0, 0, paste_size.x, paste_size.y)
+	var draw_position = Vector2i(int(texture_width * x), int(texture_height * y))
+	draw_position -= paste_size / 2
+	draw_position.x = roundi(draw_position.x/round_scale)*round_scale
+	draw_position.y = roundi(draw_position.y/round_scale)*round_scale
+	image.blend_rect(paste_image, paste_rect, draw_position)
+	
+	if draw_behind:
+		var previous_rect = Rect2i(0, 0, image.get_width(), image.get_height())
+		image.blend_rect(previous_image, previous_rect, Vector2i(0, 0))
+	
+	painted_textures[GlobalNetworkValues.username].update(image)
+	
 
 func fill_spot(x: float, y: float, thickness: float, color: Color, overwrite: bool):
 	var t: float = (thickness * 2) - 1

@@ -1,5 +1,6 @@
 shader_type spatial;
 
+uniform sampler2D lightmap_texture;
 uniform vec3 base_color : source_color = vec3(0.8, 0.8, 0.9);
 uniform int selected = -1;
 
@@ -87,15 +88,21 @@ void vertex() {
 	
 }
 
+vec4 dither_lighting(vec4 lightmap_sampled) {
+	return round(lightmap_sampled * 32.0) / 32.0;
+}
+
 
 void fragment() {
-	vec4 tex = vec4(base_color, 1.0);
+	vec4 tex = vec4(vec3(1.0), 0.0);
 	
 	vec2 screen_resolution = FRAGCOORD.xy / SCREEN_UV;
 	
 	tex = sample_textures(tex, UV, SCREEN_UV, screen_resolution);
 	
-	ALBEDO = tex.rgb;
+	vec4 lightmap = texture(lightmap_texture, UV2);
+	
+	ALBEDO = mix(lightmap.rgb, tex.rgb, tex.a);
 }
 
 void light() {
@@ -109,5 +116,5 @@ void light() {
 	float light_dither = ATTENUATION + dither;
 	light_dither = clamp(round(light_dither), 0.0, 1.0);
 	
-	DIFFUSE_LIGHT += LIGHT_COLOR * light_dither;
+	DIFFUSE_LIGHT = vec3(0.5);
 }
