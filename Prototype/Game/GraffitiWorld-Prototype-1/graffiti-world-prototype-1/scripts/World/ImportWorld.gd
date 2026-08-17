@@ -12,5 +12,6 @@ func _post_import(scene: Node) -> Object:
 			newTile.name = i.name
 			newTile.set_surface_override_material(0, preload("res://assets/Materials/draw_tile/draw_tile_material.tres"))
 			i.replace_by(newTile)
+			newTile.create_trimesh_collision()
 	
 	return scene # Return the modified root node when you're done.

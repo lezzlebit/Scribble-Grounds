@@ -15,8 +15,11 @@ var undo_index: int = 0
 var undo_buffer: Array[Image]
 var full_buffer_storage: Array[Image]
 
-var texture_width: int = GlobalNetworkValues.texture_dimensions.x
-var texture_height: int = GlobalNetworkValues.texture_dimensions.y
+#var texture_width: int = GlobalNetworkValues.texture_dimensions.x
+#var texture_height: int = GlobalNetworkValues.texture_dimensions.y
+
+var texture_width: int = 1024
+var texture_height: int = 1024
 
 var in_undo_selection: bool = false
 
@@ -46,9 +49,7 @@ func set_image(image_username: String, set_image: Image):
 	painted_textures[image_username] = ImageTexture.create_from_image(set_image)
 	painted_textures[image_username].update(set_image)
 	
-	# print(image_username + " - " + str(index_of_username(image_username)))
-	texture_material.set_shader_parameter("noise", load("res://assets/Textures/bluenoise.png"))
-	
+	# print(image_username + " - " + str(index_of_username(image_username)))	
 	texture_material.set_shader_parameter("texture_" + str(index_of_username(image_username)), painted_textures[image_username])
 
 func end_drawing():

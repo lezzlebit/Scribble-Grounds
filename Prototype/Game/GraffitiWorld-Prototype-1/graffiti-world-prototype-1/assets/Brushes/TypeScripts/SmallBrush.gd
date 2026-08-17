@@ -27,7 +27,7 @@ func draw_line(h: HitData):
 	
 	var distance_requirement: float = 16
 	var distance: int = (pos_1.distance_to(pos_2) * distance_requirement) + 5
-	distance = clampi(distance, 1, 256)
+	distance = clampi(distance, 1, 16)
 	
 	for i in range(distance):
 		var lerpPos: Vector3 = pos_2.lerp(pos_1, float(i)/float(distance))

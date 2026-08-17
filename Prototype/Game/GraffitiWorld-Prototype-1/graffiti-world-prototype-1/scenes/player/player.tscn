@@ -48,7 +48,7 @@ anti_aliasing = false
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g4v7s"]
 
-[node name="Player" type="Node" unique_id=1751317177]
+[node name="Player" type="Node3D" unique_id=1104231176]
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=373349286 node_paths=PackedStringArray("CameraPivot")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -66,6 +66,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 [node name="Camera3D" type="Camera3D" parent="." unique_id=2080823682 node_paths=PackedStringArray("raycast", "first_person_pivot", "wall_sticker", "wall_camera_pivot", "drawing_controls")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 environment = ExtResource("2_3j4b4")
+current = true
 script = ExtResource("2_lvxji")
 raycast = NodePath("Painter")
 first_person_pivot = NodePath("../CharacterBody3D/CameraPivot")
@@ -160,7 +161,7 @@ anchor_right = 1.0
 offset_bottom = 16.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 12
-text = "draw over"
+text = "draw under"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Drawing Controls/MarginContainer/VBoxContainer/Options" unique_id=1132036088]
 layout_mode = 1

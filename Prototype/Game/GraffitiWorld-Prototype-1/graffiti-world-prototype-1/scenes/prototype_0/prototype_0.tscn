@@ -17,6 +17,7 @@ metadata/_custom_type_script = "uid://dh27jx5i4ixab"
 script = ExtResource("2_4gfgv")
 
 [node name="Wall" parent="World" unique_id=2135470131 instance=ExtResource("3_6mgld")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0029551983, 0.007306099, 0.0014503002)
 
 [node name="Player" parent="." unique_id=1751317177 instance=ExtResource("6_6mgld")]
 

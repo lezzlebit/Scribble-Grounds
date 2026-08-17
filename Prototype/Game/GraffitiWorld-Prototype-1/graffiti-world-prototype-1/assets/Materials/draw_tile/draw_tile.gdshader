@@ -2,16 +2,63 @@ shader_type spatial;
 render_mode unshaded;
 
 uniform sampler2D lightmap_texture : source_color;
-uniform vec3 base_color : source_color = vec3(0.8, 0.8, 0.9);
+uniform sampler2D lightmap_noise : source_color;
+uniform sampler2D fade_drawing_noise : filter_nearest, hint_default_transparent;
 uniform int selected = -1;
 
-uniform sampler2D noise : filter_nearest, hint_default_transparent;
+// https://www.youtube.com/watch?v=NGCJqLxwQ5c
+float soft_light_g(float base) {
+	float g = 0.0;
+	if (base <= 0.25) {
+		g = ((16.0*base-12.0) * base + 4.0) * base;
+	} else {
+		g = sqrt(base);
+	}
+	return g;
+}
+float soft_light_channel(float base, float blend) {
+	float result = 0.0;
+	float g = soft_light_g(base);
+	if (blend <= 0.5) {
+		result = base - (1.0 - 2.0*blend)*base*(1.0-base);
+	} else {
+		result = base + (2.0*blend-1.0)*(g);
+	}
+	return result;
+}
+vec3 soft_light(vec3 base, vec3 blend) {
+	vec3 result = vec3(0.0);
+	result.r = soft_light_channel(base.r, blend.r);
+	result.g = soft_light_channel(base.g, blend.g);
+	result.b = soft_light_channel(base.b, blend.b);
+	return result;
+}
 
-float noise_dither(vec2 screenuv, vec2 resolution, bool round_result) {
 
+
+
+vec4 lightmap_dither(vec2 uv, vec2 screenuv, vec2 resolution) {
+	
+	vec4 sample = texture(lightmap_texture, uv);
+	
 	vec2 size = vec2(256, 256);
 	vec2 aspect = resolution / size;
-	vec4 sample = texture(noise, screenuv * aspect);
+	vec4 noise_sample = texture(lightmap_noise, screenuv * aspect);
+	vec3 result = sample.rgb * noise_sample.r;
+
+	result = soft_light(sample.rgb, noise_sample.rgb);
+	result = mix(sample.rgb, result, 0.7);
+	
+	vec3 simple_result = round(result * 4.0) / 4.0;
+	
+	return vec4(sample.rgb * 2.0, 1.0);
+}
+
+float drawing_dither(vec2 screenuv, vec2 resolution, bool round_result) {
+
+	vec2 size = vec2(16, 16);
+	vec2 aspect = resolution / size;
+	vec4 sample = texture(fade_drawing_noise, screenuv * aspect);
 	if (round_result) {
 		return clamp(floor(sample.r + 0.25), 0, 1);
 	} else {
@@ -23,7 +70,7 @@ float noise_dither(vec2 screenuv, vec2 resolution, bool round_result) {
 vec4 single_texture(sampler2D tex, vec2 uv, int selection, int current, vec2 screenuv, vec2 resolution) {
 	vec4 current_tex = texture(tex, uv);
 	if (selection != -1 && selection != current) {
-		current_tex.a *= noise_dither(screenuv, resolution, true);
+		current_tex.a *= drawing_dither(screenuv, resolution, true);
 	}
 	return current_tex;
 }
@@ -102,7 +149,7 @@ void fragment() {
 	tex = sample_textures(tex, UV, SCREEN_UV, screen_resolution);
 	
 	
-	vec4 lightmap = texture(lightmap_texture, UV2);
+	vec4 lightmap = lightmap_dither(UV2, SCREEN_UV, screen_resolution);
 	
 	ALBEDO = tex.rgb * lightmap.rgb;
 }

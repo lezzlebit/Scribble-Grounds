@@ -23,10 +23,11 @@ var current_mesh: MeshInstance3D
 var current_pixel_scale: float = 1
 var current_raw_pixel_scale: float = 1
 var current_texture_scale: int = 1
+var current_uv_up_position: Vector2 = Vector2.UP
 
 
 var current_zoom_level: int = 3
-var zoom_values: Array[int] = [1, 2, 3, 4, 6, 8, 16, 24, 32]
+var zoom_values: Array[int] = [2, 3, 4, 6, 8, 16, 24, 32]
 
 var mouse_drawing_position: Vector2
 var pan_pixels: Vector2
@@ -46,13 +47,16 @@ func _unhandled_input(event: InputEvent):
 		var camera_distance: float = get_camera_distance()
 		raycast.target_position.z = camera_distance * -10
 		
-		if !Input.is_action_pressed("pen_down"):
-			mouse_drawing_position = get_viewport().get_mouse_position()
+		# if !Input.is_action_pressed("pen_down"):
+		mouse_drawing_position = get_viewport().get_mouse_position()
+		
+		
 		raycast.raycast_draw(camera_distance)
 	
 		
 		if event is InputEventMouseMotion:
-			mouse_drawing_position += event.screen_relative
+			# mouse_drawing_position = get_viewport().get_mouse_position()
+			# mouse_drawing_position += event.screen_relative
 			if Input.is_action_pressed("pan_mouse") or (Input.is_action_pressed("pen_down") and currently_panning):
 				currently_panning = true
 				pan_pixels += event.relative / float(screen_pixel_size)
@@ -74,15 +78,23 @@ func find_paint_wall():
 			
 			wall_sticker.reparent(result.get_parent())
 			wall_sticker.global_position = collision_position
-			wall_sticker.look_at(wall_sticker.global_position - collision_normal, Vector3.UP)
 			
+			print("normal: " + str(collision_normal))
+			
+			
+			wall_sticker.look_at(wall_sticker.global_position - collision_normal, Vector3.UP)
 			
 			
 			set_mesh(parent)
 
 			current_texture_scale = parent.texture_height
 			if get_pixel_scale(collision_position, collision_normal, parent):
+				
 				GameValues.first_person = false
+			
+			if collision_normal == Vector3.UP:
+				var up_normal: Vector3 = Vector3(current_uv_up_position.y, 0, current_uv_up_position.x).normalized()
+				wall_sticker.look_at(wall_sticker.global_position - collision_normal, up_normal)
 
 
 # https://discussions.unity.com/t/fit-object-exactly-into-perspective-cameras-field-of-view-focus-the-object/677696/2
@@ -99,7 +111,10 @@ func get_pixel_scale(hit_position: Vector3, normal: Vector3, obj: DrawTile):
 	
 	var pos_1 = UvPosition.get_uv_coords(hit_position, normal, false)
 	var pos_2 = UvPosition.get_uv_coords(hit_position + side_position, normal, false)
+	
+	current_uv_up_position = pos_1 - pos_2;
 
+	print(current_uv_up_position)
 	
 	if pos_1 == null or pos_2 == null:
 		print("oh no")
