@@ -1,0 +1,18 @@
+[gd_resource type="Environment" format=3 uid="uid://dsm777h6m4m2o"]
+
+[ext_resource type="Material" uid="uid://ca50j60jdnqqu" path="res://assets/Environment/Sky/title_sky_shader_material.tres" id="1_742mc"]
+
+[sub_resource type="Sky" id="Sky_awdk6"]
+sky_material = ExtResource("1_742mc")
+
+[resource]
+background_mode = 2
+background_color = Color(0.46164244, 0.56594306, 0.7628768, 1)
+sky = SubResource("Sky_awdk6")
+ambient_light_source = 2
+reflected_light_source = 1
+fog_mode = 1
+fog_light_color = Color(1, 1, 1, 1)
+fog_light_energy = 0.5
+fog_density = 1.0
+fog_depth_end = 682.3

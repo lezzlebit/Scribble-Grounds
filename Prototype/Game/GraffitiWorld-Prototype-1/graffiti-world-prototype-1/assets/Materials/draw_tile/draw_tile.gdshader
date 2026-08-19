@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode unshaded, cull_disabled, depth_draw_opaque;
+render_mode unshaded, depth_draw_opaque;
 
 
 uniform sampler2D lightmap_texture : source_color;
@@ -52,11 +52,11 @@ vec4 lightmap_dither(vec2 uv, vec2 screenuv, vec2 resolution) {
 	vec3 result = mix(sample.rgb, noise_overlay_1.rgb, 0.002);
 	result = mix(result.rgb, noise_overlay_2.rgb, 0.002);
 	result = mix(result.rgb, noise_overlay_3.rgb, 0.002);
-	result = mix(sample.rgb, soft_light(result, noise_sample.rgb), 0.1);
+	result = mix(sample.rgb, soft_light(result, noise_sample.rgb), 0.15);
 	
-	vec3 simple_result = round(result * 64.0) / 64.0;
+	vec3 simple_result = round(result * 16.0) / 16.0;
 	
-	return vec4(result.rgb, 1.0);
+	return vec4(simple_result, 1.0);
 }
 
 float drawing_dither(vec2 screenuv, vec2 resolution, bool round_result) {

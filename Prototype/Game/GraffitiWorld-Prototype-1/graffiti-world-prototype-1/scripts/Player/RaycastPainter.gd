@@ -19,12 +19,15 @@ var should_overwrite: bool = true
 var undo_slots: int = 0
 var redo_slots: int = 0
 
+var tiles_hit_in_stroke: Array[DrawTile]
+
 @export var brush_type: Brush
 
 func set_overwrite(set_to: bool):
 	should_overwrite = !set_to
 
-
+func clear_tiles_in_stroke():
+	tiles_hit_in_stroke.clear()
 
 func paint(obj: DrawTile):
 	
@@ -34,14 +37,21 @@ func paint(obj: DrawTile):
 	if Input.is_action_pressed("pen_down") and !GameValues.main_camera.currently_panning:
 		
 
+
 		var world_textures: WorldTextures = GlobalGameplayValues.world_textures
 		if !world_textures.painted_tiles.has(obj):
 			world_textures.painted_tiles.append(obj)
 
 		if Input.is_action_just_pressed("pen_down") and !undo_triggered:
+			clear_tiles_in_stroke()
+			undo_slots = 0
+			redo_slots = 0
+
+		if !tiles_hit_in_stroke.has(obj):
+			add_one_to_undo_buffer(obj)
 			undo_triggered = true
-			add_to_undo_buffer()
-		
+			tiles_hit_in_stroke.append(obj)
+			
 		var collision_point: Vector3 = get_collision_point()
 		
 		var new_mesh = obj as MeshInstance3D
@@ -83,13 +93,13 @@ func paint(obj: DrawTile):
 		previous_frame_available = false
 
 
-
+func add_one_to_undo_buffer(obj: DrawTile):
+	obj.add_undo()
+	GameValues.drawing_controls.update_undo_buttons(undo_slots, redo_slots)
 
 func add_to_undo_buffer():
 	var edited_objects: Array[DrawTile] = GlobalGameplayValues.world_textures.painted_tiles
 	for i in edited_objects:
-		undo_slots = 0
-		redo_slots = 0
 		i.add_undo()
 	GameValues.drawing_controls.update_undo_buttons(undo_slots, redo_slots)
 
@@ -116,7 +126,13 @@ func raycast_draw(ray_length: float):
 	#global_position = cam.global_position + (-cam.transform.basis.z * cam.near)
 	global_position = cam.project_position(mousepos, cam.near)
 	var look_at_pos = global_position + cam.project_ray_normal(mousepos)
-	look_at(look_at_pos)
+	var end_position: Vector3 = cam.project_position(mousepos, cam.far)
+	# target_position = end_position
+	look_at(end_position)
+	
+	var target_distance = global_position.distance_to(end_position)
+	target_position = Vector3(0, 0, -target_distance)
+	
 	var space_state = get_world_3d().direct_space_state
 
 	var result: Object = get_collider()

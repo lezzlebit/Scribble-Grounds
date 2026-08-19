@@ -51,7 +51,7 @@ func _unhandled_input(event: InputEvent):
 	if !GameValues.first_person and !picking_color_for_replace:
 
 		var camera_distance: float = get_camera_distance()
-		raycast.target_position.z = camera_distance * -1.5
+		# raycast.target_position.z = far * -1
 		
 		# if !Input.is_action_pressed("pen_down"):
 		mouse_drawing_position = get_viewport().get_mouse_position()
@@ -95,7 +95,7 @@ func find_paint_wall():
 			wall_sticker.look_at(wall_sticker.global_position - collision_normal, Vector3.UP)
 			
 			
-			set_mesh(parent)
+			set_mesh(parent, false)
 
 			current_texture_scale = parent.texture_height
 			if get_pixel_scale(collision_position, collision_normal, parent):
@@ -113,7 +113,7 @@ func get_pixel_scale(hit_position: Vector3, normal: Vector3, obj: DrawTile):
 	
 	var sample_distance: float = 0.05
 	
-	set_mesh(obj)
+	set_mesh(obj, false)
 	
 	var side_position: Vector3 = wall_sticker.global_basis.y * sample_distance
 	
@@ -122,13 +122,15 @@ func get_pixel_scale(hit_position: Vector3, normal: Vector3, obj: DrawTile):
 	var pos_1 = UvPosition.get_uv_coords(hit_position, normal, false)
 	var pos_2 = UvPosition.get_uv_coords(hit_position + side_position, normal, false)
 	
-	current_uv_up_position = pos_1 - pos_2;
 
-	print(current_uv_up_position)
+
+
 	
 	if pos_1 == null or pos_2 == null:
 		print("oh no")
 		return false
+
+	current_uv_up_position = pos_1 - pos_2;
 	
 	current_raw_pixel_scale = (pos_1.distance_to(pos_2))
 	current_pixel_scale = sample_distance / (pos_1.distance_to(pos_2))
@@ -146,11 +148,14 @@ func get_camera_distance():
 	return distance
 
 
-func set_mesh(obj: MeshInstance3D):
-	var new_mesh = obj
-	if current_mesh != new_mesh: 
+func set_mesh(obj: MeshInstance3D, refresh: bool):
+	if refresh:
+		var new_mesh = obj
+		if current_mesh != new_mesh: 
+			UvPosition.set_mesh(obj as MeshInstance3D, true)
+		current_mesh = new_mesh
+	else:
 		UvPosition.set_mesh(obj as MeshInstance3D, true)
-	current_mesh = new_mesh
 
 
 func check_parent(parent: Node3D):

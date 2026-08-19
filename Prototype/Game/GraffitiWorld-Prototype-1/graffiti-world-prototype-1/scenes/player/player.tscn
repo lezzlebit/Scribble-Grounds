@@ -63,11 +63,14 @@ bg_color = Color(0, 0, 0, 0.68235296)
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=373349286 node_paths=PackedStringArray("CameraPivot")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 collision_layer = 2
+floor_constant_speed = true
 floor_snap_length = 1.0
 script = ExtResource("1_gmlin")
 CameraPivot = NodePath("CameraPivot")
-min_speed = 4.0
+min_speed = 3.0
 max_speed = 10.0
+seconds_to_full_speed = 6.0
+jump_velocity = 4.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=679124615]
 shape = SubResource("CapsuleShape3D_0w266")
@@ -169,6 +172,7 @@ custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 
 [node name="Label2" type="Label" parent="Drawing Controls/MarginContainer/VBoxContainer/Panel" unique_id=1483829831]
+visible = false
 layout_mode = 0
 offset_right = 84.0
 offset_bottom = 21.0
@@ -369,6 +373,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Label2" type="Label" parent="Reticle/Panel" unique_id=102432094]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

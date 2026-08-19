@@ -16,7 +16,7 @@ void fragment() {
 	
 	
 	float random_value = random(vec2(TIME, 1.0));
-	float radius = 0.5 * random_value;
+	float radius = mix(0.3, 0.5, random_value);
 	float sample_distance = distance(UV, vec2(0.5, 0.5));
 	float alpha_threshold = 1.0-floor(sample_distance / radius);
 	

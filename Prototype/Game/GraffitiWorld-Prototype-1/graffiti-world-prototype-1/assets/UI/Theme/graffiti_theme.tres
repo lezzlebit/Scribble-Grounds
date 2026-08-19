@@ -71,6 +71,7 @@ Button/styles/normal = ExtResource("1_uuqsc")
 Button/styles/pressed = SubResource("StyleBoxFlat_uuqsc")
 GridContainer/constants/h_separation = 0
 GridContainer/constants/v_separation = 0
+Label/colors/font_shadow_color = Color(0.24840015, 0.24840015, 0.24840021, 1)
 LineEdit/styles/focus = SubResource("StyleBoxFlat_liy3l")
 LineEdit/styles/normal = ExtResource("2_58upl")
 LineEdit/styles/read_only = SubResource("StyleBoxFlat_58upl")

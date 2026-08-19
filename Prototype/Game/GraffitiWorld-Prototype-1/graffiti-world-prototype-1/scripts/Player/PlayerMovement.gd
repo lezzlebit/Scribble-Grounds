@@ -4,6 +4,7 @@ extends CharacterBody3D
 @export var CameraPivot: Node3D
 @export var min_speed = 2.0
 @export var max_speed = 15.0
+@export var seconds_to_full_speed: float = 5.0
 @export var jump_velocity = 4.5
 @export var camera_sensitivity = 0.001
 var vertical_look: float
@@ -51,7 +52,7 @@ func process_movement(delta: float):
 			true_speed *= 1.5
 		acceleration.x = lerp(acceleration.x, direction.x * true_speed, delta * move_friction)
 		acceleration.z = lerp(acceleration.z, direction.z * true_speed, delta * move_friction)
-		speed_lerp = lerp(speed_lerp, 1.0, delta / 2)
+		speed_lerp = lerp(speed_lerp, 1.0, delta / seconds_to_full_speed)
 	else:
 		speed_lerp = lerp(speed_lerp, 0.0, delta * 2)
 		acceleration.x = lerp(acceleration.x, 0.0, delta * stop_friction)

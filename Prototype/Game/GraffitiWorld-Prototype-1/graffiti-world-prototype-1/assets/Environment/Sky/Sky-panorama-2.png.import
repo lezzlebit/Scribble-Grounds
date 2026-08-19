@@ -3,20 +3,19 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://chd6xxl3u1fl2"
-path.s3tc="res://.godot/imported/Sky-panorama-2.png-6cdae47a3826467e7b1d6e5bf32f7080.s3tc.ctex"
+path="res://.godot/imported/Sky-panorama-2.png-6cdae47a3826467e7b1d6e5bf32f7080.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://assets/Environment/Sky/Sky-panorama-2.png"
-dest_files=["res://.godot/imported/Sky-panorama-2.png-6cdae47a3826467e7b1d6e5bf32f7080.s3tc.ctex"]
+dest_files=["res://.godot/imported/Sky-panorama-2.png-6cdae47a3826467e7b1d6e5bf32f7080.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

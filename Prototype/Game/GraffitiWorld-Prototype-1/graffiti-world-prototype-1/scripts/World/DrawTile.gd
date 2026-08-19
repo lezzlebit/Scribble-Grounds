@@ -123,8 +123,6 @@ func move_undo(index: int):
 func update_undo_values():
 	GlobalGameplayValues.main_camera.raycast.undo_slots = undo_index
 	GlobalGameplayValues.main_camera.raycast.redo_slots -= undo_index - undo_buffer.size()
-	print(GlobalGameplayValues.main_camera.raycast.undo_slots)
-	print(GlobalGameplayValues.main_camera.raycast.redo_slots)
 
 func undo_limit_push():
 	undo_buffer = undo_buffer.slice(1, 100, 1)

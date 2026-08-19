@@ -110,7 +110,7 @@ func delete_server():
 
 func erase_server_object(server_name):
 	for i in created_instances:
-			if i.server_folder == server_name:
+			if i.server_name == server_name:
 				i.queue_free()
 				created_instances.erase(i)
 
