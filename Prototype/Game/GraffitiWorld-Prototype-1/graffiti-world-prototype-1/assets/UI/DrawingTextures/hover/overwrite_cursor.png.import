@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c40mmko0crcdi"
-path="res://.godot/imported/Baked-01.png-dec3eb771f3e98539b6b8aae3969dfcf.ctex"
+uid="uid://nosppik7axhq"
+path="res://.godot/imported/overwrite_cursor.png-c198e40befe9141bd3a9bdfd6554699d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Prototype_3d/Baked-01.png"
-dest_files=["res://.godot/imported/Baked-01.png-dec3eb771f3e98539b6b8aae3969dfcf.ctex"]
+source_file="res://assets/UI/DrawingTextures/hover/overwrite_cursor.png"
+dest_files=["res://.godot/imported/overwrite_cursor.png-c198e40befe9141bd3a9bdfd6554699d.ctex"]
 
 [params]
 
@@ -23,7 +23,7 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -37,4 +37,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1

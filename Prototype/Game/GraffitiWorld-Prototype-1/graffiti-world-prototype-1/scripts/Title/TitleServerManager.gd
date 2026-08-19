@@ -74,7 +74,7 @@ func close_editor():
 func start_edit_server(button: ServerButton):
 	set_editor_enabled(true)
 	address_setter.text = button.server_network_address
-	folder_setter.text = button.server_folder
+	folder_setter.text = button.server_name
 	address_setter.visible = true
 	folder_setter.visible = true
 	folder_setter.text_input.editable = false

@@ -16,6 +16,9 @@ var undo_triggered: bool = false
 var current_color: Color = Color.BLACK
 var should_overwrite: bool = true
 
+var undo_slots: int = 0
+var redo_slots: int = 0
+
 @export var brush_type: Brush
 
 func set_overwrite(set_to: bool):
@@ -85,12 +88,18 @@ func paint(obj: DrawTile):
 func add_to_undo_buffer():
 	var edited_objects: Array[DrawTile] = GlobalGameplayValues.world_textures.painted_tiles
 	for i in edited_objects:
+		undo_slots = 0
+		redo_slots = 0
 		i.add_undo()
+	GameValues.drawing_controls.update_undo_buttons(undo_slots, redo_slots)
 
 func move_undo(index: int):
 	var edited_objects: Array[DrawTile] = GlobalGameplayValues.world_textures.painted_tiles
 	for i in edited_objects:
+		undo_slots = 0
+		redo_slots = 0
 		i.move_undo(index)
+	GameValues.drawing_controls.update_undo_buttons(undo_slots, redo_slots)
 
 func _process(delta: float) -> void:
 	if !Input.is_action_pressed("pen_down"):
@@ -128,7 +137,10 @@ func raycast_draw(ray_length: float):
 	GameValues.main_camera.hit_paint_wall = could_reach
 	
 	if Input.is_action_just_pressed("undo"):
-		move_undo(-1)
+		if Input.is_action_pressed("shift"):
+			move_undo(1)
+		else:
+			move_undo(-1)
 	if Input.is_action_just_pressed("redo"):
 		move_undo(1)
 	

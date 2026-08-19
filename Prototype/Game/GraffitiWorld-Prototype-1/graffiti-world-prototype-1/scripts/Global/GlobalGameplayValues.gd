@@ -6,6 +6,8 @@ var network_handler: NetworkHandler = null
 var world_textures: WorldTextures = null
 var user_log: UserLog = null
 var draw_tile_shader: Shader = preload("res://assets/Materials/draw_tile/draw_tile.gdshader")
+var paused: bool = false
+var drawing_controls: PaletteButtons = null
 
 var undo_limit = 8
 

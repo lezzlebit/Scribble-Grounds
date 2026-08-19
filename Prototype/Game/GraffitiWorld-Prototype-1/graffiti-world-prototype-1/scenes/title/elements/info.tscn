@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://xhptjxrh2irh"]
+
+[node name="Info" type="Panel" unique_id=1961662103]
+custom_minimum_size = Vector2(256, 256)
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -128.0
+offset_top = -256.0
+offset_right = 128.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Label" type="Panel" parent="." unique_id=727563538]
+custom_maximum_size = Vector2(125, -1)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -128.0
+offset_right = 125.0
+grow_vertical = 0
+
+[node name="Label" type="Label" parent="Label" unique_id=1567093131]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "WASD, Space:
+E:
+E  /  S:
+Z:
+Y  /  Shift+Z:"
+horizontal_alignment = 2
+
+[node name="Label2" type="Panel" parent="." unique_id=1916323234]
+custom_maximum_size = Vector2(123, -1)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -123.0
+offset_top = -128.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Label2" type="Label" parent="Label2" unique_id=985779651]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 12
+text = "Move Player
+Start drawing
+Save & finish drawing
+Undo
+Redo"
+
+[node name="Label3" type="Label" parent="." unique_id=312470124]
+visible = false
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -128.0
+offset_top = -45.0
+offset_right = 128.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Your drawing is uploaded to the servers when you exit drawing mode"
+vertical_alignment = 2
+autowrap_mode = 2

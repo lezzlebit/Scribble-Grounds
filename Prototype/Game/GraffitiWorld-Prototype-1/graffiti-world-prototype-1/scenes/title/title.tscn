@@ -6,10 +6,11 @@
 [ext_resource type="Script" uid="uid://pw8sxnlx1gjq" path="res://scripts/Title/TitleServerManager.gd" id="2_ds13r"]
 [ext_resource type="Texture2D" uid="uid://dol0t8ncewecl" path="res://assets/UI/ButtonIcons/add.PNG" id="3_dnyg8"]
 [ext_resource type="Texture2D" uid="uid://b34k6e60cql3k" path="res://assets/UI/ButtonIcons/confirm.PNG" id="4_4yl2o"]
-[ext_resource type="PackedScene" uid="uid://devhs1ubfdtuc" path="res://scenes/prototype_0/prototype_0.tscn" id="4_7hvf5"]
+[ext_resource type="PackedScene" uid="uid://brj71ulrtg3tx" path="res://scenes/prototype_0/prototype_1.tscn" id="4_dnyg8"]
 [ext_resource type="Texture2D" uid="uid://pfisnywtx2c2" path="res://assets/UI/ButtonIcons/delete.PNG" id="5_awdk6"]
 [ext_resource type="PackedScene" uid="uid://ckjxfqndgkrk5" path="res://scenes/ui/logger.tscn" id="5_yjwoi"]
 [ext_resource type="Texture2D" uid="uid://dghvrfkv488af" path="res://assets/UI/ButtonIcons/back.PNG" id="6_7uqqr"]
+[ext_resource type="PackedScene" uid="uid://xhptjxrh2irh" path="res://scenes/title/elements/info.tscn" id="11_4yl2o"]
 
 [node name="Title" type="Control" unique_id=15814928]
 layout_mode = 3
@@ -23,7 +24,7 @@ theme = ExtResource("1_g4gru")
 [node name="Server Manager" type="Node" parent="." unique_id=919283246 node_paths=PackedStringArray("button_parent", "username_setter", "editor_parent", "address_setter", "folder_setter", "create_server_button", "edit_server_button", "delete_server_button")]
 script = ExtResource("2_ds13r")
 server_button = ExtResource("1_ds13r")
-main_game = ExtResource("4_7hvf5")
+main_game = ExtResource("4_dnyg8")
 button_parent = NodePath("../MarginContainer/Panel/PanelContainer/VBoxContainer")
 username_setter = NodePath("../MarginContainer/Panel/Username")
 editor_parent = NodePath("../MarginContainer/Panel/Edit")
@@ -114,7 +115,7 @@ layout_mode = 2
 
 [node name="Folder" parent="MarginContainer/Panel/Edit/VBoxContainer" unique_id=1650912141 instance=ExtResource("1_gl121")]
 layout_mode = 2
-label_text = "Server Name (folder)"
+label_text = "Server Name"
 edit_value = "folder"
 
 [node name="Address" parent="MarginContainer/Panel/Edit/VBoxContainer" unique_id=1319260046 instance=ExtResource("1_gl121")]
@@ -175,6 +176,15 @@ offset_bottom = 64.0
 grow_horizontal = 2
 label_text = "Username"
 edit_value = "username"
+
+[node name="Info" parent="MarginContainer/Panel" unique_id=1961662103 instance=ExtResource("11_4yl2o")]
+layout_mode = 1
+anchors_preset = 5
+anchor_top = 0.0
+anchor_bottom = 0.0
+offset_top = 0.0
+offset_bottom = 256.0
+grow_vertical = 1
 
 [connection signal="pressed" from="MarginContainer/Panel/PanelContainer/VBoxContainer/Server Button/Panel/HBoxContainer/Add Server" to="Server Manager" method="start_create_server"]
 [connection signal="pressed" from="MarginContainer/Panel/PanelContainer/VBoxContainer/Server Button/Panel/HBoxContainer/Refresh" to="Server Manager" method="refresh"]

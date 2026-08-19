@@ -1,5 +1,6 @@
 shader_type spatial;
-render_mode unshaded;
+render_mode unshaded, cull_disabled, depth_draw_opaque;
+
 
 uniform sampler2D lightmap_texture : source_color;
 uniform sampler2D lightmap_noise : source_color;
@@ -44,14 +45,18 @@ vec4 lightmap_dither(vec2 uv, vec2 screenuv, vec2 resolution) {
 	vec2 size = vec2(256, 256);
 	vec2 aspect = resolution / size;
 	vec4 noise_sample = texture(lightmap_noise, screenuv * aspect);
-	vec3 result = sample.rgb * noise_sample.r;
+	vec4 noise_overlay_1 = texture(lightmap_noise, uv * 16.0);
+	vec4 noise_overlay_2 = texture(lightmap_noise, uv * 32.0);
+	vec4 noise_overlay_3 = texture(lightmap_noise, uv * 64.0);
 
-	result = soft_light(sample.rgb, noise_sample.rgb);
-	result = mix(sample.rgb, result, 0.7);
+	vec3 result = mix(sample.rgb, noise_overlay_1.rgb, 0.002);
+	result = mix(result.rgb, noise_overlay_2.rgb, 0.002);
+	result = mix(result.rgb, noise_overlay_3.rgb, 0.002);
+	result = mix(sample.rgb, soft_light(result, noise_sample.rgb), 0.1);
 	
-	vec3 simple_result = round(result * 4.0) / 4.0;
+	vec3 simple_result = round(result * 64.0) / 64.0;
 	
-	return vec4(sample.rgb * 2.0, 1.0);
+	return vec4(result.rgb, 1.0);
 }
 
 float drawing_dither(vec2 screenuv, vec2 resolution, bool round_result) {
@@ -140,6 +145,13 @@ vec4 dither_lighting(vec4 lightmap_sampled) {
 	return round(lightmap_sampled * 32.0) / 32.0;
 }
 
+float dither_fog(float input, vec2 screenuv, vec2 resolution) {
+	vec2 size = vec2(256, 256);
+	vec2 aspect = resolution / size;
+	vec4 sample = texture(lightmap_noise, screenuv * aspect);
+	return soft_light_channel(input, sample.r);
+}
+
 
 void fragment() {
 	vec4 tex = vec4(vec3(1.0), 0.0);
@@ -148,10 +160,22 @@ void fragment() {
 	
 	tex = sample_textures(tex, UV, SCREEN_UV, screen_resolution);
 	
+	float z_near = abs(PROJECTION_MATRIX[3][2] / PROJECTION_MATRIX[2][2]);
+	float z_far = abs((PROJECTION_MATRIX[3][2] * z_near) / (PROJECTION_MATRIX[3][2] + z_near));
+	float fragment_depth = FRAGCOORD.z;
+	
+	float depth = dither_fog(fragment_depth * (z_near), SCREEN_UV, screen_resolution);
 	
 	vec4 lightmap = lightmap_dither(UV2, SCREEN_UV, screen_resolution);
 	
-	ALBEDO = tex.rgb * lightmap.rgb;
+	
+	vec3 result = tex.rgb * lightmap.rgb;
+	if (!FRONT_FACING) {
+		result = vec3(0.0);
+	}
+	
+	
+	ALBEDO = result.rgb;
 }
 
 //void light() {

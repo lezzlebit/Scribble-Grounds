@@ -1,0 +1,3 @@
+Port=55555
+Folder=AwesomeComputerServer
+Version=1

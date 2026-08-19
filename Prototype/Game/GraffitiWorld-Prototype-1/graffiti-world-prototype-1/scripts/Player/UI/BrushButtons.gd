@@ -6,6 +6,7 @@ class_name BrushButtons
 
 @export var brush_types: Dictionary[TextureButton, Brush]
 @export var default_brush: TextureButton
+@export var replace_alpha: TextureButton
 
 func set_brush(pressed_brush: TextureButton):
 	GlobalGameplayValues.main_camera.raycast.brush_type = brush_types[pressed_brush]
@@ -19,6 +20,7 @@ func _ready() -> void:
 
 func set_color(color: Color):
 	for i in brush_types:
+		replace_alpha.self_modulate = color
 		i.self_modulate = color
 
 func _process(delta: float) -> void:

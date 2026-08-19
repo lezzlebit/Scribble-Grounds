@@ -10,6 +10,7 @@ var GameValues = GlobalGameplayValues
 @export var wall_sticker: Node3D
 @export var wall_camera_pivot: Node3D
 @export var drawing_controls: Control
+@export var pause_screen: Control
 
 
 
@@ -35,17 +36,22 @@ var currently_panning: bool = false
 var picking_color_for_replace: bool = false
 var hit_paint_wall: bool = false
 
+var currently_drawing: bool = false
+
+var sprint_fov_multiplier_lerp: float = 1.0
+
 
 func _ready() -> void:
 	GameValues.main_camera = self
 	pass
+
 
 func _unhandled_input(event: InputEvent):
 	
 	if !GameValues.first_person and !picking_color_for_replace:
 
 		var camera_distance: float = get_camera_distance()
-		raycast.target_position.z = camera_distance * -10
+		raycast.target_position.z = camera_distance * -1.5
 		
 		# if !Input.is_action_pressed("pen_down"):
 		mouse_drawing_position = get_viewport().get_mouse_position()
@@ -53,15 +59,19 @@ func _unhandled_input(event: InputEvent):
 		
 		raycast.raycast_draw(camera_distance)
 	
-		
+		currently_drawing = false
 		if event is InputEventMouseMotion:
+			currently_drawing = true
 			# mouse_drawing_position = get_viewport().get_mouse_position()
 			# mouse_drawing_position += event.screen_relative
 			if Input.is_action_pressed("pan_mouse") or (Input.is_action_pressed("pen_down") and currently_panning):
 				currently_panning = true
 				pan_pixels += event.relative / float(screen_pixel_size)
-				pan_pixels.x = clamp(pan_pixels.x, -512, 512)
-				pan_pixels.y = clamp(pan_pixels.y, -512, 512)
+				clamp_pan()
+
+func clamp_pan():
+	pan_pixels.x = clamp(pan_pixels.x, -512, 512)
+	pan_pixels.y = clamp(pan_pixels.y, -512, 512)
 
 func find_paint_wall():
 	
@@ -72,7 +82,7 @@ func find_paint_wall():
 	
 	if result as StaticBody3D:
 		var parent = result.get_parent()
-		if parent is DrawTile and Input.is_action_just_pressed("toggle_drawing"):
+		if parent is DrawTile and Input.is_action_just_pressed("begin_drawing"):
 			
 			pan_pixels = Vector2.ZERO
 			
@@ -165,10 +175,12 @@ func update_position(delta: float):
 	var wall_pivot_rotation: Quaternion = wall_camera_pivot.global_basis.get_rotation_quaternion()
 	
 	var wall_pivot_fov: float = 30
-	var default_fov: float = 75
+	var default_fov: float = 75 * sprint_fov_multiplier_lerp
 	
-	var wall_pivot_camera_near: float = get_camera_distance() - 0.5
+	var wall_pivot_camera_near: float = get_camera_distance() - 0.1
 	var default_near: float = 0.1
+	var wall_pivot_camera_far: float = get_camera_distance() + 15
+	var default_far: float = 1000
 	
 	var lerp_desired_position: float
 	if GameValues.first_person: lerp_desired_position = 0
@@ -179,6 +191,7 @@ func update_position(delta: float):
 	fov = lerp(default_fov, wall_pivot_fov, camera_lerp_value)
 	
 	near = lerp(default_near, wall_pivot_camera_near, camera_lerp_value)
+	far = lerp(default_far, wall_pivot_camera_far, camera_lerp_value)
 	global_position = first_person_position.lerp(wall_pivot_position, camera_lerp_value)
 	quaternion = first_person_rotation.slerp(wall_pivot_rotation, camera_lerp_value)
 
@@ -213,6 +226,7 @@ func handle_zoom():
 		var pixel_size_delta: float = 1/(1-(old_screen_pixel_size / float(screen_pixel_size)))
 		
 		pan_pixels -= (mouse_pos / pixel_size_delta) / old_screen_pixel_size
+		clamp_pan()
 	
 	
 	
@@ -233,7 +247,21 @@ func begin_pan_input():
 		currently_panning = false
 
 
+func drawing_mouse():
+	if currently_panning:
+		if Input.is_action_pressed("pan_mouse") or Input.is_action_pressed("pen_down"):
+			Input.set_default_cursor_shape(Input.CURSOR_DRAG)
+		else:
+			Input.set_default_cursor_shape(Input.CURSOR_MOVE)
+	else:
+		if hit_paint_wall and !picking_color_for_replace:
+			Input.set_default_cursor_shape(Input.CURSOR_CROSS)
+		else:
+			Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+
 func _process(delta: float) -> void:
+	
+	
 	
 	handle_zoom()
 	
@@ -246,13 +274,17 @@ func _process(delta: float) -> void:
 	if !picking_color_for_replace: begin_pan_input()
 	
 	
-	if GameValues.first_person:
+	if GameValues.first_person and !GameValues.paused:
+		if Input.is_action_pressed("sprint"):
+			sprint_fov_multiplier_lerp = lerp(sprint_fov_multiplier_lerp, 1.06, delta*15)
+		else:
+			sprint_fov_multiplier_lerp = lerp(sprint_fov_multiplier_lerp, 1.0, delta*15)
 		find_paint_wall()
 		raycast.position = Vector3.ZERO
 		raycast.rotation = Vector3.ZERO
 		raycast.target_position = Vector3(0, 0, -2)
 
-	elif Input.is_action_just_pressed("toggle_drawing") and !picking_color_for_replace:
+	elif Input.is_action_just_pressed("end_drawing") and !picking_color_for_replace:
 		
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		GameValues.first_person = true
@@ -260,15 +292,21 @@ func _process(delta: float) -> void:
 	
 	update_position(delta)
 	
-	if currently_panning:
-		if Input.is_action_pressed("pan_mouse") or Input.is_action_pressed("pen_down"):
-			Input.set_default_cursor_shape(Input.CURSOR_DRAG)
-		else:
-			Input.set_default_cursor_shape(Input.CURSOR_MOVE)
+	pause_screen.visible = GameValues.paused
+	if GameValues.paused:
+		pause_screen.process_mode = Node.PROCESS_MODE_INHERIT
 	else:
-		if hit_paint_wall and !picking_color_for_replace:
-			Input.set_default_cursor_shape(Input.CURSOR_CROSS)
-		else:
+		pause_screen.process_mode = Node.PROCESS_MODE_DISABLED
+	
+	if !GameValues.paused and GameValues.first_person:
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	else:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		if GameValues.paused:
 			Input.set_default_cursor_shape(Input.CURSOR_ARROW)
+		else:
+			drawing_mouse()
+	
+
 	
 	pass

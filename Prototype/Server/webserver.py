@@ -5,14 +5,24 @@ import json
 import os
 import datetime
 
-PORT = 55555
-HOST = "192.168.50.72"
 
 
 image_path = "images/"
 
 changelog_path = "images/changelog.txt"
 changelog_dict = {}
+
+
+config_dict = {}
+read_config = open("config.txt").readlines()
+for i in read_config:
+	pair = i.split("=")
+	config_dict[pair[0]] = pair[1].replace("\n","")
+
+
+PORT = int(config_dict["Port"])
+server_folder = config_dict["Folder"] + "-" + config_dict["Version"]
+
 
 
 def retrieveChangelog():
@@ -129,7 +139,7 @@ class MyHandler(BaseHTTPRequestHandler):
 		recieved = self.rfile.read(content_length)
 		message = recieved.decode("utf-8")
 
-		check_response = "graffiti_server_online"
+		check_response = "graffiti_server_online/" + server_folder
 
 		content = ""
 		if message == "retrieve_drawings_list":

@@ -80,8 +80,9 @@ func update_one_image(image_path: String):
 	var file_name: String = get_file_name(name)
 	var image_username: String = name.split("/")[0]
 	
-	var tile_found: DrawTile = tiles[file_name]
-	tile_found.set_image(image_username, imported_image)
+	if tiles.has(file_name):
+		var tile_found: DrawTile = tiles[file_name]
+		tile_found.set_image(image_username, imported_image)
 	
 	
 

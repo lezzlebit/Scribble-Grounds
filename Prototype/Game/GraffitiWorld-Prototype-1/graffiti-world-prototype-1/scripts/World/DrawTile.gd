@@ -82,13 +82,18 @@ func add_undo():
 	if image == null:
 		start_drawing()
 	
+	
 
 	undo_buffer = undo_buffer.slice(0, undo_index, 1)
 	undo_index += 1
 	undo_buffer.append(image.duplicate())
 	
+	
+	
 	if undo_index > GlobalGameplayValues.undo_limit:
 		undo_limit_push()
+	
+	update_undo_values()
 	
 	in_undo_selection = false
 	
@@ -101,8 +106,11 @@ func move_undo(index: int):
 		
 		in_undo_selection = true
 	
+	
 	var player_username = GlobalNetworkValues.username
 	var new_undo_index = undo_index + index
+	
+	
 	
 	if new_undo_index >= 0 and new_undo_index < undo_buffer.size():
 		undo_index = new_undo_index
@@ -110,6 +118,13 @@ func move_undo(index: int):
 		var undo_image: Image = undo_buffer[undo_index]
 		image = undo_image
 		painted_textures[player_username].update(image)
+	update_undo_values()
+
+func update_undo_values():
+	GlobalGameplayValues.main_camera.raycast.undo_slots = undo_index
+	GlobalGameplayValues.main_camera.raycast.redo_slots -= undo_index - undo_buffer.size()
+	print(GlobalGameplayValues.main_camera.raycast.undo_slots)
+	print(GlobalGameplayValues.main_camera.raycast.redo_slots)
 
 func undo_limit_push():
 	undo_buffer = undo_buffer.slice(1, 100, 1)
@@ -174,6 +189,9 @@ func set_pixel(x: float, y: float, color: Color, h: HitData):
 	var drawPos = Vector2i(int(texture_width * x), int(texture_height * y))
 	drawPos.x = clampi(drawPos.x, 0, texture_width)
 	drawPos.y = clampi(drawPos.y, 0, texture_height)
+	
+	var should_overwrite: bool = h.should_overwrite
+	if color.a == 0: should_overwrite = true
 	
 	if h.should_overwrite:
 		image.set_pixelv(drawPos, color)

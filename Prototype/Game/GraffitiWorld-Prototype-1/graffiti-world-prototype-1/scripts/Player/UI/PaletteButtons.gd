@@ -8,7 +8,11 @@ class_name PaletteButtons
 @export var eraser: TextureButton
 @export var brush_buttons: BrushButtons
 @export var replace_color: TextureButton
+@export var alpha_replace_mode_text: Label
+@export var alpha_replace_mode_selector: Control
 @export var mute_on_selection: Array[Control]
+@export var undo_button: TextureButton
+@export var redo_button: TextureButton
 
 var selecting_replace_color: bool = false
 
@@ -29,6 +33,7 @@ var all_buttons: Array[TextureButton]
 
 func _ready() -> void:
 	
+	GlobalGameplayValues.drawing_controls = self
 	
 	for i in range(len(colors)):
 		var new_button = palette_button_scene.instantiate()
@@ -55,6 +60,10 @@ func set_replace_color():
 	selection_indicator.visible = false
 	selecting_replace_color = true
 
+func update_undo_buttons(undo: int, redo: int):
+	undo_button.disabled = undo <= 1
+	redo_button.disabled = redo <= 1
+
 func end_replace_color():
 	
 	GlobalGameplayValues.main_camera.picking_color_for_replace = false
@@ -67,6 +76,9 @@ func end_replace_color():
 	selection_indicator.visible = true
 
 func set_replace_mode(replace_on: bool):
+	alpha_replace_mode_selector.visible = replace_on
+	if replace_on: alpha_replace_mode_text.text = "Drawing Under"
+	if !replace_on: alpha_replace_mode_text.text = "Drawing Over"
 	GlobalGameplayValues.main_camera.raycast.should_overwrite = !replace_on
 	# replace_color.visible = replace_on
 

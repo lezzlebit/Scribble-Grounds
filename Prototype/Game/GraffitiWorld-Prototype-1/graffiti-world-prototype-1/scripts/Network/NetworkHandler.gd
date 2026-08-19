@@ -26,7 +26,7 @@ func _process(delta: float) -> void:
 		retrieve_list()
 
 func initialize_process_timers():
-	initialize_single_timer("RetrieveTimer", 5, retrieve_list)
+	initialize_single_timer("RetrieveTimer", 3, retrieve_list)
 	initialize_single_timer("ImageTimer", 0.1, get_one_required_image)
 
 func initialize_single_timer(timer_name: String, timer_length: float, signal_out: Callable):

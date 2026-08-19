@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://b33kxx8w80x3n"
-path="res://.godot/imported/BigWall-exp_1.blend-6482fbe0b1ad1e78ba83dfda9b6d53fe.scn"
+uid="uid://dhtos2d5knlvm"
+path="res://.godot/imported/Big-Wall-Lightmapped.blend-de807cb0fb0d1226f29642a30ee8097d.scn"
 
 [deps]
 
-source_file="res://assets/Prototype_3d/BigWall-exp_1.blend"
-dest_files=["res://.godot/imported/BigWall-exp_1.blend-6482fbe0b1ad1e78ba83dfda9b6d53fe.scn"]
+source_file="res://assets/Prototype_3d/Big-Wall-Lightmapped.blend"
+dest_files=["res://.godot/imported/Big-Wall-Lightmapped.blend-de807cb0fb0d1226f29642a30ee8097d.scn"]
 
 [params]
 
