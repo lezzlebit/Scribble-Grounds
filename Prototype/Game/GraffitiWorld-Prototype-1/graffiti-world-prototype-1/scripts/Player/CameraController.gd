@@ -54,20 +54,25 @@ func _unhandled_input(event: InputEvent):
 		# raycast.target_position.z = far * -1
 		
 		# if !Input.is_action_pressed("pen_down"):
-		mouse_drawing_position = get_viewport().get_mouse_position()
+		# mouse_drawing_position = get_viewport().get_mouse_position()
 		
-		
-		raycast.raycast_draw(camera_distance)
-	
-		currently_drawing = false
 		if event is InputEventMouseMotion:
-			currently_drawing = true
+			currently_drawing = event.button_mask == 1
+		
+		
+	
+		
+		if event is InputEventMouseMotion:
+			mouse_drawing_position = event.position
+			
 			# mouse_drawing_position = get_viewport().get_mouse_position()
 			# mouse_drawing_position += event.screen_relative
 			if Input.is_action_pressed("pan_mouse") or (Input.is_action_pressed("pen_down") and currently_panning):
 				currently_panning = true
 				pan_pixels += event.relative / float(screen_pixel_size)
 				clamp_pan()
+		
+		raycast.raycast_draw(camera_distance)
 
 func clamp_pan():
 	pan_pixels.x = clamp(pan_pixels.x, -512, 512)

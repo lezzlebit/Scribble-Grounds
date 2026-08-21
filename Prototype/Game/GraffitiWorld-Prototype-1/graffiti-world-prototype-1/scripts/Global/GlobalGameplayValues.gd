@@ -9,7 +9,7 @@ var draw_tile_shader: Shader = preload("res://assets/Materials/draw_tile/draw_ti
 var paused: bool = false
 var drawing_controls: PaletteButtons = null
 
-var undo_limit = 8
+var undo_limit = 16
 
 func user_error_log(log: String):
 	user_log.update_log(log)

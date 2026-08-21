@@ -21,6 +21,8 @@ var redo_slots: int = 0
 
 var tiles_hit_in_stroke: Array[DrawTile]
 
+var pen_down_switch: bool = false
+
 @export var brush_type: Brush
 
 func set_overwrite(set_to: bool):
@@ -32,7 +34,7 @@ func clear_tiles_in_stroke():
 func paint(obj: DrawTile):
 	
 
-
+	# print(Time.get_ticks_msec())
 	
 	if Input.is_action_pressed("pen_down") and !GameValues.main_camera.currently_panning:
 		
@@ -41,6 +43,8 @@ func paint(obj: DrawTile):
 		var world_textures: WorldTextures = GlobalGameplayValues.world_textures
 		if !world_textures.painted_tiles.has(obj):
 			world_textures.painted_tiles.append(obj)
+
+		
 
 		if Input.is_action_just_pressed("pen_down") and !undo_triggered:
 			clear_tiles_in_stroke()
@@ -59,13 +63,9 @@ func paint(obj: DrawTile):
 			UvPosition.set_mesh(obj as MeshInstance3D, true)
 			previous_frame_available = false
 		current_mesh = new_mesh
-		
-		
-		
-		if previous_frame_available:
-			# draw_line(last_raycast_pos, collision_point, obj)
-			pass
+				
 		var coords = UvPosition.get_uv_coords(get_collision_point(), get_collision_normal(), false)
+		
 		
 		if coords:
 			
@@ -90,6 +90,7 @@ func paint(obj: DrawTile):
 		
 		pass
 	else:
+		
 		previous_frame_available = false
 
 
@@ -138,7 +139,6 @@ func raycast_draw(ray_length: float):
 	var result: Object = get_collider()
 	
 	
-	
 	var could_reach: bool = false
 	if result as StaticBody3D:
 		var parent = result.get_parent()
@@ -149,6 +149,7 @@ func raycast_draw(ray_length: float):
 	if !could_reach:
 		previous_frame_available = false
 		current_mesh = null
+
 	
 	GameValues.main_camera.hit_paint_wall = could_reach
 	

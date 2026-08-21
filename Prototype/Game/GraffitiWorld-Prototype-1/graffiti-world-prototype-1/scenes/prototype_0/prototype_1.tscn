@@ -20,7 +20,7 @@ script = ExtResource("2_und57")
 
 [node name="Big-Wall-Lightmapped" parent="World" unique_id=1622794509 instance=ExtResource("3_wahxu")]
 
-[node name="Sun" parent="World/Big-Wall-Lightmapped" index="0" unique_id=2108195627]
+[node name="Sun" parent="World/Big-Wall-Lightmapped" index="0" unique_id=1963330298]
 transform = Transform3D(-0.2856334, -0.18314488, 0.9406761, 0.7285337, 0.5962128, 0.3372966, -0.62261724, 0.7816574, -0.036871046, 0, 0, 0)
 shadow_enabled = true
 
