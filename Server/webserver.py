@@ -170,7 +170,7 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 	def do_GET(self):
 
 		
-
+		self.send_header("Access-control-request-method", "GET")
 
 		allowed = False
 		if self.headers['Authorization']:
