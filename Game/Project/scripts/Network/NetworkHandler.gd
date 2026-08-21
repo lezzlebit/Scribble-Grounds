@@ -21,7 +21,7 @@ func _ready():
 	GlobalGameplayValues.world_textures.update_image_pool(true)
 	initialize_process_timers()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if (Input.is_action_just_pressed("debug_action")):
 		get_one_required_image()
 	if (Input.is_action_just_pressed("ui_down")):
@@ -51,7 +51,7 @@ func create_request(headers, method, body):
 
 
 # Select the correct response to data
-func _http_request_completed(result, response_code, headers, body):
+func _http_request_completed(_result, response_code, headers, body):
 	
 	if response_code == 0:
 		print("No response from web server!")
@@ -99,7 +99,7 @@ func retrieve_list():
 	
 	create_request(headers, HTTPClient.METHOD_GET, body)
 
-func _on_retrieve_list(headers, body):
+func _on_retrieve_list(_headers, body):
 	
 	var new_read = body.get_string_from_ascii()
 	new_images = text_list_to_dictionary(new_read)
@@ -208,7 +208,7 @@ func create_image_offline(filename):
 	current_images[filename] = str(Time.get_unix_time_from_system()).split(".")[0]
 	save_current_changelog()
 
-func _on_image_uploaded(headers, body):
+func _on_image_uploaded(_headers, body):
 	var content = body.get_string_from_ascii()
 	var pair = content.split(":")
 	current_images[pair[0]] = pair[1]
@@ -217,5 +217,5 @@ func _on_image_uploaded(headers, body):
 	print(content)
 	print("successfully uploaded " + pair[0])
 	
-func get_only_directory(directory):
-	return directory.split("/")[0]
+func get_only_directory(only_directory):
+	return only_directory.split("/")[0]

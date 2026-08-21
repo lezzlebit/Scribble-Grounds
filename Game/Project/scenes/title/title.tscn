@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cwjseksrvlt6" path="res://scenes/title/elements/server_button.tscn" id="1_ds13r"]
 [ext_resource type="Theme" uid="uid://dr757m870tmqg" path="res://assets/UI/Theme/graffiti_theme.tres" id="1_g4gru"]
 [ext_resource type="PackedScene" uid="uid://dy3e5aqx816tb" path="res://scenes/title/elements/input_line.tscn" id="1_gl121"]
+[ext_resource type="Script" uid="uid://844br5dfvoxg" path="res://scripts/Player/UI/ButtonAudio.gd" id="2_7uqqr"]
 [ext_resource type="Script" uid="uid://pw8sxnlx1gjq" path="res://scripts/Title/TitleServerManager.gd" id="2_ds13r"]
 [ext_resource type="Texture2D" uid="uid://dol0t8ncewecl" path="res://assets/UI/ButtonIcons/add.PNG" id="3_dnyg8"]
 [ext_resource type="Texture2D" uid="uid://b34k6e60cql3k" path="res://assets/UI/ButtonIcons/confirm.PNG" id="4_4yl2o"]
@@ -12,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://dghvrfkv488af" path="res://assets/UI/ButtonIcons/back.PNG" id="6_7uqqr"]
 [ext_resource type="PackedScene" uid="uid://xhptjxrh2irh" path="res://scenes/title/elements/info.tscn" id="11_4yl2o"]
 [ext_resource type="Environment" uid="uid://dsm777h6m4m2o" path="res://assets/Environment/title_environment.tres" id="12_awdk6"]
+[ext_resource type="AudioStream" uid="uid://b04wlpp1krow8" path="res://assets/Audio/Sounds/click_button.ogg" id="14_784tc"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iqsei"]
 bg_color = Color(0.45504338, 0.48945183, 0.5417958, 1)
@@ -33,6 +35,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_g4gru")
+script = ExtResource("2_7uqqr")
 
 [node name="Server Manager" type="Node" parent="." unique_id=919283246 node_paths=PackedStringArray("button_parent", "username_setter", "disable_on_edit", "editor_parent", "address_setter", "folder_setter", "password_setter", "create_server_button", "edit_server_button", "delete_server_button")]
 script = ExtResource("2_ds13r")
@@ -251,7 +254,7 @@ text = "Things to know:
 
 - Your drawing is saved and submitted to the server only when you exit drawing mode.
 
-- There are no moderation tools. If you host a server, please only give the address to your friends!"
+- There are no moderation tools. If you host a server, please only give the address to your friends! The server host can set a password if necessary."
 autowrap_mode = 2
 
 [node name="Node3D" type="Node3D" parent="." unique_id=1504498866]
@@ -264,6 +267,23 @@ transform = Transform3D(-0.8732876, 0.48720282, 0.0014349489, 0.39983773, 0.7183
 projection = 1
 fov = 50.0
 
+[node name="AudioListener3D" type="AudioListener3D" parent="Node3D/Camera3D" unique_id=1142987613]
+
+[node name="Click" type="AudioStreamPlayer3D" parent="Node3D/Camera3D/AudioListener3D" unique_id=779887676]
+stream = ExtResource("14_784tc")
+attenuation_model = 3
+volume_db = -10.0
+attenuation_filter_cutoff_hz = 20500.0
+
+[node name="Unclick" type="AudioStreamPlayer3D" parent="Node3D/Camera3D/AudioListener3D" unique_id=2070244794]
+stream = ExtResource("14_784tc")
+attenuation_model = 3
+volume_db = -10.0
+attenuation_filter_cutoff_hz = 20500.0
+
+[connection signal="on_press_any" from="." to="Node3D/Camera3D/AudioListener3D/Click" method="play"]
+[connection signal="on_unpress_any" from="." to="Node3D/Camera3D/AudioListener3D/Unclick" method="play"]
+[connection signal="make_new_button" from="Server Manager" to="." method="connect_buttons_to_audio"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button/Panel/HBoxContainer/Add Server" to="Server Manager" method="start_create_server"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button/Panel/HBoxContainer/Refresh" to="Server Manager" method="refresh"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button/Panel/HBoxContainer/Directory" to="Server Manager" method="open_path"]

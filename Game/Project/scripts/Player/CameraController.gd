@@ -40,6 +40,8 @@ var currently_drawing: bool = false
 
 var sprint_fov_multiplier_lerp: float = 1.0
 
+signal on_start_drawing
+signal on_stop_drawing
 
 func _ready() -> void:
 	GameValues.main_camera = self
@@ -106,8 +108,11 @@ func find_paint_wall():
 			if get_pixel_scale(collision_position, collision_normal, parent):
 				
 				GameValues.first_person = false
+				on_start_drawing.emit()
 			
-			if collision_normal == Vector3.UP:
+			var up_dot: float = abs(collision_normal.dot(Vector3.UP))
+			print(up_dot)
+			if up_dot > 0.85:
 				var up_normal: Vector3 = Vector3(current_uv_up_position.y, 0, current_uv_up_position.x).normalized()
 				wall_sticker.look_at(wall_sticker.global_position - collision_normal, up_normal)
 
@@ -208,7 +213,7 @@ func update_position(delta: float):
 
 func handle_zoom():
 	
-	var zoom_add: float = 0
+	var zoom_add: int = 0
 	if Input.is_action_just_pressed("zoom_in"):
 		zoom_add = 1
 	if Input.is_action_just_pressed("zoom_out"):
@@ -296,6 +301,8 @@ func _process(delta: float) -> void:
 
 	elif Input.is_action_just_pressed("end_drawing") and !picking_color_for_replace:
 		
+		if !GameValues.first_person:
+			on_stop_drawing.emit()
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		GameValues.first_person = true
 		GameValues.world_textures.save_unsaved_textures()

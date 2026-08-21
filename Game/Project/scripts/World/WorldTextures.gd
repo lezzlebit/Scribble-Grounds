@@ -42,8 +42,8 @@ func check_tiles_dictionary():
 
 func get_file_name(path: String):
 	var splitted: PackedStringArray = path.split("/")
-	var name: String = splitted[splitted.size() - 1]
-	return name
+	var file_name: String = splitted[splitted.size() - 1]
+	return file_name
 
 func save_unsaved_textures():
 	print(painted_tiles)
@@ -75,10 +75,10 @@ func update_one_image(image_path: String):
 	if err != OK:
 		print("no image found (singular)")
 		return false
-	var name = image_path.split(".")[0]
+	var original_name = image_path.split(".")[0]
 	
-	var file_name: String = get_file_name(name)
-	var image_username: String = name.split("/")[0]
+	var file_name: String = get_file_name(original_name)
+	var image_username: String = original_name.split("/")[0]
 	
 	if tiles.has(file_name):
 		var tile_found: DrawTile = tiles[file_name]
@@ -98,7 +98,7 @@ func update_image_pool(update_all: bool):
 	
 	for i in files_to_get:
 		
-		var name = i.split(".")[0]
+		var selected_name = i.split(".")[0]
 		
 		var imported_image: Image = Image.new()
 		var err = imported_image.load(directory + i)
@@ -106,7 +106,7 @@ func update_image_pool(update_all: bool):
 			print("no image found (load)")
 			return false
 
-		image_pool[name] = imported_image
+		image_pool[selected_name] = imported_image
 	
 	assign_all_textures()
 

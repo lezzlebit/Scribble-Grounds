@@ -25,6 +25,8 @@ var username_path: String = GlobalNetworkValues.game_directory + "username.txt"
 
 var created_instances: Array[ServerButton]
 
+signal make_new_button
+
 func _ready() -> void:
 	DirAccess.make_dir_absolute(GlobalNetworkValues.game_directory)
 	DirAccess.make_dir_absolute(server_path)
@@ -162,6 +164,7 @@ func refresh():
 			var read_text = FileAccess.open(server_path + i, FileAccess.READ).get_as_text()
 			var server_info = text_list_to_dictionary(read_text)
 			create_server_from_dict(server_info)
+	
 			
 
 
@@ -173,6 +176,7 @@ func create_server_from_dict(server_info: Dictionary[String, String]):
 	
 	server_button_instance.manager = self
 	created_instances.append(server_button_instance)
+	make_new_button.emit()
 
 func dictionary_to_text(in_dict: Dictionary[String, String]):
 	var text_return = ""

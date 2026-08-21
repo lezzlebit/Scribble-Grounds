@@ -13,6 +13,8 @@
 [ext_resource type="Shader" uid="uid://dnxxklccjl584" path="res://assets/Materials/world_ui/world_ui.gdshader" id="9_b2bta"]
 [ext_resource type="Theme" uid="uid://dr757m870tmqg" path="res://assets/UI/Theme/graffiti_theme.tres" id="9_nxewp"]
 [ext_resource type="Script" uid="uid://hi4g4hn0pjmg" path="res://scripts/Player/WaterReflectionCamera.gd" id="10_7v8v1"]
+[ext_resource type="AudioStream" uid="uid://ctk2uv76xu7na" path="res://assets/Audio/Ambience/lake.ogg" id="10_nxewp"]
+[ext_resource type="AudioStream" uid="uid://bmw1wbsd4okl6" path="res://assets/Audio/Ambience/wind.ogg" id="15_a3dpt"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yidcf"]
 resource_name = "Water"
@@ -67,7 +69,7 @@ shader_parameter/reflection = SubResource("ViewportTexture_nxewp")
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_pva0k"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_a3dpt"]
-viewport_path = NodePath("WorldTextures/SubViewport")
+viewport_path = NodePath("World/SubViewport")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nxewp"]
 resource_local_to_scene = true
@@ -82,31 +84,31 @@ size = Vector2(4, 4)
 
 [node name="NetworkHandler" type="Node" parent="." unique_id=630522918 node_paths=PackedStringArray("Motd")]
 script = ExtResource("1_5f0vg")
-Motd = NodePath("../WorldTextures/SubViewport/Control/Label")
+Motd = NodePath("../World/SubViewport/Control/Label")
 metadata/_custom_type_script = "uid://dh27jx5i4ixab"
 
-[node name="WorldTextures" type="Node3D" parent="." unique_id=61106289]
+[node name="World" type="Node3D" parent="." unique_id=61106289]
 script = ExtResource("2_1lswo")
 metadata/_custom_type_script = "uid://dbruja1g6egnu"
 
-[node name="Wall-Map" parent="WorldTextures" unique_id=2102952079 instance=ExtResource("3_5f0vg")]
+[node name="Wall-Map" parent="World" unique_id=2102952079 instance=ExtResource("3_5f0vg")]
 
-[node name="water" type="MeshInstance3D" parent="WorldTextures" unique_id=738275049]
+[node name="water" type="MeshInstance3D" parent="World" unique_id=738275049]
 mesh = SubResource("ArrayMesh_vs0yu")
 surface_material_override/0 = SubResource("ShaderMaterial_b2bta")
 
-[node name="Boundaries" type="Node" parent="WorldTextures" unique_id=135983352]
+[node name="Boundaries" type="Node" parent="World" unique_id=135983352]
 
-[node name="Floor" type="StaticBody3D" parent="WorldTextures/Boundaries" unique_id=218700627]
+[node name="Floor" type="StaticBody3D" parent="World/Boundaries" unique_id=218700627]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -32, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldTextures/Boundaries/Floor" unique_id=817671495]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Boundaries/Floor" unique_id=817671495]
 shape = SubResource("WorldBoundaryShape3D_pva0k")
 
-[node name="SubViewport" type="SubViewport" parent="WorldTextures" unique_id=397806085]
+[node name="SubViewport" type="SubViewport" parent="World" unique_id=397806085]
 transparent_bg = true
 
-[node name="Control" type="Control" parent="WorldTextures/SubViewport" unique_id=1541275609]
+[node name="Control" type="Control" parent="World/SubViewport" unique_id=1541275609]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -115,7 +117,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("9_nxewp")
 
-[node name="Label" type="Label" parent="WorldTextures/SubViewport/Control" unique_id=44640155]
+[node name="Label" type="Label" parent="World/SubViewport/Control" unique_id=44640155]
 custom_maximum_size = Vector2(512, -1)
 layout_mode = 1
 anchors_preset = 15
@@ -127,7 +129,7 @@ theme_override_font_sizes/font_size = 24
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="Motd" type="MeshInstance3D" parent="WorldTextures" unique_id=111908984]
+[node name="Motd" type="MeshInstance3D" parent="World" unique_id=111908984]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -259.79962, 2.8339663, 174.17531)
 material_override = SubResource("ShaderMaterial_nxewp")
 mesh = SubResource("QuadMesh_bwkwh")
@@ -147,7 +149,23 @@ canvas_item_default_texture_filter = 0
 
 [node name="WaterReflectionCamera" type="Camera3D" parent="SubViewport" unique_id=724080032 node_paths=PackedStringArray("water", "viewport")]
 script = ExtResource("10_7v8v1")
-water = NodePath("../../WorldTextures/water")
+water = NodePath("../../World/water")
 viewport = NodePath("..")
 water_height = -32.0
 metadata/_custom_type_script = "uid://hi4g4hn0pjmg"
+
+[node name="Lake" type="AudioStreamPlayer3D" parent="SubViewport/WaterReflectionCamera" unique_id=1196407506]
+stream = ExtResource("10_nxewp")
+attenuation_model = 1
+max_db = -15.0
+autoplay = true
+max_distance = 50.0
+attenuation_filter_cutoff_hz = 20500.0
+
+[node name="Wind" type="AudioStreamPlayer3D" parent="SubViewport/WaterReflectionCamera" unique_id=455676118]
+stream = ExtResource("15_a3dpt")
+attenuation_model = 3
+volume_db = -10.0
+max_db = 0.0
+autoplay = true
+attenuation_filter_cutoff_hz = 20500.0
