@@ -87,8 +87,8 @@ if not os.path.isfile(changelog_path):
 
 class MyHandler(http.server.BaseHTTPRequestHandler):
 
-	#def log_message(self, format, *args):
-	#	pass
+	def log_message(self, format, *args):
+		pass
 
 
 	def do_POST(self):
