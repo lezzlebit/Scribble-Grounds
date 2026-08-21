@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://dh27jx5i4ixab" path="res://scripts/Network/NetworkHandler.gd" id="1_5f0vg"]
 [ext_resource type="Script" uid="uid://dbruja1g6egnu" path="res://scripts/World/WorldTextures.gd" id="2_1lswo"]
 [ext_resource type="PackedScene" uid="uid://dve478ehy38e0" path="res://scenes/world/world 1/Blender/Wall-Map.blend" id="3_5f0vg"]
-[ext_resource type="Material" uid="uid://b544p35udub40" path="res://assets/Materials/draw_tile/light.tres" id="4_1lswo"]
 [ext_resource type="PackedScene" uid="uid://bqw6025khq3bg" path="res://scenes/player/player.tscn" id="4_vqnqe"]
 [ext_resource type="PackedScene" uid="uid://ckjxfqndgkrk5" path="res://scenes/ui/logger.tscn" id="5_7v8v1"]
 [ext_resource type="Shader" uid="uid://dlarcfairhg3o" path="res://assets/Materials/water/water_reflection.gdshader" id="5_vqnqe"]
@@ -11,13 +10,9 @@
 [ext_resource type="Texture2D" uid="uid://drb16f3ilgjnx" path="res://assets/Materials/draw_tile/textures/bluenoise.png" id="7_b2bta"]
 [ext_resource type="Texture2D" uid="uid://dl8hr8l6xrfjc" path="res://scenes/world/world 1/Blender/WaterMap.png" id="7_pva0k"]
 [ext_resource type="Texture2D" uid="uid://dsxvrwj2ywfo" path="res://assets/Materials/water/coolwaternoise.png" id="7_trm2b"]
+[ext_resource type="Shader" uid="uid://dnxxklccjl584" path="res://assets/Materials/world_ui/world_ui.gdshader" id="9_b2bta"]
+[ext_resource type="Theme" uid="uid://dr757m870tmqg" path="res://assets/UI/Theme/graffiti_theme.tres" id="9_nxewp"]
 [ext_resource type="Script" uid="uid://hi4g4hn0pjmg" path="res://scripts/Player/WaterReflectionCamera.gd" id="10_7v8v1"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_pva0k"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("5_vqnqe")
-shader_parameter/water_noise = ExtResource("7_trm2b")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yidcf"]
 resource_name = "Water"
@@ -71,10 +66,23 @@ shader_parameter/reflection = SubResource("ViewportTexture_nxewp")
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_pva0k"]
 
+[sub_resource type="ViewportTexture" id="ViewportTexture_a3dpt"]
+viewport_path = NodePath("WorldTextures/SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nxewp"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("9_b2bta")
+shader_parameter/main_texture = SubResource("ViewportTexture_a3dpt")
+
+[sub_resource type="QuadMesh" id="QuadMesh_bwkwh"]
+size = Vector2(4, 4)
+
 [node name="World1" type="Node3D" unique_id=1916285311]
 
-[node name="NetworkHandler" type="Node" parent="." unique_id=630522918]
+[node name="NetworkHandler" type="Node" parent="." unique_id=630522918 node_paths=PackedStringArray("Motd")]
 script = ExtResource("1_5f0vg")
+Motd = NodePath("../WorldTextures/SubViewport/Control/Label")
 metadata/_custom_type_script = "uid://dh27jx5i4ixab"
 
 [node name="WorldTextures" type="Node3D" parent="." unique_id=61106289]
@@ -82,12 +90,6 @@ script = ExtResource("2_1lswo")
 metadata/_custom_type_script = "uid://dbruja1g6egnu"
 
 [node name="Wall-Map" parent="WorldTextures" unique_id=2102952079 instance=ExtResource("3_5f0vg")]
-
-[node name="lights" parent="WorldTextures/Wall-Map" index="49" unique_id=333221430]
-material_override = ExtResource("4_1lswo")
-
-[node name="water" parent="WorldTextures/Wall-Map" index="170" unique_id=1562503920]
-surface_material_override/0 = SubResource("ShaderMaterial_pva0k")
 
 [node name="water" type="MeshInstance3D" parent="WorldTextures" unique_id=738275049]
 mesh = SubResource("ArrayMesh_vs0yu")
@@ -100,6 +102,33 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -32, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="WorldTextures/Boundaries/Floor" unique_id=817671495]
 shape = SubResource("WorldBoundaryShape3D_pva0k")
+
+[node name="SubViewport" type="SubViewport" parent="WorldTextures" unique_id=397806085]
+transparent_bg = true
+
+[node name="Control" type="Control" parent="WorldTextures/SubViewport" unique_id=1541275609]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("9_nxewp")
+
+[node name="Label" type="Label" parent="WorldTextures/SubViewport/Control" unique_id=44640155]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+vertical_alignment = 1
+
+[node name="Motd" type="MeshInstance3D" parent="WorldTextures" unique_id=111908984]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -259.79962, 2.8339663, 174.17531)
+material_override = SubResource("ShaderMaterial_nxewp")
+mesh = SubResource("QuadMesh_bwkwh")
 
 [node name="Player" parent="." unique_id=1104231176 instance=ExtResource("4_vqnqe")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -259.3733, 0, 182.12578)
@@ -120,5 +149,3 @@ water = NodePath("../../WorldTextures/water")
 viewport = NodePath("..")
 water_height = -32.0
 metadata/_custom_type_script = "uid://hi4g4hn0pjmg"
-
-[editable path="WorldTextures/Wall-Map"]

@@ -221,6 +221,20 @@ custom_minimum_size = Vector2(256, 160)
 custom_maximum_size = Vector2(256, -1)
 layout_mode = 2
 
+[node name="Label4" type="Label" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=1614092796]
+custom_maximum_size = Vector2(256, -1)
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 14
+text = "Things to know:
+
+- You cannot see other players currently. Your client only checks for drawings once every 3 seconds.
+
+- Your drawing is saved and submitted to the server only when you exit drawing mode.
+
+- There are no moderation tools. If you host a server, please only give the address to your friends!"
+autowrap_mode = 2
+
 [node name="Node3D" type="Node3D" parent="." unique_id=1504498866]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Node3D" unique_id=850560193]

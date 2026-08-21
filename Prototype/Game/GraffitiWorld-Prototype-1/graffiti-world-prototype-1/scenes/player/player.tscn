@@ -70,7 +70,7 @@ CameraPivot = NodePath("CameraPivot")
 min_speed = 3.0
 max_speed = 10.0
 seconds_to_full_speed = 6.0
-jump_velocity = 4.0
+jump_velocity = 5.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=679124615]
 shape = SubResource("CapsuleShape3D_0w266")
