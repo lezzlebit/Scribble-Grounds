@@ -223,6 +223,6 @@ Handler = MyHandler
 
 # https://www.digitalocean.com/community/tutorials/python-simplehttpserver-http-server
 
-with socketserver.ThreadingTCPServer(("127.0.0.1", PORT), Handler) as httpd:
+with socketserver.ThreadingTCPServer(("", PORT), Handler) as httpd:
 	print("Serving at port " + str(PORT))
 	httpd.serve_forever()
