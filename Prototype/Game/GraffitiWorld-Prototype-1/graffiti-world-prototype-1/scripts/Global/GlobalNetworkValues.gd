@@ -3,6 +3,7 @@ extends Node
 
 var username: String = "default_user"
 
+var server_password: String = "Burgerslop"
 var game_directory: String = "user://game/"
 var server_directory: String = "user://game/servers/"
 var save_directory: String = "user://game/saves/"

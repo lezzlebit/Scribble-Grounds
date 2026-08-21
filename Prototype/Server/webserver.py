@@ -23,6 +23,16 @@ for i in read_config:
 PORT = int(config_dict["Port"])
 server_folder = config_dict["Folder"] + "-" + config_dict["Version"]
 
+password = ""
+if "Password" in config_dict:
+	password = config_dict["Password"]
+
+unauthorized_message = bytes("wrong_password", "utf-8")
+
+
+
+
+
 
 def printCurrentDateTime():
 	return datetime.datetime.today().strftime("%b %d at %I:%M:%S%p") + " - "
@@ -59,6 +69,10 @@ def getPathOnly(fullpath):
 
 
 
+
+
+
+
 if not os.path.isdir(image_path):
 	os.mkdir(image_path)
 
@@ -66,12 +80,15 @@ if not os.path.isfile(changelog_path):
 	with open(changelog_path, "w") as w:
 		w.write("")
 
+
+
+
 # https://stackoverflow.com/questions/66514500/how-do-i-configure-a-python-server-for-post
 
 class MyHandler(http.server.BaseHTTPRequestHandler):
 
-	def log_message(self, format, *args):
-		pass
+	#def log_message(self, format, *args):
+	#	pass
 
 
 	def do_POST(self):
@@ -79,9 +96,24 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 
 
 
-		self.send_response(200)
 		self.send_header("Access-control-request-method", "POST")
 
+		allowed = False
+		if self.headers['Authorization']:
+			allowed = self.headers['Authorization'] == password or password == ""
+
+		self.send_response(200)
+
+		if not allowed:
+
+			print("NOT ALLOWED!")
+			self.send_header("Content-length", len(unauthorized_message))
+			self.send_header("Content-type", "text/plain")
+			self.end_headers()
+			self.wfile.write(unauthorized_message)
+			self.send_response(401)
+
+			return
 
 		if self.headers['Content-length']:
 			content_length = int(self.headers['Content-length'])
@@ -133,12 +165,30 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 
 				
 				self.wfile.write(content)
-			
+				
 
 	def do_GET(self):
 
+		
+
+
+		allowed = False
+		if self.headers['Authorization']:
+			allowed = self.headers['Authorization'] == password or password == ""
+
 		self.send_response(200)
 
+		if not allowed:
+
+			print("NOT ALLOWED!")
+			self.send_header("Content-length", len(unauthorized_message))
+			self.send_header("Content-type", "text/plain")
+			self.end_headers()
+			self.wfile.write(unauthorized_message)
+
+			return
+
+		
 		changelogfile = open(changelog_path).read()
 		changelogfile += "\nMotd:" + config_dict["Motd"]
 

@@ -46,6 +46,7 @@ func create_request(headers, method, body):
 	request.network_handler = self
 	request.request_completed.connect(request._http_request_completed)
 	request.timeout = 10
+	headers.append("Authorization: " + GlobalNetworkValues.server_password)
 	request.request_raw(network_address, headers, method, body)
 
 
@@ -91,7 +92,9 @@ func retrieve_list():
 	
 	var body = "retrieve_drawings_list".to_ascii_buffer()
 	
-	create_request([], HTTPClient.METHOD_GET, body)
+	var headers = ["Content-type: text/plain"]
+	
+	create_request(headers, HTTPClient.METHOD_GET, body)
 
 func _on_retrieve_list(headers, body):
 	
@@ -192,6 +195,7 @@ func upload_image(filename: String):
 	var img = Image.new()
 	img.load(directory + filename)
 	var body: PackedByteArray = img.save_png_to_buffer()
+	
 	
 	var headers = ["Content-type: image/png","Content-name: " + filename, "Content-length: " + str(len(body))]
 	

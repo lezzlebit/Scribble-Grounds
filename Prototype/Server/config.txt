@@ -1,4 +1,5 @@
 Port=55555
 Folder=AwesomeComputerServer
 Version=1
+Password=
 Motd=Hello, welcome to the server computer.\nPlease only draw things that are nice.\nThank you

@@ -8,11 +8,13 @@ class_name TitleServerManager
 @export var main_game: PackedScene
 @export var button_parent: Control
 @export var username_setter: TitleInputLine
+@export var disable_on_edit: Array[Control]
 
 @export_subgroup("Editor")
 @export var editor_parent: Control
 @export var address_setter: TitleInputLine
 @export var folder_setter: TitleInputLine
+@export var password_setter: TitleInputLine
 @export var create_server_button: Button
 @export var edit_server_button: Button
 @export var delete_server_button: Button
@@ -67,6 +69,8 @@ func set_editor_enabled(is_enabled: bool):
 	editor_parent.visible = is_enabled
 	if is_enabled: editor_parent.process_mode = Node.PROCESS_MODE_INHERIT
 	if !is_enabled: editor_parent.process_mode = Node.PROCESS_MODE_DISABLED
+	for i in disable_on_edit:
+		i.visible = !is_enabled
 
 func close_editor():
 	set_editor_enabled(false)
@@ -75,6 +79,7 @@ func start_edit_server(button: ServerButton):
 	set_editor_enabled(true)
 	address_setter.text = button.server_network_address
 	folder_setter.text = button.server_name
+	password_setter.text = button.server_password
 	address_setter.visible = true
 	folder_setter.visible = true
 	folder_setter.text_input.editable = false
@@ -87,6 +92,7 @@ func start_create_server():
 	set_editor_enabled(true)
 	address_setter.text = ""
 	folder_setter.text = ""
+	password_setter.text = ""
 	address_setter.visible = true
 	folder_setter.visible = true
 	folder_setter.text_input.editable = true
@@ -122,6 +128,7 @@ func create_server():
 	var new_dictionary: Dictionary[String, String]
 	new_dictionary["folder"] = folder_setter.text
 	new_dictionary["address"] = address_setter.text
+	new_dictionary["password"] = password_setter.text
 	
 	if len(folder_setter.text) <= 1 and len(address_setter.text) <= 1:
 		GlobalGameplayValues.user_error_log("Please enter server info")
@@ -161,7 +168,7 @@ func create_server_from_dict(server_info: Dictionary[String, String]):
 	var server_button_instance: ServerButton = server_button.instantiate()
 	button_parent.add_child(server_button_instance)
 	button_parent.move_child(server_button_instance, 0)
-	server_button_instance.create_button(server_info["folder"], server_info["address"])
+	server_button_instance.create_button(server_info["folder"], server_info["address"], server_info["password"])
 	
 	server_button_instance.manager = self
 	created_instances.append(server_button_instance)

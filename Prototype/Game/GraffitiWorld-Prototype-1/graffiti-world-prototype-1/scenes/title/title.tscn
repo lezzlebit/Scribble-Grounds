@@ -14,7 +14,7 @@
 [ext_resource type="Environment" uid="uid://dsm777h6m4m2o" path="res://assets/Environment/title_environment.tres" id="12_awdk6"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iqsei"]
-bg_color = Color(0.4857039, 0.4857034, 0.4857034, 1)
+bg_color = Color(0.45504338, 0.48945183, 0.5417958, 1)
 border_width_right = 1
 border_width_bottom = 1
 border_color = Color(0, 0, 0, 1)
@@ -28,15 +28,17 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_g4gru")
 
-[node name="Server Manager" type="Node" parent="." unique_id=919283246 node_paths=PackedStringArray("button_parent", "username_setter", "editor_parent", "address_setter", "folder_setter", "create_server_button", "edit_server_button", "delete_server_button")]
+[node name="Server Manager" type="Node" parent="." unique_id=919283246 node_paths=PackedStringArray("button_parent", "username_setter", "disable_on_edit", "editor_parent", "address_setter", "folder_setter", "password_setter", "create_server_button", "edit_server_button", "delete_server_button")]
 script = ExtResource("2_ds13r")
 server_button = ExtResource("1_ds13r")
 main_game = ExtResource("4_awdk6")
 button_parent = NodePath("../MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer")
 username_setter = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Panel/Username")
+disable_on_edit = [NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Info"), NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Label4")]
 editor_parent = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit")
 address_setter = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Address")
 folder_setter = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Folder")
+password_setter = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Password")
 create_server_button = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Control/HBoxContainer/Create")
 edit_server_button = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Control/HBoxContainer/Edit")
 delete_server_button = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Control/HBoxContainer/Delete")
@@ -167,13 +169,21 @@ layout_mode = 2
 
 [node name="Folder" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer" unique_id=1650912141 instance=ExtResource("1_gl121")]
 layout_mode = 2
-label_text = "Server Name"
+label_text = "Local Name"
 edit_value = "folder"
 
 [node name="Address" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer" unique_id=1319260046 instance=ExtResource("1_gl121")]
 layout_mode = 2
 label_text = "Server Address"
 edit_value = "address"
+
+[node name="Password" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer" unique_id=699390923 instance=ExtResource("1_gl121")]
+layout_mode = 2
+label_text = "Server Password (Optional)"
+edit_value = "password"
+
+[node name="LineEdit" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Password" index="0" unique_id=1004302945]
+secret = true
 
 [node name="Control" type="Control" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer" unique_id=1274782295]
 custom_minimum_size = Vector2(0, 64)
@@ -252,3 +262,5 @@ fov = 50.0
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Control/HBoxContainer/Edit" to="Server Manager" method="create_server"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Control/HBoxContainer/Delete" to="Server Manager" method="delete_server"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Control/HBoxContainer/Cancel" to="Server Manager" method="close_editor"]
+
+[editable path="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Password"]

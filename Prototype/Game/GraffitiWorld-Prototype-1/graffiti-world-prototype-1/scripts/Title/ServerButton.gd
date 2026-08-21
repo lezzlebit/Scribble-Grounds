@@ -14,6 +14,7 @@ var manager: TitleServerManager
 var server_name: String = ""
 var server_folder: String = ""
 var server_network_address: String = ""
+var server_password: String = ""
 
 func connect_to_this_server():
 	manager.connect_to_server(self)
@@ -21,7 +22,7 @@ func connect_to_this_server():
 func edit_this_server():
 	manager.start_edit_server(self)
 
-func create_button(given_folder: String, given_address: String):
+func create_button(given_folder: String, given_address: String, given_password: String):
 	
 	connect_button.process_mode = Node.PROCESS_MODE_DISABLED
 	connect_button.visible = false
@@ -30,9 +31,12 @@ func create_button(given_folder: String, given_address: String):
 	server_name = given_folder
 	server_name_label.text = given_folder
 	server_network_address = given_address
+	server_password = given_password
 	requester.request_completed.connect(_http_request_completed)
 	var body = "ping_graffiti_server".to_ascii_buffer()
-	requester.request_raw("http://" + server_network_address, [], HTTPClient.METHOD_GET, body)
+	var headers = ["Authorization: " + server_password]
+	
+	requester.request_raw("http://" + server_network_address, headers, HTTPClient.METHOD_GET, body)
 
 func set_online(is_online: bool):
 	if is_online:
@@ -50,6 +54,8 @@ func set_online(is_online: bool):
 
 func _http_request_completed(result, response_code, headers, body):
 	var content: String = body.get_string_from_ascii()
+	
+	
 	if response_code == 200:
 		
 		
@@ -62,8 +68,12 @@ func _http_request_completed(result, response_code, headers, body):
 				server_folder = server_name
 			set_online(true)
 		else:
-			server_status_label.text = "(incompatible server)"
-			server_status_label.modulate = Color.DARK_GRAY
+			if "wrong_password" in content:
+				server_status_label.text = "(wrong password)"
+				server_status_label.modulate = Color.DARK_GRAY
+			else:
+				server_status_label.text = "(incompatible server)"
+				server_status_label.modulate = Color.DARK_GRAY
 	elif response_code == 0:
 		set_online(false)
 	else:

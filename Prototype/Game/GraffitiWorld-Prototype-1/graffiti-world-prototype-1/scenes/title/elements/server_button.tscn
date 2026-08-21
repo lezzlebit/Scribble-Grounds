@@ -11,8 +11,8 @@ layout_mode = 3
 anchors_preset = 0
 theme = ExtResource("1_o75xn")
 script = ExtResource("1_w7by7")
-server_name_label = NodePath("Panel/HBoxContainer2/Title")
-server_status_label = NodePath("Panel/HBoxContainer2/Status")
+server_name_label = NodePath("Panel/HBoxContainer2/VBoxContainer/Title")
+server_status_label = NodePath("Panel/HBoxContainer2/VBoxContainer/Status")
 edit_button = NodePath("Panel/HBoxContainer/Edit Button")
 connect_button = NodePath("Panel/HBoxContainer/Connect Button")
 requester = NodePath("HTTPRequest")
@@ -34,12 +34,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Title" type="Label" parent="Panel/HBoxContainer2" unique_id=810121201]
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/HBoxContainer2" unique_id=1107750299]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Panel/HBoxContainer2/VBoxContainer" unique_id=810121201]
 layout_mode = 2
 text = "Hello!"
 vertical_alignment = 1
 
-[node name="Status" type="Label" parent="Panel/HBoxContainer2" unique_id=1153751319]
+[node name="Status" type="Label" parent="Panel/HBoxContainer2/VBoxContainer" unique_id=1153751319]
 layout_mode = 2
 text = "(offline)"
 vertical_alignment = 1
