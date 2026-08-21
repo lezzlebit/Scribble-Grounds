@@ -67,7 +67,8 @@ def getPathOnly(fullpath):
 	returnpath = "/".join(segments)
 	return returnpath
 
-
+def trim_password(inp):
+	return inp.replace("\n","").replace(" ","")
 
 
 
@@ -100,7 +101,8 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 
 		allowed = False
 		if self.headers['Authorization']:
-			allowed = self.headers['Authorization'] == password or password == ""
+			recieved_password = trim_password(self.headers['Authorization'])
+			allowed = recieved_password == password or password == ""
 
 		self.send_response(200)
 
@@ -173,7 +175,8 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 
 		allowed = False
 		if self.headers['Authorization']:
-			allowed = self.headers['Authorization'] == password or password == ""
+			recieved_password = trim_password(self.headers['Authorization'])
+			allowed = recieved_password == password or password == ""
 
 		self.send_response(200)
 
