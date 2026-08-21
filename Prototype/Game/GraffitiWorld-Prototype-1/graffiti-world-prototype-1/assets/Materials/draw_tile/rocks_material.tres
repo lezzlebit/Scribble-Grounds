@@ -1,0 +1,17 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://c7yg5wq3ycpo7"]
+
+[ext_resource type="Shader" uid="uid://ckimige8ahtvd" path="res://assets/Materials/draw_tile/draw_tile.gdshader" id="1_pijbn"]
+[ext_resource type="Texture2D" uid="uid://dtobwq6lp6te8" path="res://assets/Materials/draw_tile/textures/checker.png" id="2_00cqq"]
+[ext_resource type="Texture2D" uid="uid://drb16f3ilgjnx" path="res://assets/Materials/draw_tile/textures/bluenoise.png" id="3_jbd1b"]
+[ext_resource type="Texture2D" uid="uid://d8wbvcoymdyq" path="res://scenes/world/world 1/Blender/Rocks_Lightmap.png" id="4_pijbn"]
+[ext_resource type="Texture2D" uid="uid://djk2kimamjts7" path="res://assets/Materials/draw_tile/textures/bush.png" id="5_pty5q"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_pijbn")
+shader_parameter/backside_obscured = true
+shader_parameter/vertex_texture = ExtResource("5_pty5q")
+shader_parameter/lightmap_texture = ExtResource("4_pijbn")
+shader_parameter/lightmap_noise = ExtResource("3_jbd1b")
+shader_parameter/fade_drawing_noise = ExtResource("2_00cqq")
+shader_parameter/selected = -1

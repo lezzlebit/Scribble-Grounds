@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://cfjoy5xn4egfm"]
+
+[ext_resource type="Shader" uid="uid://dlarcfairhg3o" path="res://assets/Materials/water/water_reflection.gdshader" id="1_rv2g4"]
+[ext_resource type="Texture2D" uid="uid://dsxvrwj2ywfo" path="res://assets/Materials/water/coolwaternoise.png" id="2_kwrur"]
+
+[resource]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_rv2g4")
+shader_parameter/water_noise = ExtResource("2_kwrur")

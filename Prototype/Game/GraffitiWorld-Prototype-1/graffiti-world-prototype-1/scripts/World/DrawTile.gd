@@ -30,6 +30,13 @@ func _init() -> void:
 	texture_material = material_override
 	# texture_material.shader = GlobalGameplayValues.draw_tile_shader
 	
+	
+
+func _ready():
+	for i in get_children():
+		if i is MeshInstance3D:
+			print(i.name)
+			i.set_surface_override_material(0, material_override)
 
 func index_of_username(username_in: String):
 	for i in range(username_index.size()):

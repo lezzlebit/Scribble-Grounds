@@ -26,6 +26,8 @@ float soft_light_channel(float base, float blend) {
 }
 
 
+
+
 void sky() {
 	vec2 screen_resolution = FRAGCOORD.xy / SCREEN_UV;
 	
@@ -48,6 +50,6 @@ void sky() {
 	result = round(result * 2.0) / 2.0;
 	result = clamp(result, 0.1, 0.95);
 	
-	COLOR = texture(sky_gradient, vec2(result, 0.0)).rgb;
+	COLOR = texture(sky_gradient, vec2(sampled, 0.0)).rgb;
 	// COLOR = vec3(sampled);
 }

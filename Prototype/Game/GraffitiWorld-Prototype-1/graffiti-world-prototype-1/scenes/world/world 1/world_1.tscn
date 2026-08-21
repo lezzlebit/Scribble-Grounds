@@ -1,0 +1,139 @@
+[gd_scene format=4 uid="uid://ht3ushf6a1va"]
+
+[ext_resource type="Script" uid="uid://dh27jx5i4ixab" path="res://scripts/Network/NetworkHandler.gd" id="1_5f0vg"]
+[ext_resource type="Script" uid="uid://dbruja1g6egnu" path="res://scripts/World/WorldTextures.gd" id="2_1lswo"]
+[ext_resource type="PackedScene" uid="uid://dve478ehy38e0" path="res://scenes/world/world 1/Blender/Wall-Map.blend" id="3_5f0vg"]
+[ext_resource type="Material" uid="uid://b544p35udub40" path="res://assets/Materials/draw_tile/light.tres" id="4_1lswo"]
+[ext_resource type="PackedScene" uid="uid://bqw6025khq3bg" path="res://scenes/player/player.tscn" id="4_vqnqe"]
+[ext_resource type="PackedScene" uid="uid://ckjxfqndgkrk5" path="res://scenes/ui/logger.tscn" id="5_7v8v1"]
+[ext_resource type="Shader" uid="uid://dlarcfairhg3o" path="res://assets/Materials/water/water_reflection.gdshader" id="5_vqnqe"]
+[ext_resource type="Environment" uid="uid://dnoppw2hmxvf0" path="res://assets/Environment/environment.tres" id="6_trm2b"]
+[ext_resource type="Texture2D" uid="uid://drb16f3ilgjnx" path="res://assets/Materials/draw_tile/textures/bluenoise.png" id="7_b2bta"]
+[ext_resource type="Texture2D" uid="uid://dl8hr8l6xrfjc" path="res://scenes/world/world 1/Blender/WaterMap.png" id="7_pva0k"]
+[ext_resource type="Texture2D" uid="uid://dsxvrwj2ywfo" path="res://assets/Materials/water/coolwaternoise.png" id="7_trm2b"]
+[ext_resource type="Script" uid="uid://hi4g4hn0pjmg" path="res://scripts/Player/WaterReflectionCamera.gd" id="10_7v8v1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pva0k"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("5_vqnqe")
+shader_parameter/water_noise = ExtResource("7_trm2b")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yidcf"]
+resource_name = "Water"
+cull_mode = 2
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_yh10l"]
+_surfaces = [{
+"aabb": AABB(-1375.832, -32, -1375.832, 2751.664, 1e-05, 2751.664),
+"format": 34896613377,
+"index_count": 78,
+"index_data": PackedByteArray("AAABAAIAAwABAAAABAADAAUABAABAAMABgABAAQABgAEABEAEQAEAAcAAQAGABIAEQASAAYACAARAAcAEQATABIAAQASAA0ADQASABMAEwARABQADQATABQAFAARABUAFQANABQACAAVABEAAQANAA4AAQAOABAADgANAA8AFQALAA0ACQAVAAgAFQAJAAsACQAIAAoACwAJAAwA"),
+"lods": [223.59299, PackedByteArray("AAABAAIAAwABAAAABAADAAUABAABAAMABgABAAQABgAEAAcACAAGAAcACQAGAAgACQAIAAoABgAJAAsACwAJAAwABgALAA0AAQAGAA0AAQANAA4ADgANAA8AAQAOABAA")],
+"name": "Water",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 22,
+"vertex_data": PackedByteArray("+7AAAL4JAAADTwAAvgkAAP9/AAAAAAAAgdoAAH0lAAD//wAA/38AAED2AAADTwAAO6oAAPF1AABA9gAA+7AAAIHaAACB2gAA/38AAP//AAD7sAAAQPYAAH0lAACB2gAAA08AAED2AAC+CQAA+7AAAL4JAAADTwAAAAAAAP9/AAB9JQAAfSUAAF+rAACmmAAAZWMAAHqDAAASZQAA65AAADJjAADgogAApXcAAMenAAA=")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_vs0yu"]
+resource_name = "Wall-Map_Circle"
+_surfaces = [{
+"aabb": AABB(-1375.832, -32, -1375.832, 2751.664, 1e-05, 2751.664),
+"attribute_data": PackedByteArray("ONJ8clyR4Yp2mXxyro7hite142wFkJ2KRupugn6SpIv//3G2hZMfjln6S5pAk8eMT86psCyR2I1Z+pfSQJN2j0bqc+p+kpqQ17X//wWQoZE40mX6XJFckWeBc+qLjZqQdpll+q6OXJFUcZfSyYx2j1RxS5rJjMeMr2txtoWMH45ngW6Ci42ki/jOm8Q0kcyORaVxuD2PN45Z+pfSQZN2jwCxTc3KjzaPVHGX0smMdo8npXzKO48Tjz6mKsBIj5WOJ6V8yuB+bvL4zpvEx/9J2wCxTc3kov//PqYqwF6DNsRFpXG4QIF6oU/OqbD//7qB"),
+"format": 34896613431,
+"index_count": 78,
+"index_data": PackedByteArray("AAABAAIAAwABAAAABAADAAUABAABAAMABgABAAQABgAEABEAEQAEAAcAAQAGABIACAARABMACAAUABEACQAUAAgACQAIAAoAFAAJAAsACwAJAAwAFAALABUAFAAVABYADQAXABYADQASABcAAQASAA0AAQANAA4ADgANAA8AAQAOABAAGAAZABoAGwAZABgAGQAbABwAGQAcAB0A"),
+"lods": [223.59299, PackedByteArray("AAABAAIAAwABAAAABAADAAUABAABAAMABgABAAQABgAEAAcACAAGAAcACQAGAAgACQAIAAoABgAJAAsACwAJAAwABgALAA0AAQAGAA0AAQANAA4ADgANAA8AAQAOABAA")],
+"material": SubResource("StandardMaterial3D_yidcf"),
+"name": "Water",
+"primitive": 3,
+"uv_scale": Vector4(2.0611405, 2.077986, 1.9908834, 1.9865153),
+"vertex_count": 30,
+"vertex_data": PackedByteArray("+7AAAL4J/78DTwAAvgn/v/9/AAAAAP+/gdoAAH0l/7///wAA/3//v0D2AAADT/+/O6oAAPF1/79A9gAA+7D/v4HaAACB2v+//38AAP///7/7sAAAQPb/v30lAACB2v+/A08AAED2/7++CQAA+7D/v74JAAADT/+/AAAAAP9//799JQAAfSX/v1+rAACmmP+/ZWMAAHqD/79A9gAA+7D/v6V3AADHp/+/vgkAAPuw/78yYwAA4KL/vxJlAADrkP+/MmMAAOCi/79fqwAAppj/v6V3AADHp/+/EmUAAOuQ/79lYwAAeoP/vzuqAADxdf+/////f////3////9/////f////3////9/////f////3////9/////f/7//3////9//v//f////3////9/////f////3////9/////f////3////9/////f////3////9/////f////3////9/////f////3////9/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_yh10l")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_nxewp"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b2bta"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("5_vqnqe")
+shader_parameter/water_lightmap = ExtResource("7_pva0k")
+shader_parameter/water_noise = ExtResource("7_trm2b")
+shader_parameter/screen_noise = ExtResource("7_b2bta")
+shader_parameter/reflection = SubResource("ViewportTexture_nxewp")
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_pva0k"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_g4v7s"]
+plane = Plane(1, 0, 0, 0)
+
+[node name="World1" type="Node3D" unique_id=1916285311]
+
+[node name="NetworkHandler" type="Node" parent="." unique_id=630522918]
+script = ExtResource("1_5f0vg")
+metadata/_custom_type_script = "uid://dh27jx5i4ixab"
+
+[node name="WorldTextures" type="Node3D" parent="." unique_id=61106289]
+script = ExtResource("2_1lswo")
+metadata/_custom_type_script = "uid://dbruja1g6egnu"
+
+[node name="Wall-Map" parent="WorldTextures" unique_id=2102952079 instance=ExtResource("3_5f0vg")]
+
+[node name="lights" parent="WorldTextures/Wall-Map" index="49" unique_id=411759784]
+material_override = ExtResource("4_1lswo")
+
+[node name="water" parent="WorldTextures/Wall-Map" index="170" unique_id=1268153205]
+surface_material_override/0 = SubResource("ShaderMaterial_pva0k")
+
+[node name="water" type="MeshInstance3D" parent="WorldTextures" unique_id=738275049]
+mesh = SubResource("ArrayMesh_vs0yu")
+surface_material_override/0 = SubResource("ShaderMaterial_b2bta")
+
+[node name="Boundaries" type="Node" parent="WorldTextures" unique_id=135983352]
+
+[node name="Floor" type="StaticBody3D" parent="WorldTextures/Boundaries" unique_id=218700627]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -32, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldTextures/Boundaries/Floor" unique_id=817671495]
+shape = SubResource("WorldBoundaryShape3D_pva0k")
+
+[node name="Wall1" type="StaticBody3D" parent="WorldTextures/Boundaries" unique_id=1218016893]
+transform = Transform3D(-0.04240802, 0, 0.9991003, 0, 1, 0, -0.9991003, 0, -0.04240802, -109.47824, -31.999985, 248.03975)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldTextures/Boundaries/Wall1" unique_id=745191622]
+shape = SubResource("WorldBoundaryShape3D_g4v7s")
+
+[node name="Wall2" type="StaticBody3D" parent="WorldTextures/Boundaries" unique_id=1663532153]
+transform = Transform3D(-0.99683446, 0, 0.07950491, 0, 1, 0, -0.07950491, 0, -0.99683446, 441.13428, -31.999985, 16.007315)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldTextures/Boundaries/Wall2" unique_id=1023443853]
+shape = SubResource("WorldBoundaryShape3D_g4v7s")
+
+[node name="Player" parent="." unique_id=1104231176 instance=ExtResource("4_vqnqe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -259.3733, 0, 182.12578)
+
+[node name="Logger" parent="." unique_id=278674006 instance=ExtResource("5_7v8v1")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=754354177]
+environment = ExtResource("6_trm2b")
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=1094039991]
+scaling_3d_mode = 5
+anisotropic_filtering_level = 0
+canvas_item_default_texture_filter = 0
+
+[node name="WaterReflectionCamera" type="Camera3D" parent="SubViewport" unique_id=724080032 node_paths=PackedStringArray("water", "viewport")]
+script = ExtResource("10_7v8v1")
+water = NodePath("../../WorldTextures/water")
+viewport = NodePath("..")
+water_height = -32.0
+metadata/_custom_type_script = "uid://hi4g4hn0pjmg"
+
+[editable path="WorldTextures/Wall-Map"]

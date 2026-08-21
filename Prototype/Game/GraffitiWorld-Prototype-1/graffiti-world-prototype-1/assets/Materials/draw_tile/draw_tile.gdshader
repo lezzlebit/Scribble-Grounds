@@ -1,7 +1,11 @@
 shader_type spatial;
-render_mode unshaded, depth_draw_opaque;
+render_mode unshaded, depth_draw_opaque, cull_disabled;
 
+varying vec3 world_position;
 
+uniform bool backside_obscured;
+
+uniform sampler2D vertex_texture : source_color, hint_default_white;
 uniform sampler2D lightmap_texture : source_color;
 uniform sampler2D lightmap_noise : source_color;
 uniform sampler2D fade_drawing_noise : filter_nearest, hint_default_transparent;
@@ -38,9 +42,11 @@ vec3 soft_light(vec3 base, vec3 blend) {
 
 
 
-vec4 lightmap_dither(vec2 uv, vec2 screenuv, vec2 resolution) {
+vec4 lightmap_dither(vec2 uv, vec2 screenuv, vec2 resolution, vec4 vcolor) {
 	
 	vec4 sample = texture(lightmap_texture, uv);
+	vec4 vertex_texture_sampled = mix(texture(vertex_texture, vec2(1.0)-vcolor.rg), vec4(1.0), vcolor.b);
+	sample *= vertex_texture_sampled;
 	
 	vec2 size = vec2(256, 256);
 	vec2 aspect = resolution / size;
@@ -49,14 +55,14 @@ vec4 lightmap_dither(vec2 uv, vec2 screenuv, vec2 resolution) {
 	vec4 noise_overlay_2 = texture(lightmap_noise, uv * 32.0);
 	vec4 noise_overlay_3 = texture(lightmap_noise, uv * 64.0);
 
-	vec3 result = mix(sample.rgb, noise_overlay_1.rgb, 0.002);
-	result = mix(result.rgb, noise_overlay_2.rgb, 0.002);
-	result = mix(result.rgb, noise_overlay_3.rgb, 0.002);
-	result = mix(sample.rgb, soft_light(result, noise_sample.rgb), 0.15);
+	vec3 result = mix(sample.rgb, noise_overlay_1.rgb, 0.005);
+	result = mix(result.rgb, noise_overlay_2.rgb, 0.008);
+	result = mix(result.rgb, noise_overlay_3.rgb, 0.008);
+	// result = mix(result.rgb, soft_light(result, noise_sample.rgb), 0.4);
 	
-	vec3 simple_result = round(result * 16.0) / 16.0;
+	// vec3 simple_result = round(result * 16.0) / 16.0;
 	
-	return vec4(simple_result, 1.0);
+	return vec4(sample.rgb, 1.0);
 }
 
 float drawing_dither(vec2 screenuv, vec2 resolution, bool round_result) {
@@ -138,7 +144,7 @@ vec4 sample_textures(vec4 base, vec2 uv, vec2 screenuv, vec2 resolution) {
 
 
 void vertex() {
-	
+	world_position = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
 }
 
 vec4 dither_lighting(vec4 lightmap_sampled) {
@@ -166,15 +172,28 @@ void fragment() {
 	
 	float depth = dither_fog(fragment_depth * (z_near), SCREEN_UV, screen_resolution);
 	
-	vec4 lightmap = lightmap_dither(UV2, SCREEN_UV, screen_resolution);
-	
+	vec4 lightmap = lightmap_dither(UV2, SCREEN_UV, screen_resolution, COLOR);
+	// vec4 lightmap = texture(lightmap_texture, UV2);
 	
 	vec3 result = tex.rgb * lightmap.rgb;
-	if (!FRONT_FACING) {
+	vec3 overlay = mix(lightmap.rgb, tex.rgb, tex.a);
+	result = mix(result.rgb, overlay, 0.15);
+	if (!FRONT_FACING && backside_obscured) {
 		result = vec3(0.0);
 	}
+
+	
+	vec4 vertex_texture_sampled = mix(texture(vertex_texture, vec2(1.0)-COLOR.rg), vec4(1.0), COLOR.b);
+	
+	ALPHA = vertex_texture_sampled.a;
 	
 	
+	
+	if (world_position.y < -32.0) {
+		ALPHA = 0.0;
+	}
+	
+	ALPHA_SCISSOR_THRESHOLD = 0.5;
 	ALBEDO = result.rgb;
 }
 

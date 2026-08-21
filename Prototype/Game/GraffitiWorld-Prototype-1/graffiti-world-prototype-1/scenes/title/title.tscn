@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://pw8sxnlx1gjq" path="res://scripts/Title/TitleServerManager.gd" id="2_ds13r"]
 [ext_resource type="Texture2D" uid="uid://dol0t8ncewecl" path="res://assets/UI/ButtonIcons/add.PNG" id="3_dnyg8"]
 [ext_resource type="Texture2D" uid="uid://b34k6e60cql3k" path="res://assets/UI/ButtonIcons/confirm.PNG" id="4_4yl2o"]
-[ext_resource type="PackedScene" uid="uid://brj71ulrtg3tx" path="res://scenes/prototype_0/prototype_1.tscn" id="4_dnyg8"]
+[ext_resource type="PackedScene" uid="uid://ht3ushf6a1va" path="res://scenes/world/world 1/world_1.tscn" id="4_awdk6"]
 [ext_resource type="Texture2D" uid="uid://pfisnywtx2c2" path="res://assets/UI/ButtonIcons/delete.PNG" id="5_awdk6"]
 [ext_resource type="PackedScene" uid="uid://ckjxfqndgkrk5" path="res://scenes/ui/logger.tscn" id="5_yjwoi"]
 [ext_resource type="Texture2D" uid="uid://dghvrfkv488af" path="res://assets/UI/ButtonIcons/back.PNG" id="6_7uqqr"]
@@ -31,7 +31,7 @@ theme = ExtResource("1_g4gru")
 [node name="Server Manager" type="Node" parent="." unique_id=919283246 node_paths=PackedStringArray("button_parent", "username_setter", "editor_parent", "address_setter", "folder_setter", "create_server_button", "edit_server_button", "delete_server_button")]
 script = ExtResource("2_ds13r")
 server_button = ExtResource("1_ds13r")
-main_game = ExtResource("4_dnyg8")
+main_game = ExtResource("4_awdk6")
 button_parent = NodePath("../MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer")
 username_setter = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Panel/Username")
 editor_parent = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit")
