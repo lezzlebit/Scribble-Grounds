@@ -71,10 +71,13 @@ func _http_request_completed(result, response_code, headers, body):
 		_on_retrieve_image(headers_dictionary, body)
 
 func headers_to_dictionary(strings: PackedStringArray):
+	print(strings)
+	
 	var return_dictionary: Dictionary[String, String]
 	for i in strings:
 		var pair = i.split(": ")
-		return_dictionary[pair[0]] = pair[1]
+		if len(pair) > 1:
+			return_dictionary[pair[0]] = pair[1]
 	return return_dictionary
 
 

@@ -116,6 +116,7 @@ grow_vertical = 2
 theme = ExtResource("9_nxewp")
 
 [node name="Label" type="Label" parent="WorldTextures/SubViewport/Control" unique_id=44640155]
+custom_maximum_size = Vector2(512, -1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -124,6 +125,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 24
 vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="Motd" type="MeshInstance3D" parent="WorldTextures" unique_id=111908984]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -259.79962, 2.8339663, 174.17531)

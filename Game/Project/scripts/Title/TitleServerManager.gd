@@ -61,6 +61,7 @@ func connect_to_server(button: ServerButton):
 	
 	GlobalNetworkValues.network_address = "http://" + button.server_network_address
 	GlobalNetworkValues.save_folder = button.server_name + "-" + button.server_folder + "/"
+	GlobalNetworkValues.server_password = button.server_password
 	DirAccess.make_dir_absolute(GlobalNetworkValues.save_directory)
 	DirAccess.make_dir_absolute(GlobalNetworkValues.save_directory + GlobalNetworkValues.save_folder)
 	get_tree().change_scene_to_packed(main_game)
@@ -167,7 +168,7 @@ func refresh():
 func create_server_from_dict(server_info: Dictionary[String, String]):
 	var server_button_instance: ServerButton = server_button.instantiate()
 	button_parent.add_child(server_button_instance)
-	button_parent.move_child(server_button_instance, 0)
+	button_parent.move_child(server_button_instance, 2)
 	server_button_instance.create_button(server_info["folder"], server_info["address"], server_info["password"])
 	
 	server_button_instance.manager = self
