@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://devhs1ubfdtuc"]
+
+[ext_resource type="Script" uid="uid://dh27jx5i4ixab" path="res://scripts/Network/NetworkHandler.gd" id="1_0w266"]
+[ext_resource type="Script" uid="uid://dbruja1g6egnu" path="res://scripts/World/WorldTextures.gd" id="2_4gfgv"]
+[ext_resource type="PackedScene" uid="uid://cgpqw23l31la8" path="res://assets/Prototype_3d/Wall.blend" id="3_6mgld"]
+[ext_resource type="PackedScene" uid="uid://bqw6025khq3bg" path="res://scenes/player/player.tscn" id="6_6mgld"]
+[ext_resource type="PackedScene" uid="uid://ckjxfqndgkrk5" path="res://scenes/ui/logger.tscn" id="7_4gfgv"]
+[ext_resource type="Environment" uid="uid://dnoppw2hmxvf0" path="res://assets/Environment/environment.tres" id="8_2bsob"]
+
+[node name="prototype_0" type="Node3D" unique_id=1504437528]
+
+[node name="NetworkHandler" type="Node" parent="." unique_id=472813323]
+script = ExtResource("1_0w266")
+metadata/_custom_type_script = "uid://dh27jx5i4ixab"
+
+[node name="World" type="Node3D" parent="." unique_id=1620861158]
+script = ExtResource("2_4gfgv")
+
+[node name="Wall" parent="World" unique_id=2135470131 instance=ExtResource("3_6mgld")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0029551983, 0.007306099, 0.0014503002)
+
+[node name="Player" parent="." unique_id=1751317177 instance=ExtResource("6_6mgld")]
+
+[node name="Logger" parent="." unique_id=278674006 instance=ExtResource("7_4gfgv")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=874664817]
+environment = ExtResource("8_2bsob")

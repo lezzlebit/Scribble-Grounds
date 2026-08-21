@@ -167,7 +167,7 @@ func refresh():
 func create_server_from_dict(server_info: Dictionary[String, String]):
 	var server_button_instance: ServerButton = server_button.instantiate()
 	button_parent.add_child(server_button_instance)
-	button_parent.move_child(server_button_instance, 0)
+	button_parent.move_child(server_button_instance, 2)
 	server_button_instance.create_button(server_info["folder"], server_info["address"], server_info["password"])
 	
 	server_button_instance.manager = self

@@ -1,0 +1,75 @@
+[gd_scene format=3 uid="uid://cwjseksrvlt6"]
+
+[ext_resource type="Theme" uid="uid://dr757m870tmqg" path="res://assets/UI/Theme/graffiti_theme.tres" id="1_o75xn"]
+[ext_resource type="Script" uid="uid://doeme1xc3awes" path="res://scripts/Title/ServerButton.gd" id="1_w7by7"]
+[ext_resource type="Texture2D" uid="uid://ddek6acp027j3" path="res://assets/UI/ButtonIcons/edit.PNG" id="2_8sjr6"]
+[ext_resource type="Texture2D" uid="uid://bgukvj8qog42s" path="res://assets/UI/ButtonIcons/connect.PNG" id="3_o75xn"]
+
+[node name="Server Button" type="Control" unique_id=1151335501 node_paths=PackedStringArray("server_name_label", "server_status_label", "edit_button", "connect_button", "requester")]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 3
+anchors_preset = 0
+theme = ExtResource("1_o75xn")
+script = ExtResource("1_w7by7")
+server_name_label = NodePath("Panel/HBoxContainer2/VBoxContainer/Title")
+server_status_label = NodePath("Panel/HBoxContainer2/VBoxContainer/Status")
+edit_button = NodePath("Panel/HBoxContainer/Edit Button")
+connect_button = NodePath("Panel/HBoxContainer/Connect Button")
+requester = NodePath("HTTPRequest")
+metadata/_custom_type_script = "uid://doeme1xc3awes"
+
+[node name="Panel" type="Panel" parent="." unique_id=904294646]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Panel" unique_id=14986825]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/HBoxContainer2" unique_id=1107750299]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Panel/HBoxContainer2/VBoxContainer" unique_id=810121201]
+layout_mode = 2
+text = "Hello!"
+vertical_alignment = 1
+
+[node name="Status" type="Label" parent="Panel/HBoxContainer2/VBoxContainer" unique_id=1153751319]
+layout_mode = 2
+text = "(offline)"
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel" unique_id=454785568]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 2
+
+[node name="Edit Button" type="Button" parent="Panel/HBoxContainer" unique_id=1681973622]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Edit"
+icon = ExtResource("2_8sjr6")
+
+[node name="Connect Button" type="Button" parent="Panel/HBoxContainer" unique_id=1376297296]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Connect"
+icon = ExtResource("3_o75xn")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="." unique_id=1091472796]
+timeout = 5.0
+
+[connection signal="pressed" from="Panel/HBoxContainer/Edit Button" to="." method="edit_this_server"]
+[connection signal="pressed" from="Panel/HBoxContainer/Connect Button" to="." method="connect_to_this_server"]

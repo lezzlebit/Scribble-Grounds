@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dvi3wy2sx63m1"]
+
+[ext_resource type="Shader" uid="uid://c3ek5kx884avr" path="res://assets/Brushes/Checker/checker.gdshader" id="1_hf3vg"]
+
+[resource]
+shader = ExtResource("1_hf3vg")
+shader_parameter/brush_color = Vector4(0, 0, 0, 0)
+shader_parameter/brush_position = Vector2(0, 0)

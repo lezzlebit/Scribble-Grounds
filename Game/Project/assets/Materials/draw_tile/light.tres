@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://b544p35udub40"]
+
+[ext_resource type="Texture2D" uid="uid://b4tdlqih15nkq" path="res://assets/Materials/draw_tile/textures/light-gradient.png" id="1_tjwne"]
+
+[resource]
+shading_mode = 0
+albedo_texture = ExtResource("1_tjwne")
+texture_filter = 1
+texture_repeat = false

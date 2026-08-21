@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://ht3ushf6a1va"]
+
+[ext_resource type="Script" uid="uid://dh27jx5i4ixab" path="res://scripts/Network/NetworkHandler.gd" id="1_5f0vg"]
+[ext_resource type="Script" uid="uid://dbruja1g6egnu" path="res://scripts/World/WorldTextures.gd" id="2_1lswo"]
+[ext_resource type="PackedScene" uid="uid://dve478ehy38e0" path="res://scenes/world/world 1/Blender/Wall-Map.blend" id="3_5f0vg"]
+[ext_resource type="Material" uid="uid://b544p35udub40" path="res://assets/Materials/draw_tile/light.tres" id="4_1lswo"]
+[ext_resource type="PackedScene" uid="uid://bqw6025khq3bg" path="res://scenes/player/player.tscn" id="4_vqnqe"]
+[ext_resource type="PackedScene" uid="uid://ckjxfqndgkrk5" path="res://scenes/ui/logger.tscn" id="5_7v8v1"]
+[ext_resource type="Shader" uid="uid://dlarcfairhg3o" path="res://assets/Materials/water/water_reflection.gdshader" id="5_vqnqe"]
+[ext_resource type="Texture2D" uid="uid://dd2j5qcco74so" path="res://assets/Materials/water/reflection_viewport_texture.tres" id="6_7v8v1"]
+[ext_resource type="Environment" uid="uid://dnoppw2hmxvf0" path="res://assets/Environment/environment.tres" id="6_trm2b"]
+[ext_resource type="Script" uid="uid://hi4g4hn0pjmg" path="res://scripts/Player/WaterReflectionCamera.gd" id="10_7v8v1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_trm2b"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("5_vqnqe")
+shader_parameter/reflection = ExtResource("6_7v8v1")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_g4v7s"]
+
+[node name="World1" type="Node3D" unique_id=1916285311]
+
+[node name="NetworkHandler" type="Node" parent="." unique_id=630522918]
+script = ExtResource("1_5f0vg")
+metadata/_custom_type_script = "uid://dh27jx5i4ixab"
+
+[node name="WorldTextures" type="Node3D" parent="." unique_id=61106289]
+script = ExtResource("2_1lswo")
+metadata/_custom_type_script = "uid://dbruja1g6egnu"
+
+[node name="Wall-Map" parent="WorldTextures" unique_id=2102952079 instance=ExtResource("3_5f0vg")]
+
+[node name="lights" parent="WorldTextures/Wall-Map" index="49" unique_id=1352409561]
+material_override = ExtResource("4_1lswo")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldTextures" unique_id=1001036577]
+transform = Transform3D(1000, 0, 0, 0, 1000, 0, 0, 0, 1000, 0, -32, 0)
+material_override = SubResource("ShaderMaterial_trm2b")
+mesh = SubResource("PlaneMesh_g4v7s")
+
+[node name="Player" parent="." unique_id=1104231176 instance=ExtResource("4_vqnqe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -259.3733, 0, 182.12578)
+
+[node name="Logger" parent="." unique_id=278674006 instance=ExtResource("5_7v8v1")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=754354177]
+environment = ExtResource("6_trm2b")
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=1094039991]
+scaling_3d_mode = 5
+anisotropic_filtering_level = 0
+canvas_item_default_texture_filter = 0
+
+[node name="WaterReflectionCamera" type="Camera3D" parent="SubViewport" unique_id=724080032 node_paths=PackedStringArray("viewport")]
+script = ExtResource("10_7v8v1")
+viewport = NodePath("..")
+water_height = -32.0
+metadata/_custom_type_script = "uid://hi4g4hn0pjmg"
+
+[editable path="WorldTextures/Wall-Map"]

@@ -1,0 +1,266 @@
+[gd_scene format=3 uid="uid://bd7q164qfy36s"]
+
+[ext_resource type="PackedScene" uid="uid://cwjseksrvlt6" path="res://scenes/title/elements/server_button.tscn" id="1_ds13r"]
+[ext_resource type="Theme" uid="uid://dr757m870tmqg" path="res://assets/UI/Theme/graffiti_theme.tres" id="1_g4gru"]
+[ext_resource type="PackedScene" uid="uid://dy3e5aqx816tb" path="res://scenes/title/elements/input_line.tscn" id="1_gl121"]
+[ext_resource type="Script" uid="uid://pw8sxnlx1gjq" path="res://scripts/Title/TitleServerManager.gd" id="2_ds13r"]
+[ext_resource type="Texture2D" uid="uid://dol0t8ncewecl" path="res://assets/UI/ButtonIcons/add.PNG" id="3_dnyg8"]
+[ext_resource type="Texture2D" uid="uid://b34k6e60cql3k" path="res://assets/UI/ButtonIcons/confirm.PNG" id="4_4yl2o"]
+[ext_resource type="PackedScene" uid="uid://ht3ushf6a1va" path="res://scenes/world/world 1/world_1.tscn" id="4_awdk6"]
+[ext_resource type="Texture2D" uid="uid://pfisnywtx2c2" path="res://assets/UI/ButtonIcons/delete.PNG" id="5_awdk6"]
+[ext_resource type="PackedScene" uid="uid://ckjxfqndgkrk5" path="res://scenes/ui/logger.tscn" id="5_yjwoi"]
+[ext_resource type="Texture2D" uid="uid://dghvrfkv488af" path="res://assets/UI/ButtonIcons/back.PNG" id="6_7uqqr"]
+[ext_resource type="PackedScene" uid="uid://xhptjxrh2irh" path="res://scenes/title/elements/info.tscn" id="11_4yl2o"]
+[ext_resource type="Environment" uid="uid://dsm777h6m4m2o" path="res://assets/Environment/title_environment.tres" id="12_awdk6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iqsei"]
+bg_color = Color(0.45504338, 0.48945183, 0.5417958, 1)
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[node name="Title" type="Control" unique_id=15814928]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_g4gru")
+
+[node name="Server Manager" type="Node" parent="." unique_id=919283246 node_paths=PackedStringArray("button_parent", "username_setter", "disable_on_edit", "editor_parent", "address_setter", "folder_setter", "password_setter", "create_server_button", "edit_server_button", "delete_server_button")]
+script = ExtResource("2_ds13r")
+server_button = ExtResource("1_ds13r")
+main_game = ExtResource("4_awdk6")
+button_parent = NodePath("../MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer")
+username_setter = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Panel/Username")
+disable_on_edit = [NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Info"), NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Label4")]
+editor_parent = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit")
+address_setter = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Address")
+folder_setter = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Folder")
+password_setter = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Password")
+create_server_button = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Control/HBoxContainer/Create")
+edit_server_button = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Control/HBoxContainer/Edit")
+delete_server_button = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Control/HBoxContainer/Delete")
+
+[node name="Logger" parent="." unique_id=278674006 instance=ExtResource("5_yjwoi")]
+layout_mode = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1915500148]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=1797026044]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="MarginContainer/HBoxContainer" unique_id=1742737548]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer/Panel" unique_id=989683783]
+custom_minimum_size = Vector2(384, 0)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -276.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_iqsei")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/Panel/PanelContainer" unique_id=1011957355]
+layout_mode = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer" unique_id=217783798]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="Server Button" type="Control" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer" unique_id=1279676831]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button" unique_id=904294646]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button/Panel" unique_id=454785568]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -13.0
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Add Server" type="Button" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button/Panel/HBoxContainer" unique_id=1376297296]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Add New Server"
+
+[node name="Refresh" type="Button" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button/Panel/HBoxContainer" unique_id=1805540089]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Refresh All"
+
+[node name="Directory" type="Button" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button/Panel/HBoxContainer" unique_id=358865333]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Open Directory"
+
+[node name="Panel2" type="Panel" parent="MarginContainer/HBoxContainer" unique_id=388803129]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HBoxContainer/Panel2" unique_id=428500407]
+layout_mode = 0
+offset_right = 100.0
+offset_bottom = 100.0
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer" unique_id=171314867]
+layout_mode = 2
+
+[node name="Panel" type="Panel" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=1494717406]
+custom_minimum_size = Vector2(320, 64)
+layout_mode = 2
+
+[node name="Username" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Panel" unique_id=1552471214 instance=ExtResource("1_gl121")]
+custom_maximum_size = Vector2(256, -1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -32.0
+offset_right = 128.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+label_text = "Username"
+edit_value = "username"
+
+[node name="Edit" type="PanelContainer" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=934110546]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit" unique_id=873618233]
+layout_mode = 2
+
+[node name="Folder" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer" unique_id=1650912141 instance=ExtResource("1_gl121")]
+layout_mode = 2
+label_text = "Local Name"
+edit_value = "folder"
+
+[node name="Address" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer" unique_id=1319260046 instance=ExtResource("1_gl121")]
+layout_mode = 2
+label_text = "Server Address"
+edit_value = "address"
+
+[node name="Password" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer" unique_id=699390923 instance=ExtResource("1_gl121")]
+layout_mode = 2
+label_text = "Server Password (Optional)"
+edit_value = "password"
+
+[node name="LineEdit" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Password" index="0" unique_id=1004302945]
+secret = true
+
+[node name="Control" type="Control" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer" unique_id=1274782295]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Control" unique_id=259704879]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -15.5
+offset_bottom = 15.5
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Create" type="Button" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Control/HBoxContainer" unique_id=2039508755]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Create"
+icon = ExtResource("3_dnyg8")
+
+[node name="Edit" type="Button" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Control/HBoxContainer" unique_id=1382692949]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Confirm"
+icon = ExtResource("4_4yl2o")
+
+[node name="Delete" type="Button" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Control/HBoxContainer" unique_id=436281677]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Delete"
+icon = ExtResource("5_awdk6")
+
+[node name="Cancel" type="Button" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Control/HBoxContainer" unique_id=961815581]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Cancel"
+icon = ExtResource("6_7uqqr")
+
+[node name="Info" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=1961662103 instance=ExtResource("11_4yl2o")]
+custom_minimum_size = Vector2(256, 160)
+custom_maximum_size = Vector2(256, -1)
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=1614092796]
+custom_maximum_size = Vector2(256, -1)
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 14
+text = "Things to know:
+
+- You cannot see other players currently. Your client only checks for drawings once every 3 seconds.
+
+- Your drawing is saved and submitted to the server only when you exit drawing mode.
+
+- There are no moderation tools. If you host a server, please only give the address to your friends!"
+autowrap_mode = 2
+
+[node name="Node3D" type="Node3D" parent="." unique_id=1504498866]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Node3D" unique_id=850560193]
+environment = ExtResource("12_awdk6")
+
+[node name="Camera3D" type="Camera3D" parent="Node3D" unique_id=839611043]
+transform = Transform3D(-0.8732876, 0.48720282, 0.0014349489, 0.39983773, 0.7183666, -0.56927955, -0.2783854, -0.49657103, -0.8221428, -2.3841858e-07, 0, 2.3841858e-07)
+projection = 1
+fov = 50.0
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button/Panel/HBoxContainer/Add Server" to="Server Manager" method="start_create_server"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button/Panel/HBoxContainer/Refresh" to="Server Manager" method="refresh"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button/Panel/HBoxContainer/Directory" to="Server Manager" method="open_path"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Control/HBoxContainer/Create" to="Server Manager" method="create_server"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Control/HBoxContainer/Edit" to="Server Manager" method="create_server"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Control/HBoxContainer/Delete" to="Server Manager" method="delete_server"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Control/HBoxContainer/Cancel" to="Server Manager" method="close_editor"]
+
+[editable path="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Password"]

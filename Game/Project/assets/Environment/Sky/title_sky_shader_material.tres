@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://ca50j60jdnqqu"]
+
+[ext_resource type="Shader" uid="uid://caoj46qevvw4y" path="res://assets/Environment/sky_shader.gdshader" id="1_gjvf2"]
+[ext_resource type="Texture2D" uid="uid://drb16f3ilgjnx" path="res://assets/Materials/draw_tile/textures/bluenoise.png" id="2_djrk6"]
+[ext_resource type="Texture2D" uid="uid://dx1oe3ojhbp15" path="res://assets/Environment/Sky/sky_gradient.png" id="3_gjvf2"]
+[ext_resource type="Texture2D" uid="uid://dvm6drimv4hdr" path="res://assets/Environment/Sky/cloudskybox1.png" id="4_yn00u"]
+
+[resource]
+shader = ExtResource("1_gjvf2")
+shader_parameter/use_screen_coords = true
+shader_parameter/sky_gradient = ExtResource("3_gjvf2")
+shader_parameter/noise_texture = ExtResource("2_djrk6")
+shader_parameter/skybox_texture = ExtResource("4_yn00u")

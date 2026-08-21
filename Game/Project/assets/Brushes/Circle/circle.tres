@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="BlitBrush" format=3 uid="uid://1mikiowoqggj"]
+
+[ext_resource type="Script" uid="uid://c72v127vemlv5" path="res://assets/Brushes/TypeScripts/BlitBrush.gd" id="1_a6kkp"]
+[ext_resource type="Shader" uid="uid://btafkxg3gbfci" path="res://assets/Brushes/Circle/circle.gdshader" id="2_1ffan"]
+
+[resource]
+script = ExtResource("1_a6kkp")
+shader = ExtResource("2_1ffan")
+metadata/_custom_type_script = "uid://c72v127vemlv5"

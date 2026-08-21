@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bbd81fh1gg72i"]
+
+[ext_resource type="Shader" uid="uid://ckimige8ahtvd" path="res://assets/Materials/draw_tile/draw_tile.gdshader" id="1_r462j"]
+[ext_resource type="Texture2D" uid="uid://dtobwq6lp6te8" path="res://assets/Materials/draw_tile/textures/checker.png" id="2_mffhd"]
+[ext_resource type="Texture2D" uid="uid://drb16f3ilgjnx" path="res://assets/Materials/draw_tile/textures/bluenoise.png" id="3_kkg2r"]
+[ext_resource type="Texture2D" uid="uid://c45tlb0ata63k" path="res://scenes/world/world 1/Blender/Wall-Map-Lightmap.png" id="4_mffhd"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_r462j")
+shader_parameter/backside_obscured = true
+shader_parameter/lightmap_texture = ExtResource("4_mffhd")
+shader_parameter/lightmap_noise = ExtResource("3_kkg2r")
+shader_parameter/fade_drawing_noise = ExtResource("2_mffhd")
+shader_parameter/selected = -1

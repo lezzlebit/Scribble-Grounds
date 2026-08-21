@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://devhs1ubfdtuc"]
+
+[ext_resource type="Script" uid="uid://dh27jx5i4ixab" path="res://scripts/NetworkHandler.gd" id="1_0w266"]
+[ext_resource type="Script" uid="uid://cl6gkiap7v71q" path="res://scripts/PlayerMovement.gd" id="2_bda5n"]
+[ext_resource type="Script" uid="uid://bee8rbpc1guq8" path="res://scripts/Prototype/drawtexture.gd" id="2_tpvh5"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_g4v7s"]
+size = Vector2(12, 12)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_0w266"]
+data = PackedVector3Array(6, 0, 6, -6, 0, 6, 6, 0, -6, -6, 0, 6, -6, 0, -6, 6, 0, -6)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_yf5fn"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tpvh5"]
+albedo_color = Color(0.8922415, 5.2943824e-06, 0.5690291, 1)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0w266"]
+
+[node name="prototype_0" type="Node3D" unique_id=1504437528]
+
+[node name="Requester" type="Node3D" parent="." unique_id=973577098 node_paths=PackedStringArray("http_requester")]
+script = ExtResource("1_0w266")
+http_requester = NodePath("HTTPRequest")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="Requester" unique_id=1150070170]
+
+[node name="World" type="Node3D" parent="." unique_id=660723312]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World" unique_id=1326311205]
+mesh = SubResource("PlaneMesh_g4v7s")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="World/MeshInstance3D" unique_id=1460484840]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/MeshInstance3D/StaticBody3D" unique_id=999700399]
+shape = SubResource("ConcavePolygonShape3D_0w266")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="World" unique_id=228738822]
+transform = Transform3D(1, 0, 0, 0, -0.5223011, 0.85276115, 0, -0.85276115, -0.5223011, 4.7683716e-07, 4.9647985, -2.7310467)
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="World" unique_id=167175137]
+transform = Transform3D(1, 0, 0, 0, 0.78655905, -0.61751515, 0, 0.61751515, 0.78655905, 0, 0.9608636, -2.4023776)
+mesh = SubResource("PlaneMesh_yf5fn")
+surface_material_override/0 = SubResource("StandardMaterial3D_tpvh5")
+script = ExtResource("2_tpvh5")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=322545219 node_paths=PackedStringArray("CameraPivot")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0884767, 0)
+script = ExtResource("2_bda5n")
+CameraPivot = NodePath("CameraPivot")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=215441245]
+shape = SubResource("CapsuleShape3D_0w266")
+
+[node name="CameraPivot" type="Node3D" parent="CharacterBody3D" unique_id=1986023412]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CharacterBody3D/CameraPivot" unique_id=431352717]

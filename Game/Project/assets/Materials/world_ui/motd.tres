@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://c71cs1x8tup05"]
+
+[ext_resource type="Shader" uid="uid://dnxxklccjl584" path="res://assets/Materials/world_ui/world_ui.gdshader" id="1_iq8ng"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_iq8ng")
