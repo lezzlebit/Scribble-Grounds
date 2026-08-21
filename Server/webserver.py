@@ -170,7 +170,6 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 	def do_GET(self):
 
 		
-		self.send_header("Access-control-request-method", "GET")
 
 		allowed = False
 		if self.headers['Authorization']:
@@ -183,6 +182,7 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 			print("NOT ALLOWED!")
 			self.send_header("Content-length", len(unauthorized_message))
 			self.send_header("Content-type", "text/plain")
+			self.send_header("Access-control-request-method", "GET")
 			self.end_headers()
 			self.wfile.write(unauthorized_message)
 
