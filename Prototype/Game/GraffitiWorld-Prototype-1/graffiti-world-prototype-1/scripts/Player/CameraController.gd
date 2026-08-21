@@ -187,7 +187,7 @@ func update_position(delta: float):
 	var wall_pivot_fov: float = 30
 	var default_fov: float = 75 * sprint_fov_multiplier_lerp
 	
-	var wall_pivot_camera_near: float = get_camera_distance() - 0.1
+	var wall_pivot_camera_near: float = get_camera_distance() - 2
 	var default_near: float = 0.1
 	var wall_pivot_camera_far: float = get_camera_distance() + 15
 	var default_far: float = 1000

@@ -178,9 +178,7 @@ void fragment() {
 	vec3 result = tex.rgb * lightmap.rgb;
 	vec3 overlay = mix(lightmap.rgb, tex.rgb, tex.a);
 	result = mix(result.rgb, overlay, 0.15);
-	if (!FRONT_FACING && backside_obscured) {
-		result = vec3(0.0);
-	}
+
 
 	
 	vec4 vertex_texture_sampled = mix(texture(vertex_texture, vec2(1.0)-COLOR.rg), vec4(1.0), COLOR.b);
@@ -190,6 +188,11 @@ void fragment() {
 	
 	
 	if (world_position.y < -32.0) {
+		ALPHA = 0.0;
+	}
+	
+	if (!FRONT_FACING && backside_obscured) {
+		result = vec3(0.0);
 		ALPHA = 0.0;
 	}
 	

@@ -95,6 +95,9 @@ func _on_retrieve_list(headers, body):
 	
 	var new_read = body.get_string_from_ascii()
 	new_images = text_list_to_dictionary(new_read)
+	if new_images.has("Motd"):
+		print(new_images["Motd"])
+		new_images.erase("Motd")
 	
 	required_images = compare_dictionaries(current_images, new_images)
 	# print(required_images)

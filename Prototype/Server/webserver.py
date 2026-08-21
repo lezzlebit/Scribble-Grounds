@@ -24,6 +24,9 @@ PORT = int(config_dict["Port"])
 server_folder = config_dict["Folder"] + "-" + config_dict["Version"]
 
 
+def printCurrentDateTime():
+	return datetime.datetime.today().strftime("%b %d at %I:%M:%S%p") + " - "
+
 
 def retrieveChangelog():
 	readfile = open(changelog_path).readlines()
@@ -65,11 +68,11 @@ if not os.path.isfile(changelog_path):
 
 # https://stackoverflow.com/questions/66514500/how-do-i-configure-a-python-server-for-post
 
-class MyHandler(BaseHTTPRequestHandler):
+class MyHandler(http.server.BaseHTTPRequestHandler):
 
+	def log_message(self, format, *args):
+		pass
 
-	#def log_message(self, format, *args):
-	#	pass
 
 	def do_POST(self):
 
@@ -79,57 +82,65 @@ class MyHandler(BaseHTTPRequestHandler):
 		self.send_response(200)
 		self.send_header("Access-control-request-method", "POST")
 
-		content_length = int(self.headers['Content-length'])
-		content_type = self.headers['Content-Type']
-		content_name = self.headers['Content-Name']
 
-		saved = self.rfile.read(content_length)
+		if self.headers['Content-length']:
+			content_length = int(self.headers['Content-length'])
+			content_type = self.headers['Content-Type']
+			content_name = self.headers['Content-Name']
 
-
-		if content_type == "image/png":
-
+			saved = self.rfile.read(content_length)
 
 
+			if content_type == "image/png":
 
-			directory_path = getPathOnly(image_path + content_name)
-			if not os.path.isdir(directory_path):
-				os.mkdir(directory_path)
 
-			updateLog(content_name)
-			with open(image_path + content_name, "wb") as w:
-				w.write(saved)
 
-			timestamp = updateLog(content_name)
 
-			message = content_name + ":" + timestamp
-			content = bytes(message, "utf-8")
+				directory_path = getPathOnly(image_path + content_name)
+				if not os.path.isdir(directory_path):
+					os.mkdir(directory_path)
 
-			self.send_header("Content-length", len(content))
-			self.send_header('Content-type','text/plain')
-			self.end_headers()
+				updateLog(content_name)
+				with open(image_path + content_name, "wb") as w:
+					w.write(saved)
 
-			self.wfile.write(content)
+				print(printCurrentDateTime() + "Received " + content_name)
 
-			
-		elif content_type == "text/plain":
+				timestamp = updateLog(content_name)
 
-			filename = saved.decode("utf-8")
+				message = content_name + ":" + timestamp
+				content = bytes(message, "utf-8")
 
-			content = open(image_path + filename, "rb").read()
+				self.send_header("Content-length", len(content))
+				self.send_header('Content-type','text/plain')
+				self.end_headers()
 
-			self.send_header('Content-name',filename)
-			self.send_header('Content-type','image/png')
-			self.send_header('Content-length',len(content))
-			self.end_headers()
+				self.wfile.write(content)
 
-			
-			self.wfile.write(content)
+				
+			elif content_type == "text/plain":
+
+				filename = saved.decode("utf-8")
+
+				content = open(image_path + filename, "rb").read()
+
+				print(printCurrentDateTime() + "Sending " + filename)
+
+				self.send_header('Content-name',filename)
+				self.send_header('Content-type','image/png')
+				self.send_header('Content-length',len(content))
+				self.end_headers()
+
+				
+				self.wfile.write(content)
 			
 
 	def do_GET(self):
+
 		self.send_response(200)
 
 		changelogfile = open(changelog_path).read()
+		changelogfile += "\nMotd:" + config_dict["Motd"]
 
 
 		content_length = int(self.headers['Content-Length'])
@@ -162,6 +173,6 @@ Handler = MyHandler
 
 # https://www.digitalocean.com/community/tutorials/python-simplehttpserver-http-server
 
-with socketserver.TCPServer(("", PORT), Handler) as httpd:
+with socketserver.ThreadingTCPServer(("127.0.0.1", PORT), Handler) as httpd:
 	print("Serving at port " + str(PORT))
 	httpd.serve_forever()

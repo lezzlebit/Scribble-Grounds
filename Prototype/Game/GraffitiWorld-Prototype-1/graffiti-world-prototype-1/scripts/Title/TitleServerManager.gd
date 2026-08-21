@@ -58,7 +58,7 @@ func connect_to_server(button: ServerButton):
 		return
 	
 	GlobalNetworkValues.network_address = "http://" + button.server_network_address
-	GlobalNetworkValues.save_folder = button.server_folder + "/"
+	GlobalNetworkValues.save_folder = button.server_name + "-" + button.server_folder + "/"
 	DirAccess.make_dir_absolute(GlobalNetworkValues.save_directory)
 	DirAccess.make_dir_absolute(GlobalNetworkValues.save_directory + GlobalNetworkValues.save_folder)
 	get_tree().change_scene_to_packed(main_game)

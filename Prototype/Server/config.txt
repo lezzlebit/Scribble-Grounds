@@ -1,3 +1,4 @@
 Port=55555
 Folder=AwesomeComputerServer
-Version=1
+Version=2
+Motd=Hello! Have fun!

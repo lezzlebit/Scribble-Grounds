@@ -71,9 +71,6 @@ shader_parameter/reflection = SubResource("ViewportTexture_nxewp")
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_pva0k"]
 
-[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_g4v7s"]
-plane = Plane(1, 0, 0, 0)
-
 [node name="World1" type="Node3D" unique_id=1916285311]
 
 [node name="NetworkHandler" type="Node" parent="." unique_id=630522918]
@@ -86,10 +83,10 @@ metadata/_custom_type_script = "uid://dbruja1g6egnu"
 
 [node name="Wall-Map" parent="WorldTextures" unique_id=2102952079 instance=ExtResource("3_5f0vg")]
 
-[node name="lights" parent="WorldTextures/Wall-Map" index="49" unique_id=411759784]
+[node name="lights" parent="WorldTextures/Wall-Map" index="49" unique_id=333221430]
 material_override = ExtResource("4_1lswo")
 
-[node name="water" parent="WorldTextures/Wall-Map" index="170" unique_id=1268153205]
+[node name="water" parent="WorldTextures/Wall-Map" index="170" unique_id=1562503920]
 surface_material_override/0 = SubResource("ShaderMaterial_pva0k")
 
 [node name="water" type="MeshInstance3D" parent="WorldTextures" unique_id=738275049]
@@ -103,18 +100,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -32, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="WorldTextures/Boundaries/Floor" unique_id=817671495]
 shape = SubResource("WorldBoundaryShape3D_pva0k")
-
-[node name="Wall1" type="StaticBody3D" parent="WorldTextures/Boundaries" unique_id=1218016893]
-transform = Transform3D(-0.04240802, 0, 0.9991003, 0, 1, 0, -0.9991003, 0, -0.04240802, -109.47824, -31.999985, 248.03975)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldTextures/Boundaries/Wall1" unique_id=745191622]
-shape = SubResource("WorldBoundaryShape3D_g4v7s")
-
-[node name="Wall2" type="StaticBody3D" parent="WorldTextures/Boundaries" unique_id=1663532153]
-transform = Transform3D(-0.99683446, 0, 0.07950491, 0, 1, 0, -0.07950491, 0, -0.99683446, 441.13428, -31.999985, 16.007315)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="WorldTextures/Boundaries/Wall2" unique_id=1023443853]
-shape = SubResource("WorldBoundaryShape3D_g4v7s")
 
 [node name="Player" parent="." unique_id=1104231176 instance=ExtResource("4_vqnqe")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -259.3733, 0, 182.12578)
