@@ -44,6 +44,7 @@
 [ext_resource type="Texture2D" uid="uid://dm3qhr2rxyogl" path="res://assets/UI/DrawingTextures/redo.png" id="19_uniwh"]
 [ext_resource type="Texture2D" uid="uid://ddwmpowaagnad" path="res://assets/UI/Cursors/paint.png" id="20_8ydkj"]
 [ext_resource type="Texture2D" uid="uid://15j4g0k00kbr" path="res://assets/UI/DrawingTextures/redo_disabled.png" id="21_tffgl"]
+[ext_resource type="Environment" uid="uid://0ealanx3xpbs" path="res://assets/Environment/drawing_background.tres" id="21_upxxc"]
 [ext_resource type="Script" uid="uid://bxsrfagnpfje8" path="res://scripts/Player/UI/PauseMenu.gd" id="22_cnsyf"]
 [ext_resource type="Texture2D" uid="uid://bgukvj8qog42s" path="res://assets/UI/ButtonIcons/connect.PNG" id="22_ioxgp"]
 [ext_resource type="Texture2D" uid="uid://dghvrfkv488af" path="res://assets/UI/ButtonIcons/back.PNG" id="23_cnsyf"]
@@ -113,35 +114,26 @@ sound_types = {
 "none": NodePath("Concrete")
 }
 
-[node name="Concrete" type="AudioStreamPlayer3D" parent="CharacterBody3D/FootstepAudio" unique_id=1442602224]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
-attenuation_model = 3
+[node name="Concrete" type="AudioStreamPlayer" parent="CharacterBody3D/FootstepAudio" unique_id=611363693]
 volume_db = -30.0
 pitch_scale = 0.7
-attenuation_filter_cutoff_hz = 20500.0
 script = ExtResource("38_niom3")
 audio_clips = Array[AudioStream]([ExtResource("39_ttakn"), ExtResource("40_rw8a5"), ExtResource("41_iwuka"), ExtResource("42_hyqqp"), ExtResource("43_ds1xl")])
 pitch_variation = 0.1
 metadata/_custom_type_script = "uid://478itlpiweyr"
 
-[node name="Sand" type="AudioStreamPlayer3D" parent="CharacterBody3D/FootstepAudio" unique_id=98491321]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
-attenuation_model = 3
+[node name="Sand" type="AudioStreamPlayer" parent="CharacterBody3D/FootstepAudio" unique_id=141233039]
 volume_db = -20.0
 pitch_scale = 0.7
-attenuation_filter_cutoff_hz = 20500.0
 script = ExtResource("38_niom3")
 audio_clips = Array[AudioStream]([ExtResource("9_2t3bg"), ExtResource("10_jrbya"), ExtResource("11_ahqnk"), ExtResource("12_vb1ce"), ExtResource("13_0ncpa"), ExtResource("14_upxxc")])
 pitch_variation = 0.05
 metadata/_custom_type_script = "uid://478itlpiweyr"
 
-[node name="Water" type="AudioStreamPlayer3D" parent="CharacterBody3D/FootstepAudio" unique_id=282515040]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
-attenuation_model = 3
+[node name="Water" type="AudioStreamPlayer" parent="CharacterBody3D/FootstepAudio" unique_id=1435064212]
 volume_db = -30.0
 pitch_scale = 1.2
 max_polyphony = 5
-attenuation_filter_cutoff_hz = 20500.0
 script = ExtResource("38_niom3")
 audio_clips = Array[AudioStream]([ExtResource("15_0ncpa"), ExtResource("16_upxxc"), ExtResource("17_ln3h3"), ExtResource("18_uygh0")])
 pitch_variation = 0.2
@@ -159,6 +151,8 @@ wall_sticker = NodePath("WallSticker")
 wall_camera_pivot = NodePath("WallSticker/WallPivot")
 drawing_controls = NodePath("../Button Audio/Drawing Controls")
 pause_screen = NodePath("../Button Audio/Pause")
+first_person_environment = ExtResource("2_3j4b4")
+drawing_environment = ExtResource("21_upxxc")
 lerp_speed = 25.0
 
 [node name="Painter" type="RayCast3D" parent="Camera3D" unique_id=1981828520 node_paths=PackedStringArray("color_rect", "blit_viewport")]
@@ -580,8 +574,6 @@ layout_mode = 2
 [connection signal="on_jump" from="CharacterBody3D" to="CharacterBody3D/FootstepAudio" method="on_step"]
 [connection signal="on_start_drawing" from="Camera3D" to="Camera3D/Audio/Start" method="play"]
 [connection signal="on_stop_drawing" from="Camera3D" to="Camera3D/Audio/Stop" method="play"]
-[connection signal="on_redo_trigger" from="Camera3D/Painter" to="Camera3D/Audio/Redo" method="play"]
-[connection signal="on_undo_trigger" from="Camera3D/Painter" to="Camera3D/Audio/Undo" method="play"]
 [connection signal="on_press_any" from="Button Audio" to="Camera3D/Audio/Click" method="play"]
 [connection signal="on_unpress_any" from="Button Audio" to="Camera3D/Audio/Unclick" method="play"]
 [connection signal="pressed" from="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/GridContainer/Erase" to="Button Audio/Drawing Controls" method="set_erase"]

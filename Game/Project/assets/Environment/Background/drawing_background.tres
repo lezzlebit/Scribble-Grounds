@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://blbj8u26ya16n"]
+
+[ext_resource type="Shader" uid="uid://c24i4biibj52g" path="res://assets/Environment/Background/drawing_background.gdshader" id="1_jjwwf"]
+[ext_resource type="Texture2D" uid="uid://dtobwq6lp6te8" path="res://assets/Materials/draw_tile/textures/checker.png" id="2_keo47"]
+
+[resource]
+shader = ExtResource("1_jjwwf")
+shader_parameter/checker_texture = ExtResource("2_keo47")
+shader_parameter/bright = Color(0.30323282, 0.30323285, 0.30323276, 1)
+shader_parameter/dark = Color(0.28235295, 0.28235295, 0.28235295, 1)

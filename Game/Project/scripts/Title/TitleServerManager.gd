@@ -55,15 +55,16 @@ func open_path():
 	OS.shell_open( ProjectSettings.globalize_path(GlobalNetworkValues.game_directory) )
 
 func connect_to_server(button: ServerButton):
-	for i in loading_visibilities:
-		i.visible = loading_visibilities[i]
-	await RenderingServer.frame_post_draw
 	update_username()
-	GlobalNetworkValues.username = username_setter.text
-	
 	if (len(username_setter.text)) <= 0:
 		GlobalGameplayValues.user_error_log("Please enter a username")
 		return
+	for i in loading_visibilities:
+		i.visible = loading_visibilities[i]
+	await RenderingServer.frame_post_draw
+	GlobalNetworkValues.username = username_setter.text
+	
+
 	
 	GlobalNetworkValues.network_address = "http://" + button.server_network_address
 	GlobalNetworkValues.save_folder = button.server_name + "-" + button.server_folder + "/"

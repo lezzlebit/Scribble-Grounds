@@ -19,8 +19,7 @@ func draw(h: HitData):
 func draw_line(h: HitData):
 	
 	var tile = h.hit_tile
-	var should_overwrite: bool = h.should_overwrite
-	if h.hit_color == Color.TRANSPARENT: should_overwrite = true
+	if h.hit_color == Color.TRANSPARENT: h.should_overwrite = true
 	
 	var pos_1 = h.hit_position
 	var pos_2 = h.last_hit_position

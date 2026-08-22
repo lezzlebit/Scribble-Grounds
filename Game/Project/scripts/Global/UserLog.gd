@@ -11,7 +11,13 @@ func _init() -> void:
 func update_log(text: String):
 	alpha = 1
 	label_text.text = text
+	label_text.self_modulate = Color.WHITE
+	
+func error(text: String):
+	alpha = 1
+	label_text.self_modulate = Color.RED
+	label_text.text = text
 
 func _process(delta: float) -> void:
-	alpha = move_toward(alpha, 0, delta / 10)
-	label_text.self_modulate.a = alpha
+	alpha = move_toward(alpha, 0, delta / 5)
+	label_text.self_modulate.a = clamp(alpha * 10, 0, 1)

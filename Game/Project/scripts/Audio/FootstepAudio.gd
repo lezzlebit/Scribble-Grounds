@@ -13,7 +13,7 @@ func footstep(delta: float):
 	var horizontal_velocity: Vector2 = Vector2(player_movement.velocity.x, player_movement.velocity.z)
 	var limit_amount = clamp(horizontal_velocity.length_squared(), 0, max_footstep_speed)
 	distance_traveled += limit_amount * delta
-	if player_movement.is_on_floor() and limit_amount > 0.01:
+	if player_movement.is_on_floor() and limit_amount > 0.01 and GlobalGameplayValues.first_person:
 		if distance_traveled >= footstep_distance:
 			distance_traveled = 0
 			on_step()

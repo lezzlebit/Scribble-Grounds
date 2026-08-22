@@ -36,7 +36,8 @@ text = "WASD, Space:
 E:
 E  /  S:
 Z:
-Y  /  Shift+Z:"
+Y  /  Shift+Z:
+Mouse3 / Space:"
 horizontal_alignment = 2
 
 [node name="Label2" type="Panel" parent="." unique_id=1916323234]
@@ -64,7 +65,8 @@ text = "Move Player
 Start drawing
 Save & finish drawing
 Undo
-Redo"
+Redo
+Pan Canvas"
 
 [node name="Label3" type="Label" parent="." unique_id=312470124]
 visible = false

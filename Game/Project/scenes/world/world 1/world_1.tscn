@@ -140,13 +140,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -259.3733, 0, 182.12578)
 
 [node name="Wind" type="AudioStreamPlayer" parent="Player" unique_id=622286714]
 stream = ExtResource("15_a3dpt")
-volume_db = -40.0
+volume_db = -25.0
 autoplay = true
 
 [node name="Crickets" type="AudioStreamPlayer" parent="Player" unique_id=1546740763]
 stream = ExtResource("16_7dwk6")
-volume_db = -35.0
-pitch_scale = 1.5
+volume_db = -27.0
+pitch_scale = 1.3
 autoplay = true
 
 [node name="Logger" parent="." unique_id=278674006 instance=ExtResource("5_7v8v1")]

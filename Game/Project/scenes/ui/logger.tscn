@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://ckjxfqndgkrk5"]
 
+[ext_resource type="Theme" uid="uid://dr757m870tmqg" path="res://assets/UI/Theme/graffiti_theme.tres" id="1_cwv0s"]
 [ext_resource type="Script" uid="uid://bx4ymrla80xjh" path="res://scripts/Global/UserLog.gd" id="1_rwt1g"]
 
 [node name="Logger" type="Control" unique_id=278674006 node_paths=PackedStringArray("label_text")]
@@ -10,16 +11,22 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme = ExtResource("1_cwv0s")
 script = ExtResource("1_rwt1g")
-label_text = NodePath("Label")
+label_text = NodePath("MarginContainer/Label")
 metadata/_custom_type_script = "uid://bx4ymrla80xjh"
 
-[node name="Label" type="Label" parent="." unique_id=200808969]
-modulate = Color(1, 0.33551362, 0.2695955, 1)
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1166652962]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="MarginContainer" unique_id=200808969]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 20
 vertical_alignment = 2

@@ -185,6 +185,7 @@ func _on_retrieve_image(headers, body):
 	required_images.erase(filename)
 	current_images[filename] = new_images[filename]
 	save_current_changelog()
+	GlobalGameplayValues.user_message_log("Updating drawings (" + str(len(required_images)) + " remaining)")
 	
 	DirAccess.make_dir_absolute(directory + get_only_directory(filename))
 	var image_file = FileAccess.open(directory + filename, FileAccess.WRITE)
@@ -215,7 +216,7 @@ func _on_image_uploaded(_headers, body):
 	save_current_changelog()
 	
 	print(content)
-	print("successfully uploaded " + pair[0])
+	GlobalGameplayValues.user_message_log("Uploaded drawing")
 	
 func get_only_directory(only_directory):
 	return only_directory.split("/")[0]

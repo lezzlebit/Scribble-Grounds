@@ -121,7 +121,7 @@ func assign_all_textures():
 			tile_found.set_image(image_username, image_pool[i])
 
 func add_image_to_queue(image_path: String):
-	updated_image_queue[image_path] = 1
+	updated_image_queue[image_path] = 0.3
 
 func process_image_queue(delta: float):
 	

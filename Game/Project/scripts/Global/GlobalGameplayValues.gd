@@ -11,8 +11,12 @@ var drawing_controls: PaletteButtons = null
 
 var undo_limit = 16
 
-func user_error_log(log: String):
+func user_message_log(log: String):
 	user_log.update_log(log)
+	pass
+
+func user_error_log(log: String):
+	user_log.error(log)
 	pass
 
 # Called when the node enters the scene tree for the first time.

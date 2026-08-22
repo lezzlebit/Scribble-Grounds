@@ -11,6 +11,8 @@ var GameValues = GlobalGameplayValues
 @export var wall_camera_pivot: Node3D
 @export var drawing_controls: Control
 @export var pause_screen: Control
+@export var first_person_environment: Environment
+@export var drawing_environment: Environment
 
 
 
@@ -27,8 +29,8 @@ var current_texture_scale: int = 1
 var current_uv_up_position: Vector2 = Vector2.UP
 
 
-var current_zoom_level: int = 3
-var zoom_values: Array[int] = [2, 3, 4, 6, 8, 16, 24, 32]
+var current_zoom_level: int = 4
+var zoom_values: Array[int] = [1, 2, 3, 4, 6, 8, 16, 24, 32]
 
 var mouse_drawing_position: Vector2
 var pan_pixels: Vector2
@@ -106,7 +108,7 @@ func find_paint_wall():
 
 			current_texture_scale = parent.texture_height
 			if get_pixel_scale(collision_position, collision_normal, parent):
-				
+				environment = drawing_environment
 				GameValues.first_person = false
 				on_start_drawing.emit()
 			
@@ -305,6 +307,7 @@ func _process(delta: float) -> void:
 			on_stop_drawing.emit()
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		GameValues.first_person = true
+		environment = first_person_environment
 		GameValues.world_textures.save_unsaved_textures()
 	
 	update_position(delta)
