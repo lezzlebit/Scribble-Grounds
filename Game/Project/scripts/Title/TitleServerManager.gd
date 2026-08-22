@@ -9,6 +9,7 @@ class_name TitleServerManager
 @export var button_parent: Control
 @export var username_setter: TitleInputLine
 @export var disable_on_edit: Array[Control]
+@export var loading_visibilities: Dictionary[Control, bool]
 
 @export_subgroup("Editor")
 @export var editor_parent: Control
@@ -54,6 +55,9 @@ func open_path():
 	OS.shell_open( ProjectSettings.globalize_path(GlobalNetworkValues.game_directory) )
 
 func connect_to_server(button: ServerButton):
+	for i in loading_visibilities:
+		i.visible = loading_visibilities[i]
+	await RenderingServer.frame_post_draw
 	update_username()
 	GlobalNetworkValues.username = username_setter.text
 	
@@ -172,7 +176,8 @@ func create_server_from_dict(server_info: Dictionary[String, String]):
 	var server_button_instance: ServerButton = server_button.instantiate()
 	button_parent.add_child(server_button_instance)
 	button_parent.move_child(server_button_instance, 2)
-	server_button_instance.create_button(server_info["folder"], server_info["address"], server_info["password"])
+	if server_info.has("password"):
+		server_button_instance.create_button(server_info["folder"], server_info["address"], server_info["password"])
 	
 	server_button_instance.manager = self
 	created_instances.append(server_button_instance)

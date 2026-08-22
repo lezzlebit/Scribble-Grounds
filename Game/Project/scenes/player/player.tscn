@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cl6gkiap7v71q" path="res://scripts/Player/PlayerMovement.gd" id="1_gmlin"]
 [ext_resource type="Environment" uid="uid://dnoppw2hmxvf0" path="res://assets/Environment/environment.tres" id="2_3j4b4"]
 [ext_resource type="Script" uid="uid://o1qhy5lt543m" path="res://scripts/Player/CameraController.gd" id="2_lvxji"]
+[ext_resource type="Script" uid="uid://cahilecxl8fnk" path="res://scripts/Audio/FootstepAudio.gd" id="2_ttakn"]
 [ext_resource type="Script" uid="uid://c7dcj7o6a10jc" path="res://scripts/Player/RaycastPainter.gd" id="3_p47bc"]
 [ext_resource type="Theme" uid="uid://dr757m870tmqg" path="res://assets/UI/Theme/graffiti_theme.tres" id="4_fm80t"]
 [ext_resource type="Material" uid="uid://dvi3wy2sx63m1" path="res://assets/Brushes/blit_material.tres" id="4_gx1jg"]
@@ -14,20 +15,30 @@
 [ext_resource type="Texture2D" uid="uid://cv1rycblyuroi" path="res://assets/UI/DrawingTextures/cannot_overwrite.png" id="7_h17s1"]
 [ext_resource type="AudioStream" uid="uid://qc0ffs0mnfhl" path="res://assets/Audio/Sounds/start_drawing.ogg" id="7_tffgl"]
 [ext_resource type="AudioStream" uid="uid://dm65ol5ynpygs" path="res://assets/Audio/Sounds/finish_drawing.ogg" id="8_pk8ii"]
+[ext_resource type="AudioStream" uid="uid://bttp5yy4jxt7y" path="res://assets/Audio/Sounds/step/sand/sand_step-01.ogg" id="9_2t3bg"]
 [ext_resource type="Texture2D" uid="uid://bhdjukvbe6yim" path="res://assets/UI/DrawingTextures/selection.PNG" id="9_5gtgg"]
+[ext_resource type="AudioStream" uid="uid://b3rbpn751wbtt" path="res://assets/Audio/Sounds/step/sand/sand_step-02.ogg" id="10_jrbya"]
 [ext_resource type="AudioStream" uid="uid://bhmele7ftfdy0" path="res://assets/Audio/Sounds/undo.ogg" id="11_8qxvo"]
+[ext_resource type="AudioStream" uid="uid://c47yhp0afjj1t" path="res://assets/Audio/Sounds/step/sand/sand_step-03.ogg" id="11_ahqnk"]
 [ext_resource type="AudioStream" uid="uid://b04wlpp1krow8" path="res://assets/Audio/Sounds/click_button.ogg" id="11_wva7c"]
 [ext_resource type="AudioStream" uid="uid://bhd5gmeo8kuh7" path="res://assets/Audio/Sounds/redo.ogg" id="12_5q8fn"]
 [ext_resource type="AudioStream" uid="uid://b0wq4ubfwpyyj" path="res://assets/Audio/Sounds/unclick_button.ogg" id="12_7obkq"]
 [ext_resource type="Texture2D" uid="uid://s8bdfdc2ifie" path="res://assets/UI/DrawingTextures/Brushes/small.PNG" id="12_uf5tr"]
+[ext_resource type="AudioStream" uid="uid://4wvryi3hsl0g" path="res://assets/Audio/Sounds/step/sand/sand_step-04.ogg" id="12_vb1ce"]
+[ext_resource type="AudioStream" uid="uid://dy80r3ieekyhv" path="res://assets/Audio/Sounds/step/sand/sand_step-05.ogg" id="13_0ncpa"]
 [ext_resource type="Texture2D" uid="uid://bv3nol7ldftau" path="res://assets/UI/DrawingTextures/overwrite_cursor.png" id="13_6cv16"]
 [ext_resource type="Texture2D" uid="uid://bxhlysfi4kuwf" path="res://assets/UI/DrawingTextures/Brushes/circle.PNG" id="13_lgqa7"]
 [ext_resource type="Texture2D" uid="uid://ckpulhc5xxir" path="res://assets/UI/DrawingTextures/Brushes/checker.PNG" id="14_8ydkj"]
+[ext_resource type="AudioStream" uid="uid://b8ql8b0pgy6r5" path="res://assets/Audio/Sounds/step/sand/sand_step-06.ogg" id="14_upxxc"]
+[ext_resource type="AudioStream" uid="uid://ckik0af40kcds" path="res://assets/Audio/Sounds/step/water/wade-01.ogg" id="15_0ncpa"]
 [ext_resource type="Script" uid="uid://nkuutd3ikp8f" path="res://scripts/Player/UI/BrushButtons.gd" id="15_kvlxm"]
 [ext_resource type="Resource" uid="uid://cwfxp5hbuqqo2" path="res://assets/Brushes/Small/small_brush.tres" id="16_uf5tr"]
+[ext_resource type="AudioStream" uid="uid://dd3vlks027kps" path="res://assets/Audio/Sounds/step/water/wade-02.ogg" id="16_upxxc"]
 [ext_resource type="Resource" uid="uid://1mikiowoqggj" path="res://assets/Brushes/Circle/circle.tres" id="17_lgqa7"]
-[ext_resource type="Script" uid="uid://844br5dfvoxg" path="res://scripts/Player/UI/ButtonAudio.gd" id="18_5q8fn"]
+[ext_resource type="AudioStream" uid="uid://4ti2g17bibwd" path="res://assets/Audio/Sounds/step/water/wade-03.ogg" id="17_ln3h3"]
+[ext_resource type="Script" uid="uid://844br5dfvoxg" path="res://scripts/Audio/ButtonAudio.gd" id="18_5q8fn"]
 [ext_resource type="Texture2D" uid="uid://brpqh1fs8ehlm" path="res://assets/UI/DrawingTextures/undo.png" id="18_28m0y"]
+[ext_resource type="AudioStream" uid="uid://bra2fbokrdy32" path="res://assets/Audio/Sounds/step/water/wade-04.ogg" id="18_uygh0"]
 [ext_resource type="Texture2D" uid="uid://bcl6wemmq0l6l" path="res://assets/UI/DrawingTextures/undo_disabled.png" id="19_iqsei"]
 [ext_resource type="Script" uid="uid://bxcb4a2dh5up1" path="res://scripts/Player/UI/Reticle.gd" id="19_lgqa7"]
 [ext_resource type="Texture2D" uid="uid://dm3qhr2rxyogl" path="res://assets/UI/DrawingTextures/redo.png" id="19_uniwh"]
@@ -37,6 +48,12 @@
 [ext_resource type="Texture2D" uid="uid://bgukvj8qog42s" path="res://assets/UI/ButtonIcons/connect.PNG" id="22_ioxgp"]
 [ext_resource type="Texture2D" uid="uid://dghvrfkv488af" path="res://assets/UI/ButtonIcons/back.PNG" id="23_cnsyf"]
 [ext_resource type="PackedScene" uid="uid://xhptjxrh2irh" path="res://scenes/title/elements/info.tscn" id="25_007i1"]
+[ext_resource type="Script" uid="uid://478itlpiweyr" path="res://scripts/Audio/RandomAudioOneshot.gd" id="38_niom3"]
+[ext_resource type="AudioStream" uid="uid://d2ttctrj3lhgt" path="res://assets/Audio/Sounds/step/concrete/concrete_step-01.ogg" id="39_ttakn"]
+[ext_resource type="AudioStream" uid="uid://bdwyokcmncrj1" path="res://assets/Audio/Sounds/step/concrete/concrete_step-02.ogg" id="40_rw8a5"]
+[ext_resource type="AudioStream" uid="uid://gdeip5m28b8r" path="res://assets/Audio/Sounds/step/concrete/concrete_step-03.ogg" id="41_iwuka"]
+[ext_resource type="AudioStream" uid="uid://bks0ir7hsyaa8" path="res://assets/Audio/Sounds/step/concrete/concrete_step-04.ogg" id="42_hyqqp"]
+[ext_resource type="AudioStream" uid="uid://b1r26q0d33ohe" path="res://assets/Audio/Sounds/step/concrete/concrete_step-05.ogg" id="43_ds1xl"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0w266"]
 
@@ -85,7 +102,50 @@ shape = SubResource("CapsuleShape3D_0w266")
 [node name="CameraPivot" type="Node3D" parent="CharacterBody3D" unique_id=30639229]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 
-[node name="FootstepAudio" type="Node3D" parent="CharacterBody3D" unique_id=808848940]
+[node name="FootstepAudio" type="Node3D" parent="CharacterBody3D" unique_id=808848940 node_paths=PackedStringArray("player_movement", "sound_types")]
+script = ExtResource("2_ttakn")
+player_movement = NodePath("..")
+footstep_distance = 20.0
+max_footstep_speed = 100.0
+sound_types = {
+"Beach": NodePath("Sand"),
+"Water": NodePath("Water"),
+"none": NodePath("Concrete")
+}
+
+[node name="Concrete" type="AudioStreamPlayer3D" parent="CharacterBody3D/FootstepAudio" unique_id=1442602224]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+attenuation_model = 3
+volume_db = -30.0
+pitch_scale = 0.7
+attenuation_filter_cutoff_hz = 20500.0
+script = ExtResource("38_niom3")
+audio_clips = Array[AudioStream]([ExtResource("39_ttakn"), ExtResource("40_rw8a5"), ExtResource("41_iwuka"), ExtResource("42_hyqqp"), ExtResource("43_ds1xl")])
+pitch_variation = 0.1
+metadata/_custom_type_script = "uid://478itlpiweyr"
+
+[node name="Sand" type="AudioStreamPlayer3D" parent="CharacterBody3D/FootstepAudio" unique_id=98491321]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+attenuation_model = 3
+volume_db = -20.0
+pitch_scale = 0.7
+attenuation_filter_cutoff_hz = 20500.0
+script = ExtResource("38_niom3")
+audio_clips = Array[AudioStream]([ExtResource("9_2t3bg"), ExtResource("10_jrbya"), ExtResource("11_ahqnk"), ExtResource("12_vb1ce"), ExtResource("13_0ncpa"), ExtResource("14_upxxc")])
+pitch_variation = 0.05
+metadata/_custom_type_script = "uid://478itlpiweyr"
+
+[node name="Water" type="AudioStreamPlayer3D" parent="CharacterBody3D/FootstepAudio" unique_id=282515040]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+attenuation_model = 3
+volume_db = -30.0
+pitch_scale = 1.2
+max_polyphony = 5
+attenuation_filter_cutoff_hz = 20500.0
+script = ExtResource("38_niom3")
+audio_clips = Array[AudioStream]([ExtResource("15_0ncpa"), ExtResource("16_upxxc"), ExtResource("17_ln3h3"), ExtResource("18_uygh0")])
+pitch_variation = 0.2
+metadata/_custom_type_script = "uid://478itlpiweyr"
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=2080823682 node_paths=PackedStringArray("raycast", "first_person_pivot", "wall_sticker", "wall_camera_pivot", "drawing_controls", "pause_screen")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
@@ -529,6 +589,7 @@ icon = ExtResource("23_cnsyf")
 [node name="Info" parent="Button Audio/Pause/Panel/Panel/VBoxContainer" unique_id=1961662103 instance=ExtResource("25_007i1")]
 layout_mode = 2
 
+[connection signal="on_jump" from="CharacterBody3D" to="CharacterBody3D/FootstepAudio" method="on_step"]
 [connection signal="on_start_drawing" from="Camera3D" to="Camera3D/Audio/Start" method="play"]
 [connection signal="on_stop_drawing" from="Camera3D" to="Camera3D/Audio/Stop" method="play"]
 [connection signal="on_redo_trigger" from="Camera3D/Painter" to="Camera3D/Audio/Redo" method="play"]

@@ -1,5 +1,6 @@
 extends CharacterBody3D
 
+class_name PlayerMovement
 
 @export var CameraPivot: Node3D
 @export var min_speed = 2.0
@@ -13,6 +14,9 @@ var speed_lerp: float = 0
 
 var GameValues = GlobalGameplayValues
 var first_person_switch: bool = false
+var last_collider
+
+signal on_jump
 
 func _input(event: InputEvent):
 	if event.is_action_pressed("ui_cancel"):
@@ -42,6 +46,7 @@ func process_movement(delta: float):
 		velocity += get_gravity() * delta
 
 	if Input.is_action_just_pressed("jump") and is_on_floor():
+		on_jump.emit()
 		velocity.y = jump_velocity
 
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
@@ -63,6 +68,9 @@ func process_movement(delta: float):
 	
 
 	move_and_slide()
+	var current_last_collider = get_last_slide_collision()
+	if current_last_collider != null:
+		last_collider = current_last_collider.get_collider(0)
 
 func _physics_process(delta: float) -> void:
 	if GameValues.first_person and !GlobalGameplayValues.paused:

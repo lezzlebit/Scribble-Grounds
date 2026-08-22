@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://hi4g4hn0pjmg" path="res://scripts/Player/WaterReflectionCamera.gd" id="10_7v8v1"]
 [ext_resource type="AudioStream" uid="uid://ctk2uv76xu7na" path="res://assets/Audio/Ambience/lake.ogg" id="10_nxewp"]
 [ext_resource type="AudioStream" uid="uid://bmw1wbsd4okl6" path="res://assets/Audio/Ambience/wind.ogg" id="15_a3dpt"]
+[ext_resource type="AudioStream" uid="uid://cubptnwnkwh6p" path="res://assets/Audio/Ambience/crickets.ogg" id="16_7dwk6"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yidcf"]
 resource_name = "Water"
@@ -99,10 +100,10 @@ surface_material_override/0 = SubResource("ShaderMaterial_b2bta")
 
 [node name="Boundaries" type="Node" parent="World" unique_id=135983352]
 
-[node name="Floor" type="StaticBody3D" parent="World/Boundaries" unique_id=218700627]
+[node name="Water" type="StaticBody3D" parent="World/Boundaries" unique_id=218700627]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -32, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Boundaries/Floor" unique_id=817671495]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Boundaries/Water" unique_id=817671495]
 shape = SubResource("WorldBoundaryShape3D_pva0k")
 
 [node name="SubViewport" type="SubViewport" parent="World" unique_id=397806085]
@@ -137,6 +138,17 @@ mesh = SubResource("QuadMesh_bwkwh")
 [node name="Player" parent="." unique_id=1104231176 instance=ExtResource("4_vqnqe")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -259.3733, 0, 182.12578)
 
+[node name="Wind" type="AudioStreamPlayer" parent="Player" unique_id=622286714]
+stream = ExtResource("15_a3dpt")
+volume_db = -40.0
+autoplay = true
+
+[node name="Crickets" type="AudioStreamPlayer" parent="Player" unique_id=1546740763]
+stream = ExtResource("16_7dwk6")
+volume_db = -35.0
+pitch_scale = 1.5
+autoplay = true
+
 [node name="Logger" parent="." unique_id=278674006 instance=ExtResource("5_7v8v1")]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=754354177]
@@ -157,15 +169,8 @@ metadata/_custom_type_script = "uid://hi4g4hn0pjmg"
 [node name="Lake" type="AudioStreamPlayer3D" parent="SubViewport/WaterReflectionCamera" unique_id=1196407506]
 stream = ExtResource("10_nxewp")
 attenuation_model = 1
+volume_db = -15.0
 max_db = -15.0
 autoplay = true
 max_distance = 50.0
-attenuation_filter_cutoff_hz = 20500.0
-
-[node name="Wind" type="AudioStreamPlayer3D" parent="SubViewport/WaterReflectionCamera" unique_id=455676118]
-stream = ExtResource("15_a3dpt")
-attenuation_model = 3
-volume_db = -10.0
-max_db = 0.0
-autoplay = true
 attenuation_filter_cutoff_hz = 20500.0

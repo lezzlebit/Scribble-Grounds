@@ -20,8 +20,13 @@ func _ready() -> void:
 
 func connect_buttons_to_audio() -> void:
 	for i in get_all_children(self):
-		if (i is Button or i is TextureButton) and !all_buttons.has(i as Button):
+		if (i is Button) and !all_buttons.has(i as Button):
 			all_buttons.append(i as Button)
+			if i.toggle_mode:
+				i.toggled.connect(toggle_button)
+			else:
+				i.button_down.connect(press_button)
+		if i is TextureButton:
 			if i.toggle_mode:
 				i.toggled.connect(toggle_button)
 			else:

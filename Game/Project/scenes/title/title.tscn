@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cwjseksrvlt6" path="res://scenes/title/elements/server_button.tscn" id="1_ds13r"]
 [ext_resource type="Theme" uid="uid://dr757m870tmqg" path="res://assets/UI/Theme/graffiti_theme.tres" id="1_g4gru"]
 [ext_resource type="PackedScene" uid="uid://dy3e5aqx816tb" path="res://scenes/title/elements/input_line.tscn" id="1_gl121"]
-[ext_resource type="Script" uid="uid://844br5dfvoxg" path="res://scripts/Player/UI/ButtonAudio.gd" id="2_7uqqr"]
+[ext_resource type="Script" uid="uid://844br5dfvoxg" path="res://scripts/Audio/ButtonAudio.gd" id="2_7uqqr"]
 [ext_resource type="Script" uid="uid://pw8sxnlx1gjq" path="res://scripts/Title/TitleServerManager.gd" id="2_ds13r"]
 [ext_resource type="Texture2D" uid="uid://dol0t8ncewecl" path="res://assets/UI/ButtonIcons/add.PNG" id="3_dnyg8"]
 [ext_resource type="Texture2D" uid="uid://b34k6e60cql3k" path="res://assets/UI/ButtonIcons/confirm.PNG" id="4_4yl2o"]
@@ -37,13 +37,17 @@ grow_vertical = 2
 theme = ExtResource("1_g4gru")
 script = ExtResource("2_7uqqr")
 
-[node name="Server Manager" type="Node" parent="." unique_id=919283246 node_paths=PackedStringArray("button_parent", "username_setter", "disable_on_edit", "editor_parent", "address_setter", "folder_setter", "password_setter", "create_server_button", "edit_server_button", "delete_server_button")]
+[node name="Server Manager" type="Node" parent="." unique_id=919283246 node_paths=PackedStringArray("button_parent", "username_setter", "disable_on_edit", "loading_visibilities", "editor_parent", "address_setter", "folder_setter", "password_setter", "create_server_button", "edit_server_button", "delete_server_button")]
 script = ExtResource("2_ds13r")
 server_button = ExtResource("1_ds13r")
 main_game = ExtResource("4_awdk6")
 button_parent = NodePath("../MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer")
 username_setter = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Panel/Username")
-disable_on_edit = [NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Info"), NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Label4")]
+disable_on_edit = [NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Info"), NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Things2know")]
+loading_visibilities = {
+NodePath("../MarginContainer"): false,
+NodePath("../Label"): true
+}
 editor_parent = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit")
 address_setter = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Address")
 folder_setter = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Folder")
@@ -244,7 +248,7 @@ custom_minimum_size = Vector2(256, 160)
 custom_maximum_size = Vector2(256, -1)
 layout_mode = 2
 
-[node name="Label4" type="Label" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=1614092796]
+[node name="Things2know" type="Label" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=1614092796]
 layout_mode = 2
 theme_override_constants/line_spacing = 0
 theme_override_font_sizes/font_size = 12
@@ -254,7 +258,7 @@ text = "Things to know:
 
 - Your drawing is saved and submitted to the server only when you exit drawing mode.
 
-- There are no moderation tools. If you host a server, please only give the address to your friends! The server host can set a password if necessary."
+- There are no moderation tools. If you host a server, please only give the address to people you trust! The server host can set a password if necessary."
 autowrap_mode = 2
 
 [node name="Node3D" type="Node3D" parent="." unique_id=1504498866]
@@ -280,6 +284,22 @@ stream = ExtResource("14_784tc")
 attenuation_model = 3
 volume_db = -10.0
 attenuation_filter_cutoff_hz = 20500.0
+
+[node name="Label" type="Label" parent="." unique_id=814667561]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -37.5
+offset_top = -11.5
+offset_right = 37.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Loading..."
 
 [connection signal="on_press_any" from="." to="Node3D/Camera3D/AudioListener3D/Click" method="play"]
 [connection signal="on_unpress_any" from="." to="Node3D/Camera3D/AudioListener3D/Unclick" method="play"]
