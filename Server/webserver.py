@@ -108,7 +108,6 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 
 		if not allowed:
 
-			print("NOT ALLOWED!")
 			self.send_header("Content-length", len(unauthorized_message))
 			self.send_header("Content-type", "text/plain")
 			self.end_headers()
@@ -182,7 +181,6 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 
 		if not allowed:
 
-			print("NOT ALLOWED!")
 			self.send_header("Content-length", len(unauthorized_message))
 			self.send_header("Content-type", "text/plain")
 			self.send_header("Access-control-request-method", "GET")
