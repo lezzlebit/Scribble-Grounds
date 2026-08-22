@@ -194,41 +194,29 @@ current = true
 
 [node name="Audio" type="Node3D" parent="Camera3D" unique_id=1504827948]
 
-[node name="Start" type="AudioStreamPlayer3D" parent="Camera3D/Audio" unique_id=384359981]
+[node name="Start" type="AudioStreamPlayer" parent="Camera3D/Audio" unique_id=1252605320]
 stream = ExtResource("7_tffgl")
-attenuation_model = 3
-volume_db = -10.0
-attenuation_filter_cutoff_hz = 20500.0
+volume_db = -16.0
 
-[node name="Click" type="AudioStreamPlayer3D" parent="Camera3D/Audio" unique_id=656203119]
+[node name="Click" type="AudioStreamPlayer" parent="Camera3D/Audio" unique_id=1625976646]
 stream = ExtResource("11_wva7c")
-attenuation_model = 3
-volume_db = -10.0
-attenuation_filter_cutoff_hz = 20500.0
+volume_db = -18.0
 
-[node name="Unclick" type="AudioStreamPlayer3D" parent="Camera3D/Audio" unique_id=1867396164]
+[node name="Unclick" type="AudioStreamPlayer" parent="Camera3D/Audio" unique_id=108759958]
 stream = ExtResource("12_7obkq")
-attenuation_model = 3
-volume_db = -10.0
-attenuation_filter_cutoff_hz = 20500.0
+volume_db = -18.0
 
-[node name="Undo" type="AudioStreamPlayer3D" parent="Camera3D/Audio" unique_id=1596522061]
+[node name="Undo" type="AudioStreamPlayer" parent="Camera3D/Audio" unique_id=1800254462]
 stream = ExtResource("11_8qxvo")
-attenuation_model = 3
-volume_db = -10.0
-attenuation_filter_cutoff_hz = 20500.0
+volume_db = -20.0
 
-[node name="Redo" type="AudioStreamPlayer3D" parent="Camera3D/Audio" unique_id=1811587178]
+[node name="Redo" type="AudioStreamPlayer" parent="Camera3D/Audio" unique_id=1717419017]
 stream = ExtResource("12_5q8fn")
-attenuation_model = 3
-volume_db = -10.0
-attenuation_filter_cutoff_hz = 20500.0
+volume_db = -20.0
 
-[node name="Stop" type="AudioStreamPlayer3D" parent="Camera3D/Audio" unique_id=1693985583]
+[node name="Stop" type="AudioStreamPlayer" parent="Camera3D/Audio" unique_id=1477091744]
 stream = ExtResource("8_pk8ii")
-attenuation_model = 3
-volume_db = -10.0
-attenuation_filter_cutoff_hz = 20500.0
+volume_db = -16.0
 
 [node name="Reticle" type="Control" parent="." unique_id=615782849 node_paths=PackedStringArray("able_to_draw")]
 layout_mode = 3

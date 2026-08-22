@@ -37,6 +37,14 @@ grow_vertical = 2
 theme = ExtResource("1_g4gru")
 script = ExtResource("2_7uqqr")
 
+[node name="Click" type="AudioStreamPlayer" parent="." unique_id=1247322527]
+stream = ExtResource("14_784tc")
+volume_db = -18.0
+
+[node name="Unclick" type="AudioStreamPlayer" parent="." unique_id=588993526]
+stream = ExtResource("14_784tc")
+volume_db = -18.0
+
 [node name="Server Manager" type="Node" parent="." unique_id=919283246 node_paths=PackedStringArray("button_parent", "username_setter", "disable_on_edit", "loading_visibilities", "editor_parent", "address_setter", "folder_setter", "password_setter", "create_server_button", "edit_server_button", "delete_server_button")]
 script = ExtResource("2_ds13r")
 server_button = ExtResource("1_ds13r")
@@ -271,20 +279,6 @@ transform = Transform3D(-0.8732876, 0.48720282, 0.0014349489, 0.39983773, 0.7183
 projection = 1
 fov = 50.0
 
-[node name="AudioListener3D" type="AudioListener3D" parent="Node3D/Camera3D" unique_id=1142987613]
-
-[node name="Click" type="AudioStreamPlayer3D" parent="Node3D/Camera3D/AudioListener3D" unique_id=779887676]
-stream = ExtResource("14_784tc")
-attenuation_model = 3
-volume_db = -10.0
-attenuation_filter_cutoff_hz = 20500.0
-
-[node name="Unclick" type="AudioStreamPlayer3D" parent="Node3D/Camera3D/AudioListener3D" unique_id=2070244794]
-stream = ExtResource("14_784tc")
-attenuation_model = 3
-volume_db = -10.0
-attenuation_filter_cutoff_hz = 20500.0
-
 [node name="Label" type="Label" parent="." unique_id=814667561]
 visible = false
 layout_mode = 1
@@ -301,8 +295,8 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Loading..."
 
-[connection signal="on_press_any" from="." to="Node3D/Camera3D/AudioListener3D/Click" method="play"]
-[connection signal="on_unpress_any" from="." to="Node3D/Camera3D/AudioListener3D/Unclick" method="play"]
+[connection signal="on_press_any" from="." to="Click" method="play"]
+[connection signal="on_unpress_any" from="." to="Unclick" method="play"]
 [connection signal="make_new_button" from="Server Manager" to="." method="connect_buttons_to_audio"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button/Panel/HBoxContainer/Add Server" to="Server Manager" method="start_create_server"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button/Panel/HBoxContainer/Refresh" to="Server Manager" method="refresh"]
