@@ -14,4 +14,12 @@ func get_all_children(node):
 
 func localize_scene():
 	for i in get_all_children(get_tree().root):
+		if i is MeshInstance3D:
+			if i.mesh != null:
+				i.mesh = i.mesh.duplicate()
+				
+				
+		if i is AudioStreamPlayer:
+			if i.stream != null:
+				i.stream = i.stream.duplicate()
 		print(i.name)

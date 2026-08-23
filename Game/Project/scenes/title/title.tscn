@@ -307,7 +307,7 @@ text = "Things to know:
 - There are no moderation tools. If you host a server, please only give the address to people you trust! The server host can set a password if necessary.
 
 "
-autowrap_mode = 1
+autowrap_mode = 2
 
 [node name="Changelog" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=1834237738]
 layout_mode = 2
