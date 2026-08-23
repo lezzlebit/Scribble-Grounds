@@ -19,5 +19,5 @@ func error(text: String):
 	label_text.text = text
 
 func _process(delta: float) -> void:
-	alpha = move_toward(alpha, 0, delta / 5)
-	label_text.self_modulate.a = clamp(alpha * 10, 0, 1)
+	alpha = move_toward(alpha, 0, delta / 2)
+	label_text.self_modulate.a = clamp(alpha * 5, 0, 1)

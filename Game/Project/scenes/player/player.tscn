@@ -55,8 +55,13 @@
 [ext_resource type="AudioStream" uid="uid://gdeip5m28b8r" path="res://assets/Audio/Sounds/step/concrete/concrete_step-03.ogg" id="41_iwuka"]
 [ext_resource type="AudioStream" uid="uid://bks0ir7hsyaa8" path="res://assets/Audio/Sounds/step/concrete/concrete_step-04.ogg" id="42_hyqqp"]
 [ext_resource type="AudioStream" uid="uid://b1r26q0d33ohe" path="res://assets/Audio/Sounds/step/concrete/concrete_step-05.ogg" id="43_ds1xl"]
+[ext_resource type="Script" uid="uid://bqc35y6v55d65" path="res://scripts/Options/StoreOption.gd" id="55_ln3h3"]
+[ext_resource type="StyleBox" uid="uid://dpelaqnj846xm" path="res://assets/UI/Theme/Assets/flat_box.tres" id="57_t1aof"]
+[ext_resource type="Script" uid="uid://dhrbxd84tmb3u" path="res://scripts/Options/ApplyOptions.gd" id="57_uygh0"]
+[ext_resource type="Texture2D" uid="uid://n1i28q5lsa1b" path="res://assets/UI/ButtonIcons/mouse_sensitivity.PNG" id="58_hdvrm"]
+[ext_resource type="Texture2D" uid="uid://xjtt3k4om6ki" path="res://assets/UI/ButtonIcons/volume.PNG" id="58_w8qe1"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0w266"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_t1aof"]
 
 [sub_resource type="PrismMesh" id="PrismMesh_g4v7s"]
 
@@ -96,9 +101,11 @@ min_speed = 3.0
 max_speed = 10.0
 seconds_to_full_speed = 6.0
 jump_velocity = 5.0
+max_camera_sensitivity = 3.0
+min_camera_sensitivity = 0.1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=679124615]
-shape = SubResource("CapsuleShape3D_0w266")
+shape = SubResource("CapsuleShape3D_t1aof")
 
 [node name="CameraPivot" type="Node3D" parent="CharacterBody3D" unique_id=30639229]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -115,7 +122,7 @@ sound_types = {
 }
 
 [node name="Concrete" type="AudioStreamPlayer" parent="CharacterBody3D/FootstepAudio" unique_id=611363693]
-volume_db = -30.0
+volume_db = -23.0
 pitch_scale = 0.7
 script = ExtResource("38_niom3")
 audio_clips = Array[AudioStream]([ExtResource("39_ttakn"), ExtResource("40_rw8a5"), ExtResource("41_iwuka"), ExtResource("42_hyqqp"), ExtResource("43_ds1xl")])
@@ -123,7 +130,7 @@ pitch_variation = 0.1
 metadata/_custom_type_script = "uid://478itlpiweyr"
 
 [node name="Sand" type="AudioStreamPlayer" parent="CharacterBody3D/FootstepAudio" unique_id=141233039]
-volume_db = -20.0
+volume_db = -18.0
 pitch_scale = 0.7
 script = ExtResource("38_niom3")
 audio_clips = Array[AudioStream]([ExtResource("9_2t3bg"), ExtResource("10_jrbya"), ExtResource("11_ahqnk"), ExtResource("12_vb1ce"), ExtResource("13_0ncpa"), ExtResource("14_upxxc")])
@@ -131,7 +138,7 @@ pitch_variation = 0.05
 metadata/_custom_type_script = "uid://478itlpiweyr"
 
 [node name="Water" type="AudioStreamPlayer" parent="CharacterBody3D/FootstepAudio" unique_id=1435064212]
-volume_db = -30.0
+volume_db = -20.0
 pitch_scale = 1.2
 max_polyphony = 5
 script = ExtResource("38_niom3")
@@ -190,15 +197,15 @@ current = true
 
 [node name="Start" type="AudioStreamPlayer" parent="Camera3D/Audio" unique_id=1252605320]
 stream = ExtResource("7_tffgl")
-volume_db = -16.0
+volume_db = -12.0
 
 [node name="Click" type="AudioStreamPlayer" parent="Camera3D/Audio" unique_id=1625976646]
 stream = ExtResource("11_wva7c")
-volume_db = -18.0
+volume_db = -14.0
 
 [node name="Unclick" type="AudioStreamPlayer" parent="Camera3D/Audio" unique_id=108759958]
 stream = ExtResource("12_7obkq")
-volume_db = -18.0
+volume_db = -14.0
 
 [node name="Undo" type="AudioStreamPlayer" parent="Camera3D/Audio" unique_id=1800254462]
 stream = ExtResource("11_8qxvo")
@@ -210,7 +217,7 @@ volume_db = -20.0
 
 [node name="Stop" type="AudioStreamPlayer" parent="Camera3D/Audio" unique_id=1477091744]
 stream = ExtResource("8_pk8ii")
-volume_db = -16.0
+volume_db = -12.0
 
 [node name="Reticle" type="Control" parent="." unique_id=615782849 node_paths=PackedStringArray("able_to_draw")]
 layout_mode = 3
@@ -513,7 +520,6 @@ default_brush = NodePath("../MarginContainer/VBoxContainer/Brushes/HBoxContainer
 replace_alpha = NodePath("../MarginContainer/VBoxContainer/Options/HBoxContainer/Alpha")
 
 [node name="Pause" type="Control" parent="Button Audio" unique_id=299459546]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -568,8 +574,107 @@ mouse_default_cursor_shape = 2
 text = "Quit to title"
 icon = ExtResource("23_cnsyf")
 
+[node name="Label" type="Label" parent="Button Audio/Pause/Panel/Panel/VBoxContainer" unique_id=716471372]
+layout_mode = 2
+text = "Options"
+
+[node name="Volume" type="Panel" parent="Button Audio/Pause/Panel/Panel/VBoxContainer" unique_id=947529410]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("57_t1aof")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Button Audio/Pause/Panel/Panel/VBoxContainer/Volume" unique_id=40365760]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Button Audio/Pause/Panel/Panel/VBoxContainer/Volume/HBoxContainer" unique_id=1032207637]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("58_w8qe1")
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="Button Audio/Pause/Panel/Panel/VBoxContainer/Volume/HBoxContainer" unique_id=472233237]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Volume"
+vertical_alignment = 1
+
+[node name="Volume" type="HSlider" parent="Button Audio/Pause/Panel/Panel/VBoxContainer/Volume/HBoxContainer" unique_id=450350462]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.05
+value = 0.5
+
+[node name="StoreOption" type="Node" parent="Button Audio/Pause/Panel/Panel/VBoxContainer/Volume/HBoxContainer/Volume" unique_id=1066890523 node_paths=PackedStringArray("option_to_store")]
+script = ExtResource("55_ln3h3")
+option_to_store = NodePath("..")
+metadata/_custom_type_script = "uid://bqc35y6v55d65"
+
+[node name="Sensitivity" type="Panel" parent="Button Audio/Pause/Panel/Panel/VBoxContainer" unique_id=1935991194]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("57_t1aof")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Button Audio/Pause/Panel/Panel/VBoxContainer/Sensitivity" unique_id=1568479922]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Button Audio/Pause/Panel/Panel/VBoxContainer/Sensitivity/HBoxContainer" unique_id=788853128]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("58_hdvrm")
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="Button Audio/Pause/Panel/Panel/VBoxContainer/Sensitivity/HBoxContainer" unique_id=836988186]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Sensitivity"
+vertical_alignment = 1
+
+[node name="Sensitivity" type="HSlider" parent="Button Audio/Pause/Panel/Panel/VBoxContainer/Sensitivity/HBoxContainer" unique_id=1417665324]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.05
+value = 0.5
+
+[node name="StoreOption" type="Node" parent="Button Audio/Pause/Panel/Panel/VBoxContainer/Sensitivity/HBoxContainer/Sensitivity" unique_id=564554464 node_paths=PackedStringArray("option_to_store")]
+script = ExtResource("55_ln3h3")
+option_to_store = NodePath("..")
+metadata/_custom_type_script = "uid://bqc35y6v55d65"
+
+[node name="PaletteOnLeft" type="CheckBox" parent="Button Audio/Pause/Panel/Panel/VBoxContainer" unique_id=898949957]
+layout_mode = 2
+text = "Palette on left"
+
+[node name="StoreOption" type="Node" parent="Button Audio/Pause/Panel/Panel/VBoxContainer/PaletteOnLeft" unique_id=801730742 node_paths=PackedStringArray("option_to_store")]
+script = ExtResource("55_ln3h3")
+option_to_store = NodePath("..")
+metadata/_custom_type_script = "uid://bqc35y6v55d65"
+
 [node name="Info" parent="Button Audio/Pause/Panel/Panel/VBoxContainer" unique_id=1961662103 instance=ExtResource("25_007i1")]
 layout_mode = 2
+
+[node name="ApplyOptions" type="Node" parent="." unique_id=2029212884 node_paths=PackedStringArray("volume_slider", "sensitivity_slider", "left_palette", "palette_margin_container")]
+script = ExtResource("57_uygh0")
+volume_slider = NodePath("../Button Audio/Pause/Panel/Panel/VBoxContainer/Volume/HBoxContainer/Volume")
+sensitivity_slider = NodePath("../Button Audio/Pause/Panel/Panel/VBoxContainer/Sensitivity/HBoxContainer/Sensitivity")
+left_palette = NodePath("../Button Audio/Pause/Panel/Panel/VBoxContainer/PaletteOnLeft")
+palette_margin_container = NodePath("../Button Audio/Drawing Controls/MarginContainer")
+metadata/_custom_type_script = "uid://dhrbxd84tmb3u"
 
 [connection signal="on_jump" from="CharacterBody3D" to="CharacterBody3D/FootstepAudio" method="on_step"]
 [connection signal="on_start_drawing" from="Camera3D" to="Camera3D/Audio/Start" method="play"]
@@ -583,3 +688,6 @@ layout_mode = 2
 [connection signal="pressed" from="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Options/HBoxContainer/Replace" to="Button Audio/Drawing Controls" method="set_replace_color"]
 [connection signal="pressed" from="Button Audio/Pause/Panel/Panel/VBoxContainer/Resume" to="Button Audio/Pause" method="unpause"]
 [connection signal="pressed" from="Button Audio/Pause/Panel/Panel/VBoxContainer/Button" to="Button Audio/Pause" method="load_title"]
+[connection signal="drag_ended" from="Button Audio/Pause/Panel/Panel/VBoxContainer/Volume/HBoxContainer/Volume" to="Button Audio/Pause/Panel/Panel/VBoxContainer/Volume/HBoxContainer/Volume/StoreOption" method="store_with_bool"]
+[connection signal="drag_ended" from="Button Audio/Pause/Panel/Panel/VBoxContainer/Sensitivity/HBoxContainer/Sensitivity" to="Button Audio/Pause/Panel/Panel/VBoxContainer/Sensitivity/HBoxContainer/Sensitivity/StoreOption" method="store_with_bool"]
+[connection signal="button_up" from="Button Audio/Pause/Panel/Panel/VBoxContainer/PaletteOnLeft" to="Button Audio/Pause/Panel/Panel/VBoxContainer/PaletteOnLeft/StoreOption" method="store"]

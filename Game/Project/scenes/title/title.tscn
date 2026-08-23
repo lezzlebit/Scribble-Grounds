@@ -3,7 +3,6 @@
 [ext_resource type="PackedScene" uid="uid://cwjseksrvlt6" path="res://scenes/title/elements/server_button.tscn" id="1_ds13r"]
 [ext_resource type="Theme" uid="uid://dr757m870tmqg" path="res://assets/UI/Theme/graffiti_theme.tres" id="1_g4gru"]
 [ext_resource type="PackedScene" uid="uid://dy3e5aqx816tb" path="res://scenes/title/elements/input_line.tscn" id="1_gl121"]
-[ext_resource type="Script" uid="uid://844br5dfvoxg" path="res://scripts/Audio/ButtonAudio.gd" id="2_7uqqr"]
 [ext_resource type="Script" uid="uid://pw8sxnlx1gjq" path="res://scripts/Title/TitleServerManager.gd" id="2_ds13r"]
 [ext_resource type="Texture2D" uid="uid://dol0t8ncewecl" path="res://assets/UI/ButtonIcons/add.PNG" id="3_dnyg8"]
 [ext_resource type="Texture2D" uid="uid://b34k6e60cql3k" path="res://assets/UI/ButtonIcons/confirm.PNG" id="4_4yl2o"]
@@ -35,7 +34,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_g4gru")
-script = ExtResource("2_7uqqr")
 
 [node name="Click" type="AudioStreamPlayer" parent="." unique_id=1247322527]
 stream = ExtResource("14_784tc")
@@ -295,8 +293,6 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Loading..."
 
-[connection signal="on_press_any" from="." to="Click" method="play"]
-[connection signal="on_unpress_any" from="." to="Unclick" method="play"]
 [connection signal="make_new_button" from="Server Manager" to="." method="connect_buttons_to_audio"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button/Panel/HBoxContainer/Add Server" to="Server Manager" method="start_create_server"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button/Panel/HBoxContainer/Refresh" to="Server Manager" method="refresh"]

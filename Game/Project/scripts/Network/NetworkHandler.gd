@@ -185,7 +185,11 @@ func _on_retrieve_image(headers, body):
 	required_images.erase(filename)
 	current_images[filename] = new_images[filename]
 	save_current_changelog()
-	GlobalGameplayValues.user_message_log("Updating drawings (" + str(len(required_images)) + " remaining)")
+	if len(required_images) >= 1:
+		GlobalGameplayValues.user_message_log("Updating drawings (" + str(len(required_images)) + " remaining)")
+	else:
+		GlobalGameplayValues.user_message_log("World up-to-date")
+	
 	
 	DirAccess.make_dir_absolute(directory + get_only_directory(filename))
 	var image_file = FileAccess.open(directory + filename, FileAccess.WRITE)

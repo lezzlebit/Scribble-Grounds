@@ -211,6 +211,8 @@ func update_position(delta: float):
 	far = lerp(default_far, wall_pivot_camera_far, camera_lerp_value)
 	global_position = first_person_position.lerp(wall_pivot_position, camera_lerp_value)
 	quaternion = first_person_rotation.slerp(wall_pivot_rotation, camera_lerp_value)
+	var ambience_mix: float = lerp(1.0, 0.3, camera_lerp_value)
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Ambience"), linear_to_db(ambience_mix))
 
 
 func handle_zoom():

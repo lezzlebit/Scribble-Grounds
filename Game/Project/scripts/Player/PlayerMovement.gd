@@ -7,7 +7,9 @@ class_name PlayerMovement
 @export var max_speed = 15.0
 @export var seconds_to_full_speed: float = 5.0
 @export var jump_velocity = 4.5
-@export var camera_sensitivity = 0.001
+@export var max_camera_sensitivity = 0.001
+@export var min_camera_sensitivity = 0.001
+@export var all_camera_sensitivity_multiplier = 0.001
 var vertical_look: float
 var acceleration: Vector3 = Vector3.ZERO
 var speed_lerp: float = 0
@@ -27,7 +29,7 @@ func _unhandled_input(event: InputEvent):
 	if GameValues.first_person:
 	
 		
-		
+		var camera_sensitivity = lerp(min_camera_sensitivity, max_camera_sensitivity, GlobalGameplayValues.camera_sensitivity) * all_camera_sensitivity_multiplier
 		if event is InputEventMouseMotion:
 			rotate_y(-event.relative.x * camera_sensitivity)
 			CameraPivot.rotation.x = vertical_look

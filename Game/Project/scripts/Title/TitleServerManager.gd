@@ -29,6 +29,7 @@ var created_instances: Array[ServerButton]
 signal make_new_button
 
 func _ready() -> void:
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear_to_db(0))
 	DirAccess.make_dir_absolute(GlobalNetworkValues.game_directory)
 	DirAccess.make_dir_absolute(server_path)
 	
