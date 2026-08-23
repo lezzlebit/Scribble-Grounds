@@ -34,6 +34,7 @@ var zoom_values: Array[int] = [1, 2, 3, 4, 6, 8, 16, 24, 32]
 
 var mouse_drawing_position: Vector2
 var pan_pixels: Vector2
+var pan_rotation: float
 var currently_panning: bool = false
 var picking_color_for_replace: bool = false
 var hit_paint_wall: bool = false
@@ -73,7 +74,7 @@ func _unhandled_input(event: InputEvent):
 			# mouse_drawing_position += event.screen_relative
 			if Input.is_action_pressed("pan_mouse") or (Input.is_action_pressed("pen_down") and currently_panning):
 				currently_panning = true
-				pan_pixels += event.relative / float(screen_pixel_size)
+				pan_pixels += (event.relative / float(screen_pixel_size)).rotated(-pan_rotation)
 				clamp_pan()
 		
 		raycast.raycast_draw(camera_distance)
@@ -108,9 +109,8 @@ func find_paint_wall():
 
 			current_texture_scale = parent.texture_height
 			if get_pixel_scale(collision_position, collision_normal, parent):
-				environment = drawing_environment
-				GameValues.first_person = false
-				on_start_drawing.emit()
+				enter_drawing_mode()
+				
 			
 			var up_dot: float = abs(collision_normal.dot(Vector3.UP))
 			print(up_dot)
@@ -118,6 +118,11 @@ func find_paint_wall():
 				var up_normal: Vector3 = Vector3(current_uv_up_position.y, 0, current_uv_up_position.x).normalized()
 				wall_sticker.look_at(wall_sticker.global_position - collision_normal, up_normal)
 
+func enter_drawing_mode():
+	pan_rotation = 0
+	environment = drawing_environment
+	GameValues.first_person = false
+	on_start_drawing.emit()
 
 # https://discussions.unity.com/t/fit-object-exactly-into-perspective-cameras-field-of-view-focus-the-object/677696/2
 
@@ -184,6 +189,7 @@ func update_position(delta: float):
 	# var pan_pos: Vector2 = pan_pixels / 256.0
 	
 	wall_camera_pivot.position = Vector3(-pan_pos.x, pan_pos.y, distance)
+	wall_camera_pivot.rotation = Vector3(0, 0, pan_rotation)
 	
 	var first_person_position: Vector3 = first_person_pivot.global_position
 	var first_person_rotation: Quaternion = first_person_pivot.global_basis.get_rotation_quaternion()
@@ -194,7 +200,7 @@ func update_position(delta: float):
 	var wall_pivot_fov: float = 30
 	var default_fov: float = 75 * sprint_fov_multiplier_lerp
 	
-	var wall_pivot_camera_near: float = get_camera_distance() - 2
+	var wall_pivot_camera_near: float = get_camera_distance() - clamp(2, 0, distance/2)
 	var default_near: float = 0.1
 	var wall_pivot_camera_far: float = get_camera_distance() + 15
 	var default_far: float = 1000
@@ -240,11 +246,11 @@ func handle_zoom():
 	if zoom_add != 0: 
 		
 		var middle: Vector2 = get_viewport().size / 2
-		var mouse_pos = (get_viewport().get_mouse_position() - middle)
+		var mouse_pos = (mouse_drawing_position - middle).rotated(-pan_rotation)
 		
 		var pixel_size_delta: float = 1/(1-(old_screen_pixel_size / float(screen_pixel_size)))
 		
-		pan_pixels -= (mouse_pos / pixel_size_delta) / old_screen_pixel_size
+		pan_pixels -= ((mouse_pos / pixel_size_delta) / old_screen_pixel_size)
 		clamp_pan()
 	
 	
@@ -301,7 +307,7 @@ func _process(delta: float) -> void:
 		find_paint_wall()
 		raycast.position = Vector3.ZERO
 		raycast.rotation = Vector3.ZERO
-		raycast.target_position = Vector3(0, 0, -2)
+		raycast.target_position = Vector3(0, 0, -3.5)
 
 	elif Input.is_action_just_pressed("end_drawing") and !picking_color_for_replace:
 		
@@ -311,7 +317,13 @@ func _process(delta: float) -> void:
 		GameValues.first_person = true
 		environment = first_person_environment
 		GameValues.world_textures.save_unsaved_textures()
-	
+
+	if !GameValues.first_person:
+		if Input.is_action_just_pressed("rotate_left"):
+			pan_rotation += deg_to_rad(-90)
+		if Input.is_action_just_pressed("rotate_right"):
+			pan_rotation += deg_to_rad(90)
+
 	update_position(delta)
 	
 	pause_screen.visible = GameValues.paused

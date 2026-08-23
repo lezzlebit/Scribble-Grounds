@@ -11,6 +11,8 @@ func _ready() -> void:
 		option_to_store.value = float(get_value())
 	if option_to_store is Button:
 		option_to_store.button_pressed = get_value() == "true"
+	if option_to_store is OptionButton:
+		option_to_store.select(int(get_value()))
 
 func get_value():
 	UserOptionsSaving.get_file()
@@ -19,6 +21,8 @@ func get_value():
 	else:
 		return false
 
+func store_with_value(value):
+	store()
 func store_with_bool(_was_changed: bool):
 	store()
 
@@ -30,9 +34,13 @@ func store():
 		value = str(option_to_store.value)
 	if option_to_store is Button:
 		value = str(option_to_store.button_pressed)
+	if option_to_store is OptionButton:
+		value = str(option_to_store.selected)
 	
 	UserOptionsSaving.store(option_to_store.name, value)
 
+func set_tablet_driver(value: int):
+	UserOptionsSaving.set_tablet_driver(value)
 
 func _on_check_box_button_up() -> void:
 	pass # Replace with function body.

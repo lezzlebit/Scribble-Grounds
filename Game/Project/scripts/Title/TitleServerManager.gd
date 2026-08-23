@@ -7,6 +7,7 @@ class_name TitleServerManager
 @export var server_button: PackedScene
 @export var main_game: PackedScene
 @export var button_parent: Control
+@export var options: Control
 @export var username_setter: TitleInputLine
 @export var disable_on_edit: Array[Control]
 @export var loading_visibilities: Dictionary[Control, bool]
@@ -29,7 +30,6 @@ var created_instances: Array[ServerButton]
 signal make_new_button
 
 func _ready() -> void:
-	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Master"), linear_to_db(0))
 	DirAccess.make_dir_absolute(GlobalNetworkValues.game_directory)
 	DirAccess.make_dir_absolute(server_path)
 	
@@ -76,13 +76,25 @@ func connect_to_server(button: ServerButton):
 
 func set_editor_enabled(is_enabled: bool):
 	editor_parent.visible = is_enabled
-	if is_enabled: editor_parent.process_mode = Node.PROCESS_MODE_INHERIT
+	if is_enabled: 
+		editor_parent.process_mode = Node.PROCESS_MODE_INHERIT
+		options.visible = false
 	if !is_enabled: editor_parent.process_mode = Node.PROCESS_MODE_DISABLED
 	for i in disable_on_edit:
 		i.visible = !is_enabled
 
 func close_editor():
 	set_editor_enabled(false)
+
+func enter_options_mode():
+	set_editor_enabled(false)
+	for i in disable_on_edit:
+		i.visible = false
+	options.visible = true
+	
+func exit_options_mode():
+	set_editor_enabled(false)
+	options.visible = false
 
 func start_edit_server(button: ServerButton):
 	set_editor_enabled(true)

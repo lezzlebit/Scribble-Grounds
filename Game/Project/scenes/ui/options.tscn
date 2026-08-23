@@ -1,0 +1,152 @@
+[gd_scene format=3 uid="uid://b8emmr35u0852"]
+
+[ext_resource type="StyleBox" uid="uid://dpelaqnj846xm" path="res://assets/UI/Theme/Assets/flat_box.tres" id="1_hhwow"]
+[ext_resource type="Theme" uid="uid://dr757m870tmqg" path="res://assets/UI/Theme/graffiti_theme.tres" id="1_wby6m"]
+[ext_resource type="Texture2D" uid="uid://xjtt3k4om6ki" path="res://assets/UI/ButtonIcons/volume.PNG" id="2_wby6m"]
+[ext_resource type="Script" uid="uid://bqc35y6v55d65" path="res://scripts/Options/StoreOption.gd" id="3_pykmj"]
+[ext_resource type="Texture2D" uid="uid://n1i28q5lsa1b" path="res://assets/UI/ButtonIcons/mouse_sensitivity.PNG" id="4_gdfy8"]
+
+[node name="Options" type="VBoxContainer" unique_id=1520550846]
+custom_minimum_size = Vector2(256, 0)
+offset_right = 128.0
+offset_bottom = 126.0
+theme = ExtResource("1_wby6m")
+
+[node name="Label" type="Label" parent="." unique_id=1429326415]
+layout_mode = 2
+text = "Options"
+
+[node name="Volume" type="Panel" parent="." unique_id=1507821104]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_hhwow")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Volume" unique_id=1346306508]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Volume/HBoxContainer" unique_id=204683772]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("2_wby6m")
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="Volume/HBoxContainer" unique_id=94645323]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Volume"
+vertical_alignment = 1
+
+[node name="Volume" type="HSlider" parent="Volume/HBoxContainer" unique_id=1385563339]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.05
+value = 0.5
+
+[node name="StoreOption" type="Node" parent="Volume/HBoxContainer/Volume" unique_id=1409366387 node_paths=PackedStringArray("option_to_store")]
+script = ExtResource("3_pykmj")
+option_to_store = NodePath("..")
+metadata/_custom_type_script = "uid://bqc35y6v55d65"
+
+[node name="Sensitivity" type="Panel" parent="." unique_id=358500029]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_hhwow")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Sensitivity" unique_id=1548377447]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Sensitivity/HBoxContainer" unique_id=184835810]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("4_gdfy8")
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="Sensitivity/HBoxContainer" unique_id=751155146]
+custom_minimum_size = Vector2(64, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Sensitivity"
+vertical_alignment = 1
+
+[node name="Sensitivity" type="HSlider" parent="Sensitivity/HBoxContainer" unique_id=1370982224]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.05
+value = 0.5
+
+[node name="StoreOption" type="Node" parent="Sensitivity/HBoxContainer/Sensitivity" unique_id=807001874 node_paths=PackedStringArray("option_to_store")]
+script = ExtResource("3_pykmj")
+option_to_store = NodePath("..")
+metadata/_custom_type_script = "uid://bqc35y6v55d65"
+
+[node name="PaletteOnLeft" type="CheckBox" parent="." unique_id=493334597]
+layout_mode = 2
+text = "Palette on left"
+
+[node name="StoreOption" type="Node" parent="PaletteOnLeft" unique_id=926501574 node_paths=PackedStringArray("option_to_store")]
+script = ExtResource("3_pykmj")
+option_to_store = NodePath("..")
+metadata/_custom_type_script = "uid://bqc35y6v55d65"
+
+[node name="FullscreenMode" type="CheckBox" parent="." unique_id=1285181697]
+layout_mode = 2
+text = "Fullscreen"
+
+[node name="StoreOption" type="Node" parent="FullscreenMode" unique_id=233588701 node_paths=PackedStringArray("option_to_store")]
+script = ExtResource("3_pykmj")
+option_to_store = NodePath("..")
+metadata/_custom_type_script = "uid://bqc35y6v55d65"
+
+[node name="TabletDriver" type="OptionButton" parent="." unique_id=1164483554]
+layout_mode = 2
+alignment = 2
+selected = 0
+item_count = 4
+popup/item_0/text = "Auto"
+popup/item_0/id = 0
+popup/item_1/text = "Windows Ink"
+popup/item_1/id = 1
+popup/item_2/text = "WinTab"
+popup/item_2/id = 2
+popup/item_3/text = "Dummy"
+popup/item_3/id = 3
+
+[node name="Label" type="Label" parent="TabletDriver" unique_id=753632076]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 13
+text = "Tablet Driver"
+vertical_alignment = 1
+
+[node name="StoreOption" type="Node" parent="TabletDriver" unique_id=654241495 node_paths=PackedStringArray("option_to_store")]
+script = ExtResource("3_pykmj")
+option_to_store = NodePath("..")
+metadata/_custom_type_script = "uid://bqc35y6v55d65"
+
+[connection signal="drag_ended" from="Volume/HBoxContainer/Volume" to="Volume/HBoxContainer/Volume/StoreOption" method="store_with_bool"]
+[connection signal="drag_ended" from="Sensitivity/HBoxContainer/Sensitivity" to="Sensitivity/HBoxContainer/Sensitivity/StoreOption" method="store_with_bool"]
+[connection signal="button_up" from="PaletteOnLeft" to="PaletteOnLeft/StoreOption" method="store"]
+[connection signal="button_up" from="FullscreenMode" to="FullscreenMode/StoreOption" method="store"]
+[connection signal="item_selected" from="TabletDriver" to="TabletDriver/StoreOption" method="store_with_value"]
+[connection signal="item_selected" from="TabletDriver" to="TabletDriver/StoreOption" method="set_tablet_driver"]

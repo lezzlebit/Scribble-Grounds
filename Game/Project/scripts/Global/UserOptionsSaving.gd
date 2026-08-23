@@ -4,10 +4,17 @@ extends Node
 
 var options_dictionary: Dictionary[String, String]
 var directory: String = GlobalNetworkValues.game_directory + "options.txt"
+var project_settings_dir: String = GlobalNetworkValues.game_directory + "override.cfg"
 var file_got: bool = false
 
 var options_applier: ApplyOptions
+var driver_options = ["auto", "winink", "wintab","dummy"]
 
+func _init():
+	get_file()
+	if options_dictionary.has("TabletDriver"):
+		var selected_driver = driver_options[int(options_dictionary["TabletDriver"])]
+		DisplayServer.tablet_set_current_driver(selected_driver)
 
 func get_file():
 	if file_got: return
@@ -27,6 +34,10 @@ func store(key: String, value: String):
 	var to_store = dictionary_to_text(options_dictionary)
 	var options_file = FileAccess.open(directory, FileAccess.WRITE)
 	options_file.store_string(to_store)
+
+func set_tablet_driver(value: int):
+	DisplayServer.tablet_set_current_driver(driver_options[value])
+	
 
 func text_list_to_dictionary(text: String):
 	var all_text = text.split("\n")

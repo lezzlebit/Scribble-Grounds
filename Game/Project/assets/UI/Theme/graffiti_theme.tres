@@ -6,6 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://ghmftxo7g3co" path="res://assets/UI/ButtonIcons/on.PNG" id="2_ohd7v"]
 [ext_resource type="Texture2D" uid="uid://srtbxkm837sx" path="res://assets/UI/ButtonIcons/off.PNG" id="3_1u634"]
 [ext_resource type="Texture2D" uid="uid://d0k6xi0gnf0ab" path="res://assets/UI/ButtonIcons/slider-highlight.PNG" id="3_77nqt"]
+[ext_resource type="Texture2D" uid="uid://dvoohegem5mpw" path="res://assets/UI/ButtonIcons/dropdown.PNG" id="7_1u634"]
+[ext_resource type="Texture2D" uid="uid://ct8ovxoimwg6a" path="res://assets/UI/ButtonIcons/radio-checked.PNG" id="8_ihl1x"]
+[ext_resource type="Texture2D" uid="uid://dyojs52kt3fcq" path="res://assets/UI/ButtonIcons/radio.PNG" id="9_m7ao1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4and3"]
 content_margin_left = 5.0
@@ -107,6 +110,16 @@ content_margin_top = 10.0
 content_margin_right = 10.0
 content_margin_bottom = 10.0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ihl1x"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0.37413922, 0.37413928, 0.37413913, 1)
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+anti_aliasing = false
+
 [resource]
 Button/font_sizes/font_size = 14
 Button/fonts/font = null
@@ -134,5 +147,10 @@ MarginContainer/constants/margin_bottom = 50
 MarginContainer/constants/margin_left = 50
 MarginContainer/constants/margin_right = 50
 MarginContainer/constants/margin_top = 50
+OptionButton/icons/arrow = ExtResource("7_1u634")
 Panel/styles/panel = SubResource("StyleBoxEmpty_fdgay")
 PanelContainer/styles/panel = SubResource("StyleBoxEmpty_tty6d")
+PopupMenu/icons/radio_checked = ExtResource("8_ihl1x")
+PopupMenu/icons/radio_unchecked = ExtResource("9_m7ao1")
+PopupMenu/styles/hover = SubResource("StyleBoxFlat_ihl1x")
+PopupMenu/styles/panel = ExtResource("2_58upl")
