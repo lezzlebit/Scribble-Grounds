@@ -1,0 +1,9 @@
+Aug 23 2026
+[hr]
+	- Fixed a bug where the zoom position was not always equivalent to the mouse position
+	- Added inputs to rotate the canvas 90 degrees clockwise or counter-clockwise
+	- Added an option to turn on fullscreen
+	- Extended the distance required to draw on a wall
+	- Attempted to add an option to change the pen tablet driver (hopefully this works correctly)
+	- Made the player able to climb up small steps without jumping
+	- Attempted to fix a bug where the undo button got desynced across multiple drawing tiles

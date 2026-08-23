@@ -7,7 +7,7 @@ class_name TitleServerManager
 @export var server_button: PackedScene
 @export var main_game: PackedScene
 @export var button_parent: Control
-@export var options: Control
+@export var main_page: NodePath
 @export var username_setter: TitleInputLine
 @export var disable_on_edit: Array[Control]
 @export var loading_visibilities: Dictionary[Control, bool]
@@ -76,25 +76,21 @@ func connect_to_server(button: ServerButton):
 
 func set_editor_enabled(is_enabled: bool):
 	editor_parent.visible = is_enabled
+	for i in disable_on_edit:
+			i.visible = false
 	if is_enabled: 
 		editor_parent.process_mode = Node.PROCESS_MODE_INHERIT
-		options.visible = false
-	if !is_enabled: editor_parent.process_mode = Node.PROCESS_MODE_DISABLED
-	for i in disable_on_edit:
-		i.visible = !is_enabled
+	if !is_enabled: 
+		editor_parent.process_mode = Node.PROCESS_MODE_DISABLED
+
 
 func close_editor():
 	set_editor_enabled(false)
+	get_node(main_page).visible = true
 
-func enter_options_mode():
+func enter_mode(node_to_open: NodePath):
 	set_editor_enabled(false)
-	for i in disable_on_edit:
-		i.visible = false
-	options.visible = true
-	
-func exit_options_mode():
-	set_editor_enabled(false)
-	options.visible = false
+	get_node(node_to_open).visible = true
 
 func start_edit_server(button: ServerButton):
 	set_editor_enabled(true)
@@ -148,6 +144,11 @@ func create_server():
 	
 	var new_dictionary: Dictionary[String, String]
 	new_dictionary["folder"] = folder_setter.text
+	
+	if len(folder_setter.text) <= 0:
+		GlobalGameplayValues.user_error_log("Please enter a name for this server")
+		return false
+	
 	new_dictionary["address"] = address_setter.text
 	new_dictionary["password"] = password_setter.text
 	

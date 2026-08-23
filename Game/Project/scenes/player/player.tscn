@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cl6gkiap7v71q" path="res://scripts/Player/PlayerMovement.gd" id="1_gmlin"]
 [ext_resource type="Environment" uid="uid://dnoppw2hmxvf0" path="res://assets/Environment/environment.tres" id="2_3j4b4"]
 [ext_resource type="Script" uid="uid://o1qhy5lt543m" path="res://scripts/Player/CameraController.gd" id="2_lvxji"]
+[ext_resource type="Script" uid="uid://1ieg4v7reacq" path="res://scripts/External/prism_collider_3d.gd" id="2_t1aof"]
 [ext_resource type="Script" uid="uid://cahilecxl8fnk" path="res://scripts/Audio/FootstepAudio.gd" id="2_ttakn"]
 [ext_resource type="Script" uid="uid://c7dcj7o6a10jc" path="res://scripts/Player/RaycastPainter.gd" id="3_p47bc"]
 [ext_resource type="Theme" uid="uid://dr757m870tmqg" path="res://assets/UI/Theme/graffiti_theme.tres" id="4_fm80t"]
@@ -58,8 +59,6 @@
 [ext_resource type="PackedScene" uid="uid://b8emmr35u0852" path="res://scenes/ui/options.tscn" id="55_uygh0"]
 [ext_resource type="Script" uid="uid://dhrbxd84tmb3u" path="res://scripts/Options/ApplyOptions.gd" id="57_uygh0"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_t1aof"]
-
 [sub_resource type="PrismMesh" id="PrismMesh_g4v7s"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uf5tr"]
@@ -102,7 +101,7 @@ max_camera_sensitivity = 3.0
 min_camera_sensitivity = 0.1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=679124615]
-shape = SubResource("CapsuleShape3D_t1aof")
+script = ExtResource("2_t1aof")
 
 [node name="CameraPivot" type="Node3D" parent="CharacterBody3D" unique_id=30639229]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

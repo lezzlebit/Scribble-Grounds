@@ -28,8 +28,7 @@ func _process(_delta: float) -> void:
 		retrieve_list()
 
 func initialize_process_timers():
-	initialize_single_timer("RetrieveTimer", 3, retrieve_list)
-	initialize_single_timer("ImageTimer", 0.1, get_one_required_image)
+	initialize_single_timer("RetrieveTimer", 2, retrieve_list)
 
 func initialize_single_timer(timer_name: String, timer_length: float, signal_out: Callable):
 	var added_timer: Timer = Timer.new()
@@ -111,6 +110,7 @@ func _on_retrieve_list(_headers, body):
 	required_images = compare_dictionaries(current_images, new_images)
 	# print(required_images)
 	# required_images = remove_username_from_dictionary(required_images)
+	get_one_required_image()
 
 func compare_dictionaries(dict_1, dict_2):
 	
@@ -188,13 +188,15 @@ func _on_retrieve_image(headers, body):
 	if len(required_images) >= 1:
 		GlobalGameplayValues.user_message_log("Updating drawings (" + str(len(required_images)) + " remaining)")
 	else:
-		GlobalGameplayValues.user_message_log("World up-to-date")
+		GlobalGameplayValues.user_message_log("World updated")
 	
 	
 	DirAccess.make_dir_absolute(directory + get_only_directory(filename))
 	var image_file = FileAccess.open(directory + filename, FileAccess.WRITE)
 	image_file.store_buffer(body)
 	GlobalGameplayValues.world_textures.add_image_to_queue(filename)
+	if len(required_images) > 0:
+		get_one_required_image()
 
 
 

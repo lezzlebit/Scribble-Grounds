@@ -120,6 +120,50 @@ border_width_bottom = 1
 border_color = Color(0, 0, 0, 1)
 anti_aliasing = false
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m7ao1"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0.4313402, 0.43134028, 0.43134007, 1)
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nwedr"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0.5132325, 0.513233, 0.51323277, 1)
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_36elh"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0.35906905, 0.35906908, 0.35906902, 1)
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e5i1t"]
+content_margin_left = 5.0
+content_margin_top = 0.0
+content_margin_right = 5.0
+content_margin_bottom = 0.0
+bg_color = Color(0.12591082, 0.12591085, 0.12591079, 1)
+border_width_left = 1
+border_width_top = 4
+border_width_right = 1
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
+corner_detail = 1
+anti_aliasing = false
+
 [resource]
 Button/font_sizes/font_size = 14
 Button/fonts/font = null
@@ -154,3 +198,10 @@ PopupMenu/icons/radio_checked = ExtResource("8_ihl1x")
 PopupMenu/icons/radio_unchecked = ExtResource("9_m7ao1")
 PopupMenu/styles/hover = SubResource("StyleBoxFlat_ihl1x")
 PopupMenu/styles/panel = ExtResource("2_58upl")
+ScrollContainer/styles/focus = ExtResource("1_uuqsc")
+ScrollContainer/styles/panel = ExtResource("1_uuqsc")
+VScrollBar/styles/grabber = SubResource("StyleBoxFlat_m7ao1")
+VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_nwedr")
+VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_36elh")
+VScrollBar/styles/scroll = SubResource("StyleBoxFlat_e5i1t")
+VScrollBar/styles/scroll_focus = ExtResource("1_uuqsc")

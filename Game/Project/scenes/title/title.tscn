@@ -15,7 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://b8emmr35u0852" path="res://scenes/ui/options.tscn" id="12_784tc"]
 [ext_resource type="Environment" uid="uid://dsm777h6m4m2o" path="res://assets/Environment/title_environment.tres" id="12_awdk6"]
 [ext_resource type="AudioStream" uid="uid://b04wlpp1krow8" path="res://assets/Audio/Sounds/click_button.ogg" id="14_784tc"]
-[ext_resource type="Texture2D" uid="uid://cyxdq1sqndae8" path="res://assets/UI/ButtonIcons/options.PNG" id="14_bjs8b"]
+[ext_resource type="Script" uid="uid://b3o3i66uefokc" path="res://scripts/Title/ChangelogFile.gd" id="15_bjs8b"]
 [ext_resource type="Script" uid="uid://dhrbxd84tmb3u" path="res://scripts/Options/ApplyOptions.gd" id="15_rtgr4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iqsei"]
@@ -48,14 +48,14 @@ volume_db = -18.0
 stream = ExtResource("14_784tc")
 volume_db = -18.0
 
-[node name="Server Manager" type="Node" parent="." unique_id=919283246 node_paths=PackedStringArray("button_parent", "options", "username_setter", "disable_on_edit", "loading_visibilities", "editor_parent", "address_setter", "folder_setter", "password_setter", "create_server_button", "edit_server_button", "delete_server_button")]
+[node name="Server Manager" type="Node" parent="." unique_id=919283246 node_paths=PackedStringArray("button_parent", "username_setter", "disable_on_edit", "loading_visibilities", "editor_parent", "address_setter", "folder_setter", "password_setter", "create_server_button", "edit_server_button", "delete_server_button")]
 script = ExtResource("2_ds13r")
 server_button = ExtResource("1_ds13r")
 main_game = ExtResource("4_awdk6")
 button_parent = NodePath("../MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer")
-options = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Options")
-username_setter = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Panel/Username")
-disable_on_edit = [NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Info"), NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Things2know"), NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Settings")]
+main_page = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Information")
+username_setter = NodePath("../MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Username/Username")
+disable_on_edit = [NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Changelog"), NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Options"), NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Information")]
 loading_visibilities = {
 NodePath("../MarginContainer"): false,
 NodePath("../Label"): true
@@ -116,6 +116,21 @@ theme_override_font_sizes/font_size = 24
 text = "Scribble Grounds"
 horizontal_alignment = 1
 
+[node name="Username" type="Panel" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer" unique_id=1494717406]
+custom_minimum_size = Vector2(320, 64)
+layout_mode = 2
+
+[node name="Username" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Username" unique_id=1552471214 instance=ExtResource("1_gl121")]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+label_text = "Username"
+edit_value = "username"
+
 [node name="Server Button" type="Control" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer" unique_id=1279676831]
 custom_minimum_size = Vector2(200, 72)
 layout_mode = 2
@@ -172,26 +187,24 @@ theme_override_constants/margin_bottom = 25
 custom_maximum_size = Vector2(320, -1)
 layout_mode = 2
 
-[node name="Panel" type="Panel" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=1494717406]
-custom_minimum_size = Vector2(320, 64)
+[node name="Pages" type="HBoxContainer" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=1793479741]
 layout_mode = 2
+alignment = 1
 
-[node name="Username" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Panel" unique_id=1552471214 instance=ExtResource("1_gl121")]
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
-label_text = "Username"
-edit_value = "username"
+[node name="Info" type="Button" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Pages" unique_id=1288366512]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Info"
 
-[node name="Settings" type="Button" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=1199829052]
+[node name="Settings" type="Button" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Pages" unique_id=1199829052]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 text = "Options"
-icon = ExtResource("14_bjs8b")
+
+[node name="Changelog" type="Button" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Pages" unique_id=1977239194]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Changelog"
 
 [node name="Edit" type="PanelContainer" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=934110546]
 visible = false
@@ -262,12 +275,26 @@ mouse_default_cursor_shape = 2
 text = "Cancel"
 icon = ExtResource("6_7uqqr")
 
-[node name="Info" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=1961662103 instance=ExtResource("11_4yl2o")]
+[node name="Options" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=1520550846 instance=ExtResource("12_784tc")]
+visible = false
+propagate_maximum_size = false
+layout_mode = 2
+
+[node name="Information" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=942405856]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Information" unique_id=432987883]
+layout_mode = 2
+text = "Info"
+
+[node name="Info" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Information" unique_id=1961662103 instance=ExtResource("11_4yl2o")]
 custom_minimum_size = Vector2(256, 160)
 custom_maximum_size = Vector2(256, -1)
 layout_mode = 2
 
-[node name="Things2know" type="Label" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=1614092796]
+[node name="Things2know" type="Label" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Information" unique_id=1614092796]
+custom_minimum_size = Vector2(256, 0)
 layout_mode = 2
 theme_override_constants/line_spacing = 0
 theme_override_font_sizes/font_size = 12
@@ -280,19 +307,52 @@ text = "Things to know:
 - There are no moderation tools. If you host a server, please only give the address to people you trust! The server host can set a password if necessary.
 
 "
-autowrap_mode = 2
+autowrap_mode = 1
 
-[node name="Options" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=1520550846 instance=ExtResource("12_784tc")]
-visible = false
-propagate_maximum_size = false
+[node name="Changelog" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=1834237738]
 layout_mode = 2
 
-[node name="Settings" type="Button" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Options" unique_id=1679199778]
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Changelog" unique_id=1931369841]
 layout_mode = 2
-mouse_default_cursor_shape = 2
-text = "Exit
+text = "Changelog"
+
+[node name="ChangelogScroll" type="ScrollContainer" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Changelog" unique_id=214581341]
+custom_minimum_size = Vector2(0, 512)
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Changelog/ChangelogScroll" unique_id=85963697]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/normal_font_size = 13
+bbcode_enabled = true
+text = "Hello!
+Hello!
+Hello!
+Hello!
+Hello!
+Hello!
+Hello!
+Hello!
+Hello!
+Hello!
+Hello!
+Hello!
+Hello!
+Hello!
+Hello!
+Hello!
+Hello!
+Hello!
+Hello!
+Hello!
+Hello!
+Hello!
+Hello!
+Hello!
+Hello!
 "
-icon = ExtResource("6_7uqqr")
+script = ExtResource("15_bjs8b")
 
 [node name="Node3D" type="Node3D" parent="." unique_id=1504498866]
 
@@ -333,12 +393,13 @@ metadata/_custom_type_script = "uid://dhrbxd84tmb3u"
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button/Panel/HBoxContainer/Add Server" to="Server Manager" method="start_create_server"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button/Panel/HBoxContainer/Refresh" to="Server Manager" method="refresh"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button/Panel/HBoxContainer/Directory" to="Server Manager" method="open_path"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Settings" to="Server Manager" method="enter_options_mode"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Pages/Info" to="Server Manager" method="enter_mode" binds= [NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Information")]]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Pages/Settings" to="Server Manager" method="enter_mode" binds= [NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Options")]]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Pages/Changelog" to="Server Manager" method="enter_mode" binds= [NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Changelog")]]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Control/HBoxContainer/Create" to="Server Manager" method="create_server"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Control/HBoxContainer/Edit" to="Server Manager" method="create_server"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Control/HBoxContainer/Delete" to="Server Manager" method="delete_server"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Control/HBoxContainer/Cancel" to="Server Manager" method="close_editor"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Options/Settings" to="Server Manager" method="exit_options_mode"]
 
 [editable path="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Password"]
 [editable path="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Options"]

@@ -25,7 +25,8 @@ server_folder = config_dict["Folder"] + "-" + config_dict["Version"]
 
 password = ""
 if "Password" in config_dict:
-	password = config_dict["Password"]
+	if config_dict["Password"]:
+		password = config_dict["Password"]
 
 unauthorized_message = bytes("wrong_password", "utf-8")
 
@@ -71,7 +72,26 @@ def trim_password(inp):
 	return inp.replace("\n","").replace(" ","")
 
 
+def validate_password(self):
 
+	allowed = False
+	if len(password) >= 1:
+		if self.headers['Authorization']:
+			recieved_password = trim_password(self.headers['Authorization'])
+			allowed = (recieved_password == password)
+	else:
+		return True
+
+	if not allowed:
+		print(password)
+		self.send_header("Content-length", len(unauthorized_message))
+		self.send_header("Content-type", "text/plain")
+		self.end_headers()
+		self.wfile.write(unauthorized_message)
+		self.send_response(401)
+
+		return False
+	return True
 
 
 if not os.path.isdir(image_path):
@@ -80,6 +100,8 @@ if not os.path.isdir(image_path):
 if not os.path.isfile(changelog_path):
 	with open(changelog_path, "w") as w:
 		w.write("")
+
+
 
 
 
@@ -96,24 +118,10 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 
 
 
-
+		self.send_response(200)
 		self.send_header("Access-control-request-method", "POST")
 
-		allowed = False
-		if self.headers['Authorization']:
-			recieved_password = trim_password(self.headers['Authorization'])
-			allowed = recieved_password == password or password == ""
-
-		self.send_response(200)
-
-		if not allowed:
-
-			self.send_header("Content-length", len(unauthorized_message))
-			self.send_header("Content-type", "text/plain")
-			self.end_headers()
-			self.wfile.write(unauthorized_message)
-			self.send_response(401)
-
+		if not validate_password(self):
 			return
 
 		if self.headers['Content-length']:
@@ -171,22 +179,9 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 	def do_GET(self):
 
 		
-
-		allowed = False
-		if self.headers['Authorization']:
-			recieved_password = trim_password(self.headers['Authorization'])
-			allowed = recieved_password == password or password == ""
-
 		self.send_response(200)
 
-		if not allowed:
-
-			self.send_header("Content-length", len(unauthorized_message))
-			self.send_header("Content-type", "text/plain")
-			self.send_header("Access-control-request-method", "GET")
-			self.end_headers()
-			self.wfile.write(unauthorized_message)
-
+		if not validate_password(self):
 			return
 
 		

@@ -44,24 +44,24 @@ func paint(obj: DrawTile):
 	if Input.is_action_pressed("pen_down") and !GameValues.main_camera.currently_panning:
 		
 
-
-		var world_textures: WorldTextures = GlobalGameplayValues.world_textures
-		if !world_textures.painted_tiles.has(obj):
-			obj.add_undo()
-			world_textures.painted_tiles.append(obj)
-
-
-
 		if Input.is_action_just_pressed("pen_down") and !undo_triggered:
 			clear_tiles_in_stroke()
 			undo_slots = 0
 			redo_slots = 0
+			undo_triggered = true
+
+		var world_textures: WorldTextures = GlobalGameplayValues.world_textures
+		if !world_textures.painted_tiles.has(obj):
+			world_textures.painted_tiles.append(obj)
 				
-		if Input.is_action_just_pressed("pen_down"):
-			for i in GameValues.world_textures.painted_tiles:
-				print("yo")
+		for i in world_textures.painted_tiles:
+			if !tiles_hit_in_stroke.has(i):
 				i.add_undo()
-				undo_triggered = true
+				tiles_hit_in_stroke.append(i)
+
+
+
+
 
 		#if !tiles_hit_in_stroke.has(obj) and !undo_triggered:
 			#add_one_to_undo_buffer(obj)
