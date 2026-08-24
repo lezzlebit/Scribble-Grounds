@@ -14,6 +14,7 @@
 [ext_resource type="Theme" uid="uid://dr757m870tmqg" path="res://assets/UI/Theme/graffiti_theme.tres" id="9_nxewp"]
 [ext_resource type="Script" uid="uid://hi4g4hn0pjmg" path="res://scripts/Player/WaterReflectionCamera.gd" id="10_7v8v1"]
 [ext_resource type="AudioStream" uid="uid://ctk2uv76xu7na" path="res://assets/Audio/Ambience/lake.ogg" id="10_nxewp"]
+[ext_resource type="Script" uid="uid://dsmwani7x1672" path="res://assets/Audio/RandomlyFadingAmbience.gd" id="11_2bkla"]
 [ext_resource type="AudioStream" uid="uid://bmw1wbsd4okl6" path="res://assets/Audio/Ambience/wind.ogg" id="15_a3dpt"]
 [ext_resource type="AudioStream" uid="uid://cubptnwnkwh6p" path="res://assets/Audio/Ambience/crickets.ogg" id="16_7dwk6"]
 
@@ -147,6 +148,7 @@ autoplay = true
 max_distance = 100.0
 bus = &"Ambience"
 attenuation_filter_cutoff_hz = 20500.0
+script = ExtResource("11_2bkla")
 
 [node name="Crickets3" type="AudioStreamPlayer3D" parent="World/Crickets" unique_id=1595109961]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 123.76114, -26.03516, 46.60544)
@@ -158,6 +160,7 @@ autoplay = true
 max_distance = 100.0
 bus = &"Ambience"
 attenuation_filter_cutoff_hz = 20500.0
+script = ExtResource("11_2bkla")
 
 [node name="Crickets4" type="AudioStreamPlayer3D" parent="World/Crickets" unique_id=1720207741]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 329.6366, -8.752656, 19.582401)
@@ -169,6 +172,7 @@ autoplay = true
 max_distance = 100.0
 bus = &"Ambience"
 attenuation_filter_cutoff_hz = 20500.0
+script = ExtResource("11_2bkla")
 
 [node name="Crickets5" type="AudioStreamPlayer3D" parent="World/Crickets" unique_id=780931652]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -204.79677, -25.067558, 207.76962)
@@ -179,6 +183,7 @@ autoplay = true
 max_distance = 100.0
 bus = &"Ambience"
 attenuation_filter_cutoff_hz = 20500.0
+script = ExtResource("11_2bkla")
 
 [node name="Player" parent="." unique_id=1104231176 instance=ExtResource("4_vqnqe")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -259.3733, 0, 182.12578)

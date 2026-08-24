@@ -58,15 +58,6 @@ func paint(obj: DrawTile):
 			if !tiles_hit_in_stroke.has(i):
 				i.add_undo()
 				tiles_hit_in_stroke.append(i)
-
-
-
-
-
-		#if !tiles_hit_in_stroke.has(obj) and !undo_triggered:
-			#add_one_to_undo_buffer(obj)
-			#undo_triggered = true
-			#tiles_hit_in_stroke.append(obj)
 			
 		
 		
@@ -129,12 +120,22 @@ func move_undo(index: int):
 func _process(_delta: float) -> void:
 	if !Input.is_action_pressed("pen_down"):
 		undo_triggered = false
+		
+	if Input.is_action_just_pressed("undo"):
+		if Input.is_action_pressed("shift"):
+			move_undo(1)
+		else:
+			move_undo(-1)
+	if Input.is_action_just_pressed("redo"):
+		move_undo(1)
+	GameValues.main_camera.mouse_motion_occupied = false
 	
 
 
 
 func raycast_draw(_ray_length: float):
 	
+
 	var cam: Camera3D = GameValues.main_camera as Camera3D
 
 	var mousepos = GameValues.main_camera.mouse_drawing_position
@@ -166,13 +167,7 @@ func raycast_draw(_ray_length: float):
 
 	
 	GameValues.main_camera.hit_paint_wall = could_reach
+
 	
-	if Input.is_action_just_pressed("undo"):
-		if Input.is_action_pressed("shift"):
-			move_undo(1)
-		else:
-			move_undo(-1)
-	if Input.is_action_just_pressed("redo"):
-		move_undo(1)
-	
+
 	pass

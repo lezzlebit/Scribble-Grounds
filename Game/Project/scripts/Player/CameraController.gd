@@ -46,9 +46,12 @@ var sprint_fov_multiplier_lerp: float = 1.0
 signal on_start_drawing
 signal on_stop_drawing
 
+var mouse_motion_occupied: bool = false
+
 func _ready() -> void:
 	GameValues.main_camera = self
 	pass
+
 
 
 func _unhandled_input(event: InputEvent):
@@ -77,7 +80,10 @@ func _unhandled_input(event: InputEvent):
 				pan_pixels += (event.relative / float(screen_pixel_size)).rotated(-pan_rotation)
 				clamp_pan()
 		
-		raycast.raycast_draw(camera_distance)
+		if !mouse_motion_occupied:
+			mouse_motion_occupied = true
+			raycast.raycast_draw(camera_distance)
+		
 
 func clamp_pan():
 	pan_pixels.x = clamp(pan_pixels.x, -512, 512)
@@ -286,8 +292,7 @@ func drawing_mouse():
 
 func _process(delta: float) -> void:
 	
-	
-	
+
 	handle_zoom()
 	
 	drawing_controls.visible = !GameValues.first_person

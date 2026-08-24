@@ -10,6 +10,7 @@ uniform sampler2D lightmap_texture : source_color;
 uniform sampler2D lightmap_noise : source_color;
 uniform sampler2D fade_drawing_noise : filter_nearest, hint_default_transparent;
 uniform int selected = -1;
+const float texture_count = 16.0;
 
 // https://www.youtube.com/watch?v=NGCJqLxwQ5c
 float soft_light_g(float base) {
@@ -83,6 +84,7 @@ vec4 single_texture(sampler2D tex, vec2 uv, int selection, int current, vec2 scr
 	if (selection != -1 && selection != current) {
 		current_tex.a *= drawing_dither(screenuv, resolution, true);
 	}
+	current_tex.a *= (1.0/texture_count);
 	return current_tex;
 }
 
@@ -160,11 +162,17 @@ float dither_fog(float input, vec2 screenuv, vec2 resolution) {
 
 
 void fragment() {
-	vec4 tex = vec4(vec3(1.0), 0.0);
+	vec4 tex = vec4(vec3(0.0), 0.0);
 	
 	vec2 screen_resolution = FRAGCOORD.xy / SCREEN_UV;
 	
 	tex = sample_textures(tex, UV, SCREEN_UV, screen_resolution);
+	if (tex.a > 0.0) {
+		tex.rgb /= (tex.a * texture_count);
+		tex.a = 1.0;
+	}
+	
+	//tex.a = ceil(tex.a);
 	
 	float z_near = abs(PROJECTION_MATRIX[3][2] / PROJECTION_MATRIX[2][2]);
 	float z_far = abs((PROJECTION_MATRIX[3][2] * z_near) / (PROJECTION_MATRIX[3][2] + z_near));
@@ -175,7 +183,8 @@ void fragment() {
 	vec4 lightmap = lightmap_dither(UV2, SCREEN_UV, screen_resolution, COLOR);
 	// vec4 lightmap = texture(lightmap_texture, UV2);
 	
-	vec3 result = tex.rgb * lightmap.rgb;
+	vec3 result = mix(lightmap.rgb, tex.rgb * lightmap.rgb, tex.a);
+	// result = vec3(tex.a);
 	vec3 overlay = mix(lightmap.rgb, tex.rgb, tex.a);
 	result = mix(result.rgb, overlay, 0.15);
 

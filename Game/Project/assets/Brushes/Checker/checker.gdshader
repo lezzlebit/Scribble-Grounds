@@ -22,7 +22,7 @@ void fragment() {
 	float horizontal_lines = sin(UV.x * 11.0 * PI);
 	float checker_sample = abs(vertical_lines - horizontal_lines);
 	
-	float random_uv = random(UV + vec2(TIME, 1.0)) * 10.0;
+	float random_uv = random(UV + vec2(TIME, 1.0)) * 5.0;
 	
 	float alpha_threshold = 1.0-floor((sample_distance / radius) + random_uv);
 	

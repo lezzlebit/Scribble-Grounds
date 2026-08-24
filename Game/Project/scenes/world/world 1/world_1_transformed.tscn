@@ -1,0 +1,231 @@
+[gd_scene format=4 uid="uid://cam5cwx07wvax"]
+
+[ext_resource type="Script" uid="uid://dh27jx5i4ixab" path="res://scripts/Network/NetworkHandler.gd" id="1_v16yd"]
+[ext_resource type="Script" uid="uid://dbruja1g6egnu" path="res://scripts/World/WorldTextures.gd" id="2_mhc8h"]
+[ext_resource type="PackedScene" uid="uid://dve478ehy38e0" path="res://scenes/world/world 1/Blender/Wall-Map.blend" id="3_0gflk"]
+[ext_resource type="Shader" uid="uid://dlarcfairhg3o" path="res://assets/Materials/water/water_reflection.gdshader" id="4_27dpc"]
+[ext_resource type="Texture2D" uid="uid://drb16f3ilgjnx" path="res://assets/Materials/draw_tile/textures/bluenoise.png" id="5_4sk4v"]
+[ext_resource type="Texture2D" uid="uid://dl8hr8l6xrfjc" path="res://scenes/world/world 1/Blender/WaterMap.png" id="6_phwpj"]
+[ext_resource type="Texture2D" uid="uid://dsxvrwj2ywfo" path="res://assets/Materials/water/coolwaternoise.png" id="7_yg4tb"]
+[ext_resource type="Theme" uid="uid://dr757m870tmqg" path="res://assets/UI/Theme/graffiti_theme.tres" id="8_8io12"]
+[ext_resource type="Shader" uid="uid://dnxxklccjl584" path="res://assets/Materials/world_ui/world_ui.gdshader" id="9_w81l0"]
+[ext_resource type="AudioStream" uid="uid://cubptnwnkwh6p" path="res://assets/Audio/Ambience/crickets.ogg" id="10_2s8d0"]
+[ext_resource type="PackedScene" uid="uid://bqw6025khq3bg" path="res://scenes/player/player.tscn" id="11_jly6a"]
+[ext_resource type="AudioStream" uid="uid://bmw1wbsd4okl6" path="res://assets/Audio/Ambience/wind.ogg" id="12_3e0ew"]
+[ext_resource type="PackedScene" uid="uid://ckjxfqndgkrk5" path="res://scenes/ui/logger.tscn" id="13_x6j6t"]
+[ext_resource type="Environment" uid="uid://dnoppw2hmxvf0" path="res://assets/Environment/environment.tres" id="14_gfl0w"]
+[ext_resource type="Script" uid="uid://hi4g4hn0pjmg" path="res://scripts/Player/WaterReflectionCamera.gd" id="15_1s5yn"]
+[ext_resource type="AudioStream" uid="uid://ctk2uv76xu7na" path="res://assets/Audio/Ambience/lake.ogg" id="16_qmnih"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v16yd"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("4_27dpc")
+shader_parameter/water_noise = ExtResource("7_yg4tb")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yidcf"]
+resource_name = "Water"
+cull_mode = 2
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_yh10l"]
+_surfaces = [{
+"aabb": AABB(-1375.832, -32, -1375.832, 2751.664, 1e-05, 2751.664),
+"format": 34896613377,
+"index_count": 78,
+"index_data": PackedByteArray("AAABAAIAAwABAAAABAADAAUABAABAAMABgABAAQABgAEABEAEQAEAAcAAQAGABIAEQASAAYACAARAAcAEQATABIAAQASAA0ADQASABMAEwARABQADQATABQAFAARABUAFQANABQACAAVABEAAQANAA4AAQAOABAADgANAA8AFQALAA0ACQAVAAgAFQAJAAsACQAIAAoACwAJAAwA"),
+"lods": [223.59299, PackedByteArray("AAABAAIAAwABAAAABAADAAUABAABAAMABgABAAQABgAEAAcACAAGAAcACQAGAAgACQAIAAoABgAJAAsACwAJAAwABgALAA0AAQAGAA0AAQANAA4ADgANAA8AAQAOABAA")],
+"name": "Water",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 22,
+"vertex_data": PackedByteArray("+7AAAL4JAAADTwAAvgkAAP9/AAAAAAAAgdoAAH0lAAD//wAA/38AAED2AAADTwAAO6oAAPF1AABA9gAA+7AAAIHaAACB2gAA/38AAP//AAD7sAAAQPYAAH0lAACB2gAAA08AAED2AAC+CQAA+7AAAL4JAAADTwAAAAAAAP9/AAB9JQAAfSUAAF+rAACmmAAAZWMAAHqDAAASZQAA65AAADJjAADgogAApXcAAMenAAA=")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_vs0yu"]
+resource_name = "Wall-Map_Circle"
+_surfaces = [{
+"aabb": AABB(-1375.832, -32, -1375.832, 2751.664, 1e-05, 2751.664),
+"attribute_data": PackedByteArray("ONJ8clyR4Yp2mXxyro7hite142wFkJ2KRupugn6SpIv//3G2hZMfjln6S5pAk8eMT86psCyR2I1Z+pfSQJN2j0bqc+p+kpqQ17X//wWQoZE40mX6XJFckWeBc+qLjZqQdpll+q6OXJFUcZfSyYx2j1RxS5rJjMeMr2txtoWMH45ngW6Ci42ki/jOm8Q0kcyORaVxuD2PN45Z+pfSQZN2jwCxTc3KjzaPVHGX0smMdo8npXzKO48Tjz6mKsBIj5WOJ6V8yuB+bvL4zpvEx/9J2wCxTc3kov//PqYqwF6DNsRFpXG4QIF6oU/OqbD//7qB"),
+"format": 34896613431,
+"index_count": 78,
+"index_data": PackedByteArray("AAABAAIAAwABAAAABAADAAUABAABAAMABgABAAQABgAEABEAEQAEAAcAAQAGABIACAARABMACAAUABEACQAUAAgACQAIAAoAFAAJAAsACwAJAAwAFAALABUAFAAVABYADQAXABYADQASABcAAQASAA0AAQANAA4ADgANAA8AAQAOABAAGAAZABoAGwAZABgAGQAbABwAGQAcAB0A"),
+"lods": [223.59299, PackedByteArray("AAABAAIAAwABAAAABAADAAUABAABAAMABgABAAQABgAEAAcACAAGAAcACQAGAAgACQAIAAoABgAJAAsACwAJAAwABgALAA0AAQAGAA0AAQANAA4ADgANAA8AAQAOABAA")],
+"material": SubResource("StandardMaterial3D_yidcf"),
+"name": "Water",
+"primitive": 3,
+"uv_scale": Vector4(2.0611405, 2.077986, 1.9908834, 1.9865153),
+"vertex_count": 30,
+"vertex_data": PackedByteArray("+7AAAL4J/78DTwAAvgn/v/9/AAAAAP+/gdoAAH0l/7///wAA/3//v0D2AAADT/+/O6oAAPF1/79A9gAA+7D/v4HaAACB2v+//38AAP///7/7sAAAQPb/v30lAACB2v+/A08AAED2/7++CQAA+7D/v74JAAADT/+/AAAAAP9//799JQAAfSX/v1+rAACmmP+/ZWMAAHqD/79A9gAA+7D/v6V3AADHp/+/vgkAAPuw/78yYwAA4KL/vxJlAADrkP+/MmMAAOCi/79fqwAAppj/v6V3AADHp/+/EmUAAOuQ/79lYwAAeoP/vzuqAADxdf+/////f////3////9/////f////3////9/////f////3////9/////f/7//3////9//v//f////3////9/////f////3////9/////f////3////9/////f////3////9/////f////3////9/////f////3////9/")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_yh10l")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_nxewp"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b2bta"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("4_27dpc")
+shader_parameter/water_lightmap = ExtResource("6_phwpj")
+shader_parameter/water_noise = ExtResource("7_yg4tb")
+shader_parameter/screen_noise = ExtResource("5_4sk4v")
+shader_parameter/reflection = SubResource("ViewportTexture_nxewp")
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_pva0k"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_a3dpt"]
+viewport_path = NodePath("World/SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nxewp"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("9_w81l0")
+shader_parameter/main_texture = SubResource("ViewportTexture_a3dpt")
+
+[sub_resource type="QuadMesh" id="QuadMesh_bwkwh"]
+size = Vector2(4, 4)
+
+[node name="World1" type="Node3D" unique_id=1916285311]
+
+[node name="NetworkHandler" type="Node" parent="." unique_id=630522918 node_paths=PackedStringArray("Motd")]
+script = ExtResource("1_v16yd")
+Motd = NodePath("../World/SubViewport/Control/Label")
+metadata/_custom_type_script = "uid://dh27jx5i4ixab"
+
+[node name="World" type="Node3D" parent="." unique_id=61106289]
+script = ExtResource("2_mhc8h")
+metadata/_custom_type_script = "uid://dbruja1g6egnu"
+
+[node name="Wall-Map" parent="World" unique_id=2102952079 instance=ExtResource("3_0gflk")]
+
+[node name="Walls_001" parent="World/Wall-Map" index="70" unique_id=561807303]
+transform = Transform3D(1, 0, 0, 0, 0.9999619, -0.008726535, 0, 0.008726535, 0.9999619, 0, 6.050102, 0)
+
+[node name="water" parent="World/Wall-Map" index="171" unique_id=864740905]
+surface_material_override/0 = SubResource("ShaderMaterial_v16yd")
+
+[node name="water" type="MeshInstance3D" parent="World" unique_id=738275049]
+mesh = SubResource("ArrayMesh_vs0yu")
+surface_material_override/0 = SubResource("ShaderMaterial_b2bta")
+
+[node name="Boundaries" type="Node" parent="World" unique_id=135983352]
+
+[node name="Water" type="StaticBody3D" parent="World/Boundaries" unique_id=218700627]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -32, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Boundaries/Water" unique_id=817671495]
+shape = SubResource("WorldBoundaryShape3D_pva0k")
+
+[node name="SubViewport" type="SubViewport" parent="World" unique_id=397806085]
+transparent_bg = true
+
+[node name="Control" type="Control" parent="World/SubViewport" unique_id=1541275609]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("8_8io12")
+
+[node name="Label" type="Label" parent="World/SubViewport/Control" unique_id=44640155]
+custom_maximum_size = Vector2(512, -1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Motd" type="MeshInstance3D" parent="World" unique_id=111908984]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -259.79962, 2.8339663, 174.17531)
+material_override = SubResource("ShaderMaterial_nxewp")
+mesh = SubResource("QuadMesh_bwkwh")
+
+[node name="Crickets" type="Node3D" parent="World" unique_id=853326323]
+
+[node name="Crickets2" type="AudioStreamPlayer3D" parent="World/Crickets" unique_id=1693681735]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -73.24371, -24.165916, 98.385925)
+stream = ExtResource("10_2s8d0")
+volume_db = -5.0
+max_db = -24.0
+pitch_scale = 1.2
+autoplay = true
+max_distance = 100.0
+bus = &"Ambience"
+attenuation_filter_cutoff_hz = 20500.0
+
+[node name="Crickets3" type="AudioStreamPlayer3D" parent="World/Crickets" unique_id=1595109961]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 123.76114, -26.03516, 46.60544)
+stream = ExtResource("10_2s8d0")
+volume_db = -5.0
+max_db = -24.0
+pitch_scale = 1.4
+autoplay = true
+max_distance = 100.0
+bus = &"Ambience"
+attenuation_filter_cutoff_hz = 20500.0
+
+[node name="Crickets4" type="AudioStreamPlayer3D" parent="World/Crickets" unique_id=1720207741]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 329.6366, -8.752656, 19.582401)
+stream = ExtResource("10_2s8d0")
+volume_db = -5.0
+max_db = -24.0
+pitch_scale = 0.9
+autoplay = true
+max_distance = 100.0
+bus = &"Ambience"
+attenuation_filter_cutoff_hz = 20500.0
+
+[node name="Crickets5" type="AudioStreamPlayer3D" parent="World/Crickets" unique_id=780931652]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -204.79677, -25.067558, 207.76962)
+stream = ExtResource("10_2s8d0")
+volume_db = -5.0
+max_db = -24.0
+autoplay = true
+max_distance = 100.0
+bus = &"Ambience"
+attenuation_filter_cutoff_hz = 20500.0
+
+[node name="Player" parent="." unique_id=1104231176 instance=ExtResource("11_jly6a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -259.3733, 0, 182.12578)
+
+[node name="Wind" type="AudioStreamPlayer" parent="Player" unique_id=622286714]
+stream = ExtResource("12_3e0ew")
+volume_db = -12.0
+autoplay = true
+bus = &"Ambience"
+
+[node name="Logger" parent="." unique_id=278674006 instance=ExtResource("13_x6j6t")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=754354177]
+environment = ExtResource("14_gfl0w")
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=1094039991]
+scaling_3d_mode = 5
+anisotropic_filtering_level = 0
+canvas_item_default_texture_filter = 0
+
+[node name="WaterReflectionCamera" type="Camera3D" parent="SubViewport" unique_id=724080032 node_paths=PackedStringArray("water", "viewport")]
+script = ExtResource("15_1s5yn")
+water = NodePath("../../World/water")
+viewport = NodePath("..")
+water_height = -32.0
+metadata/_custom_type_script = "uid://hi4g4hn0pjmg"
+
+[node name="Lake" type="AudioStreamPlayer3D" parent="SubViewport/WaterReflectionCamera" unique_id=1196407506]
+stream = ExtResource("16_qmnih")
+attenuation_model = 1
+volume_db = -10.0
+max_db = -15.0
+autoplay = true
+max_distance = 50.0
+bus = &"Ambience"
+attenuation_filter_cutoff_hz = 20500.0
+
+[editable path="World/Wall-Map"]

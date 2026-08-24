@@ -59,15 +59,16 @@ func _http_request_completed(_result, response_code, headers, body):
 	
 	var headers_dictionary = headers_to_dictionary(headers)
 	var content_type = headers_dictionary["Content-type"]
-	var request_method = headers_dictionary["Access-control-request-method"]
-	
-	
-	if (content_type == "text/plain" && request_method == "GET"):
-		_on_retrieve_list(headers_dictionary, body)
-	if (content_type == "text/plain" && request_method == "POST"):
-		_on_image_uploaded(headers_dictionary, body)
-	if (content_type == "image/png" && request_method == "POST"):
-		_on_retrieve_image(headers_dictionary, body)
+	if headers_dictionary.has("Access-control-request-method"):
+		var request_method = headers_dictionary["Access-control-request-method"]
+		
+		
+		if (content_type == "text/plain" && request_method == "GET"):
+			_on_retrieve_list(headers_dictionary, body)
+		if (content_type == "text/plain" && request_method == "POST"):
+			_on_image_uploaded(headers_dictionary, body)
+		if (content_type == "image/png" && request_method == "POST"):
+			_on_retrieve_image(headers_dictionary, body)
 
 func headers_to_dictionary(strings: PackedStringArray):
 	print(strings)
