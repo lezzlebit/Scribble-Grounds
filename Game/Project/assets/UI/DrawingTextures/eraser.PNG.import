@@ -4,15 +4,16 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://y0kaivg37tn7"
 path.s3tc="res://.godot/imported/eraser.PNG-cd42c40de7cb0e87475ba051fb4cff70.s3tc.ctex"
+path.etc2="res://.godot/imported/eraser.PNG-cd42c40de7cb0e87475ba051fb4cff70.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/UI/DrawingTextures/eraser.PNG"
-dest_files=["res://.godot/imported/eraser.PNG-cd42c40de7cb0e87475ba051fb4cff70.s3tc.ctex"]
+dest_files=["res://.godot/imported/eraser.PNG-cd42c40de7cb0e87475ba051fb4cff70.s3tc.ctex", "res://.godot/imported/eraser.PNG-cd42c40de7cb0e87475ba051fb4cff70.etc2.ctex"]
 
 [params]
 
