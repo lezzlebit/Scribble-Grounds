@@ -204,7 +204,10 @@ func _on_retrieve_image(headers, body):
 func upload_image(filename: String):
 	
 	var img = Image.new()
-	img.load(directory + filename)
+	var err = img.load(directory + filename)
+	if err != OK:
+		GlobalGameplayValues.user_error_log("Tried to upload image, but it was corrupted")
+		return false
 	var body: PackedByteArray = img.save_png_to_buffer()
 	
 	

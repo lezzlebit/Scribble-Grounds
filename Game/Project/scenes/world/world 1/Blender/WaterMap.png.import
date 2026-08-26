@@ -4,16 +4,15 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dl8hr8l6xrfjc"
 path.s3tc="res://.godot/imported/WaterMap.png-c42ed53884d6572a1bc07f0edebfe4b3.s3tc.ctex"
-path.etc2="res://.godot/imported/WaterMap.png-c42ed53884d6572a1bc07f0edebfe4b3.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://scenes/world/world 1/Blender/WaterMap.png"
-dest_files=["res://.godot/imported/WaterMap.png-c42ed53884d6572a1bc07f0edebfe4b3.s3tc.ctex", "res://.godot/imported/WaterMap.png-c42ed53884d6572a1bc07f0edebfe4b3.etc2.ctex"]
+dest_files=["res://.godot/imported/WaterMap.png-c42ed53884d6572a1bc07f0edebfe4b3.s3tc.ctex"]
 
 [params]
 

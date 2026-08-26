@@ -1,3 +1,8 @@
+Aug 26 2026
+[hr]
+	- Hopefully prevented players from uploading corrupted files, or downloading them and having the game stop functioning
+	- Fixed a large hole in the floor near the far side of the wall
+
 Aug 25 2026
 [hr]
 	- Fixed a bug where fullscreen and tablet driver options didn't affect anything outside of the title screen

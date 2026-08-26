@@ -83,6 +83,7 @@ func update_one_image(image_path: String):
 	if tiles.has(file_name):
 		var tile_found: DrawTile = tiles[file_name]
 		tile_found.set_image(image_username, imported_image)
+	return true
 	
 	
 
@@ -99,18 +100,21 @@ func update_image_pool(update_all: bool):
 	for i in files_to_get:
 		
 		var selected_name = i.split(".")[0]
-		
-		var imported_image: Image = Image.new()
-		var err = imported_image.load(directory + i)
-		if err != OK:
-			print("no image found (load)")
-			return false
-
-		image_pool[selected_name] = imported_image
+		get_one_image(selected_name, i)
 	
 	assign_all_textures()
 
 	pass
+	
+func get_one_image(selected_name: String, i: String):
+	var imported_image: Image = Image.new()
+	var err = imported_image.load(directory + i)
+	if err != OK:
+		print("no image found (load)")
+		return false
+
+	image_pool[selected_name] = imported_image
+	return true
 
 func assign_all_textures():
 	for i in image_pool:
