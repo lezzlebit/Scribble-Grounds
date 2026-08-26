@@ -62,7 +62,7 @@ func set_replace_color():
 
 func update_undo_buttons(undo: int, redo: int):
 	print(undo)
-	undo_button.disabled = undo < 1
+	undo_button.disabled = undo <= 0
 	redo_button.disabled = redo <= 1
 
 func end_replace_color():

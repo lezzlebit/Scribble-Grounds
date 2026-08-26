@@ -93,8 +93,6 @@ metadata/_custom_type_script = "uid://dh27jx5i4ixab"
 script = ExtResource("2_1lswo")
 metadata/_custom_type_script = "uid://dbruja1g6egnu"
 
-[node name="Wall-Map" parent="World" unique_id=2102952079 instance=ExtResource("3_5f0vg")]
-
 [node name="water" type="MeshInstance3D" parent="World" unique_id=738275049]
 mesh = SubResource("ArrayMesh_vs0yu")
 surface_material_override/0 = SubResource("ShaderMaterial_b2bta")
@@ -184,6 +182,8 @@ max_distance = 100.0
 bus = &"Ambience"
 attenuation_filter_cutoff_hz = 20500.0
 script = ExtResource("11_2bkla")
+
+[node name="Wall-Map" parent="World" unique_id=1695952427 instance=ExtResource("3_5f0vg")]
 
 [node name="Player" parent="." unique_id=1104231176 instance=ExtResource("4_vqnqe")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -259.3733, 0, 182.12578)

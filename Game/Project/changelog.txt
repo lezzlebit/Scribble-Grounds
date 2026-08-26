@@ -1,3 +1,11 @@
+Aug 25 2026
+[hr]
+	- Fixed a bug where fullscreen and tablet driver options didn't affect anything outside of the title screen
+	- Fixed a bug where inputs from pen ablets (using PenTabletDriver) wouldn't be picked up
+	- HOPEFULLY fixed a bug where lines would be drawn in between pen strokes when they shouldn't have been
+	- HOPEFULLY Fixed a bug where the undo buttons didn't highlight correctly
+	- Fixed a bug where the random audio for the crickets wasn't actually random
+
 Aug 23 2026
 [hr]
 	- Mixed colors from different people now results in an average of their color layers (if you painted red over someone's yellow drawing, it will be orange)

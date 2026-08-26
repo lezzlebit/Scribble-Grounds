@@ -40,6 +40,7 @@ var picking_color_for_replace: bool = false
 var hit_paint_wall: bool = false
 
 var currently_drawing: bool = false
+var was_drawing_this_frame: bool = false
 
 var sprint_fov_multiplier_lerp: float = 1.0
 
@@ -292,14 +293,15 @@ func drawing_mouse():
 
 func _process(delta: float) -> void:
 	
+	
 
 	handle_zoom()
 	
 	drawing_controls.visible = !GameValues.first_person
 	
 	
-	if !Input.is_action_pressed("pen_down"):
-		mouse_drawing_position = get_viewport().get_mouse_position()
+	#if !Input.is_action_pressed("pen_down"):
+		#mouse_drawing_position = get_viewport().get_mouse_position()
 	
 	if !picking_color_for_replace: begin_pan_input()
 	

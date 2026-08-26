@@ -59,7 +59,7 @@ func paint(obj: DrawTile):
 				i.add_undo()
 				tiles_hit_in_stroke.append(i)
 			
-		
+		GameValues.drawing_controls.update_undo_buttons(undo_slots, redo_slots)
 		
 		var new_mesh = obj as MeshInstance3D
 		if current_mesh != new_mesh: 
@@ -129,6 +129,8 @@ func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("redo"):
 		move_undo(1)
 	GameValues.main_camera.mouse_motion_occupied = false
+	if !GameValues.main_camera.currently_drawing:
+		previous_frame_available = false
 	
 
 
@@ -137,6 +139,8 @@ func raycast_draw(_ray_length: float):
 	
 
 	var cam: Camera3D = GameValues.main_camera as Camera3D
+	if !GameValues.main_camera.currently_drawing:
+		previous_frame_available = false
 
 	var mousepos = GameValues.main_camera.mouse_drawing_position
 	#global_position = cam.global_position + (-cam.transform.basis.z * cam.near)

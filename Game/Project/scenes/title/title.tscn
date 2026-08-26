@@ -310,7 +310,9 @@ text = "Things to know:
 autowrap_mode = 2
 
 [node name="Changelog" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=1834237738]
+visible = false
 layout_mode = 2
+mouse_filter = 0
 
 [node name="Label" type="Label" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Changelog" unique_id=1931369841]
 layout_mode = 2
@@ -318,13 +320,19 @@ text = "Changelog"
 
 [node name="ChangelogScroll" type="ScrollContainer" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Changelog" unique_id=214581341]
 custom_minimum_size = Vector2(0, 512)
+custom_maximum_size = Vector2(-1, 512)
 layout_mode = 2
+mouse_filter = 0
+mouse_behavior_recursive = 2
+mouse_force_pass_scroll_events = false
 
 [node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Changelog/ChangelogScroll" unique_id=85963697]
 process_mode = 4
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
+mouse_filter = 2
+mouse_behavior_recursive = 1
+mouse_force_pass_scroll_events = false
 theme_override_font_sizes/normal_font_size = 13
 bbcode_enabled = true
 text = "Hello!
@@ -353,6 +361,7 @@ Hello!
 Hello!
 Hello!
 "
+fit_content = true
 script = ExtResource("15_bjs8b")
 
 [node name="Node3D" type="Node3D" parent="." unique_id=1504498866]
