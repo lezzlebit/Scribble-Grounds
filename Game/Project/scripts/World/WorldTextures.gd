@@ -2,6 +2,8 @@ extends Node3D
 
 class_name WorldTextures
 
+@export var update_audio: DrawingUpdateAudio
+
 var tiles: Dictionary[String, DrawTile]
 var image_pool: Dictionary[String, Image]
 
@@ -82,6 +84,7 @@ func update_one_image(image_path: String):
 	
 	if tiles.has(file_name):
 		var tile_found: DrawTile = tiles[file_name]
+		
 		tile_found.set_image(image_username, imported_image)
 	return true
 	

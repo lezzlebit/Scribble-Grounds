@@ -183,7 +183,36 @@ func blit_texture(x: float, y: float, paste_image: Image, h: HitData, round_scal
 			#
 			#set_pixel(x+x_addition, y+y_addition, color, overwrite)
 
-func set_pixel(x: float, y: float, color: Color, h: HitData):
+func pick_pixel(x: float, y:float) -> Color:
+	
+	
+	var drawPos = Vector2i(int(texture_width * x), int(texture_height * y))
+	drawPos.x = clampi(drawPos.x, 0, texture_width)
+	drawPos.y = clampi(drawPos.y, 0, texture_height)
+	
+	
+	var final_color: Color = Color.TRANSPARENT
+	var user_color_at_pos = Color.TRANSPARENT
+	if painted_textures.has(GlobalNetworkValues.username):
+		var user_layer = painted_textures[GlobalNetworkValues.username]
+		user_color_at_pos = user_layer.get_image().get_pixelv(drawPos)
+	
+	if user_color_at_pos.a == 0:
+		print("was transparent")
+		var color_options: Array[Color]
+		
+		for i in painted_textures:
+			var color_at_pos = painted_textures[i].get_image().get_pixelv(drawPos)
+			if color_at_pos.a != 0:
+				color_options.append(color_at_pos)
+		print(color_options)
+		if len(color_options) > 0:
+			final_color = color_options[0]
+	else:
+		final_color = user_color_at_pos
+	return final_color
+	
+func set_pixel(x: float, y: float, pixel_offset: Vector2i, color: Color, h: HitData):
 	
 	start_drawing()
 	
@@ -192,8 +221,12 @@ func set_pixel(x: float, y: float, color: Color, h: HitData):
 	
 	
 	var drawPos = Vector2i(int(texture_width * x), int(texture_height * y))
+	
+	drawPos += pixel_offset
+	
 	drawPos.x = clampi(drawPos.x, 0, texture_width)
 	drawPos.y = clampi(drawPos.y, 0, texture_height)
+	
 	
 	var should_overwrite: bool = h.should_overwrite
 	if color.a == 0: should_overwrite = true

@@ -1,12 +1,15 @@
 [gd_scene format=3 uid="uid://c6j8qgmfdlrre"]
 
 [ext_resource type="Texture2D" uid="uid://btxnr638bd66" path="res://assets/UI/DrawingTextures/palette_button.PNG" id="1_rabjw"]
+[ext_resource type="Script" uid="uid://cv1wnqal86067" path="res://scripts/Player/UI/ColorButton.gd" id="2_yydpb"]
 
-[node name="PaletteButton" type="TextureButton" unique_id=1850325773]
+[node name="PaletteButton" type="TextureButton" unique_id=473542609]
 custom_minimum_size = Vector2(32, 32)
 custom_maximum_size = Vector2(32, 32)
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 32.0
+offset_bottom = 32.0
 mouse_behavior_recursive = 2
 action_mode = 0
 texture_normal = ExtResource("1_rabjw")
+script = ExtResource("2_yydpb")
+metadata/_custom_type_script = "uid://cv1wnqal86067"

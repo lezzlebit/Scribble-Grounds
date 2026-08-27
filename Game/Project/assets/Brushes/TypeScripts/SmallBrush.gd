@@ -2,6 +2,11 @@ extends Brush
 
 class_name SmallBrush
 
+@export var extra_transforms: Array[Vector2i]
+@export var brush_center_pixel_offset: Vector2
+@export var dots_per_unit: int = 32
+@export var max_dots_per_stroke: int = 8
+
 func draw(h: HitData):
 	
 	
@@ -9,11 +14,19 @@ func draw(h: HitData):
 		draw_line(h)
 		
 	var coords = UvPosition.get_uv_coords(h.hit_position, h.hit_normal, false)
-	h.hit_tile.set_pixel(coords.x, coords.y, h.hit_color, h)
+	draw_dot(coords, h)
 	
 	pass
 
 
+func draw_dot(coords: Vector2, h: HitData):
+	
+	var tex_size: Vector2 = GlobalNetworkValues.texture_dimensions
+	coords += brush_center_pixel_offset / tex_size
+	
+	h.hit_tile.set_pixel(coords.x, coords.y, Vector2i.ZERO, h.hit_color, h)
+	for i in extra_transforms:
+		h.hit_tile.set_pixel(coords.x, coords.y, i, h.hit_color, h)
 
 func draw_line(h: HitData):
 	
@@ -23,13 +36,13 @@ func draw_line(h: HitData):
 	var pos_1 = h.hit_position
 	var pos_2 = h.last_hit_position
 	
-	var distance_requirement: float = 32
+	var distance_requirement: float = dots_per_unit
 	var distance: int = (pos_1.distance_to(pos_2) * distance_requirement) + 1
-	distance = clampi(distance, 1, 8)
+	distance = clampi(distance, 1, max_dots_per_stroke)
 	
 	for i in range(distance):
 		var lerpPos: Vector3 = pos_2.lerp(pos_1, float(i)/float(distance))
 		var coords = UvPosition.get_uv_coords(lerpPos - tile.position, h.hit_normal, false)
 		if !coords:
 			return
-		tile.set_pixel(coords.x, coords.y, h.hit_color, h)
+		draw_dot(coords, h)

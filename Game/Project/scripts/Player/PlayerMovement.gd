@@ -20,6 +20,8 @@ var last_collider
 
 signal on_jump
 
+var able_to_jump: bool
+
 func _input(event: InputEvent):
 	if event.is_action_pressed("ui_cancel"):
 		GlobalGameplayValues.paused = !GlobalGameplayValues.paused
@@ -47,9 +49,13 @@ func process_movement(delta: float):
 		stop_friction = 2.0
 		velocity += get_gravity() * delta
 
-	if Input.is_action_just_pressed("jump") and is_on_floor():
-		on_jump.emit()
-		velocity.y = jump_velocity
+	if Input.is_action_pressed("jump") and is_on_floor():
+		if !able_to_jump:
+			on_jump.emit()
+			velocity.y = jump_velocity
+		able_to_jump = true
+	else:
+		able_to_jump = false
 
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()

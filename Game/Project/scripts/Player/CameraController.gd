@@ -36,7 +36,7 @@ var mouse_drawing_position: Vector2
 var pan_pixels: Vector2
 var pan_rotation: float
 var currently_panning: bool = false
-var picking_color_for_replace: bool = false
+var picking_color: bool = false
 var hit_paint_wall: bool = false
 
 var currently_drawing: bool = false
@@ -57,38 +57,30 @@ func _ready() -> void:
 
 func _unhandled_input(event: InputEvent):
 	
-	if !GameValues.first_person and !picking_color_for_replace:
+	if GameValues.first_person:
+		return
 
-		var camera_distance: float = get_camera_distance()
-		# raycast.target_position.z = far * -1
-		
-		# if !Input.is_action_pressed("pen_down"):
-		# mouse_drawing_position = get_viewport().get_mouse_position()
-		
-		if event is InputEventMouseMotion:
-			currently_drawing = event.button_mask == 1
-		
-		
+	var camera_distance: float = get_camera_distance()
+
+	if event is InputEventMouseMotion:
+		currently_drawing = event.button_mask == 1
+
+	if event is InputEventMouseMotion:
+		mouse_drawing_position = event.position
+
+		if Input.is_action_pressed("pan_mouse") or (Input.is_action_pressed("pen_down") and currently_panning):
+			currently_panning = true
+			pan_pixels += (event.relative / float(screen_pixel_size)).rotated(-pan_rotation)
+			clamp_pan()
 	
-		
-		if event is InputEventMouseMotion:
-			mouse_drawing_position = event.position
-			
-			# mouse_drawing_position = get_viewport().get_mouse_position()
-			# mouse_drawing_position += event.screen_relative
-			if Input.is_action_pressed("pan_mouse") or (Input.is_action_pressed("pen_down") and currently_panning):
-				currently_panning = true
-				pan_pixels += (event.relative / float(screen_pixel_size)).rotated(-pan_rotation)
-				clamp_pan()
-		
-		if !mouse_motion_occupied:
-			mouse_motion_occupied = true
-			raycast.raycast_draw(camera_distance)
-		
+	if !mouse_motion_occupied:
+		mouse_motion_occupied = true
+		raycast.raycast_draw(camera_distance)
 
 func clamp_pan():
 	pan_pixels.x = clamp(pan_pixels.x, -512, 512)
 	pan_pixels.y = clamp(pan_pixels.y, -512, 512)
+	
 
 func find_paint_wall():
 	
@@ -286,8 +278,11 @@ func drawing_mouse():
 		else:
 			Input.set_default_cursor_shape(Input.CURSOR_MOVE)
 	else:
-		if hit_paint_wall and !picking_color_for_replace:
-			Input.set_default_cursor_shape(Input.CURSOR_CROSS)
+		if hit_paint_wall:
+			if !picking_color:
+				Input.set_default_cursor_shape(Input.CURSOR_CROSS)
+			else:
+				Input.set_default_cursor_shape(Input.CURSOR_CAN_DROP)
 		else:
 			Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 
@@ -302,8 +297,7 @@ func _process(delta: float) -> void:
 	
 	#if !Input.is_action_pressed("pen_down"):
 		#mouse_drawing_position = get_viewport().get_mouse_position()
-	
-	if !picking_color_for_replace: begin_pan_input()
+
 	
 	
 	if GameValues.first_person and !GameValues.paused:
@@ -316,7 +310,7 @@ func _process(delta: float) -> void:
 		raycast.rotation = Vector3.ZERO
 		raycast.target_position = Vector3(0, 0, -3.5)
 
-	elif Input.is_action_just_pressed("end_drawing") and !picking_color_for_replace:
+	elif Input.is_action_just_pressed("end_drawing") and !picking_color:
 		
 		if !GameValues.first_person:
 			on_stop_drawing.emit()
@@ -347,6 +341,8 @@ func _process(delta: float) -> void:
 			Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 		else:
 			drawing_mouse()
+			
+	begin_pan_input()
 	
 
 	

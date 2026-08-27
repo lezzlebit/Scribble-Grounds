@@ -38,13 +38,9 @@
 [ext_resource type="Resource" uid="uid://1mikiowoqggj" path="res://assets/Brushes/Circle/circle.tres" id="17_lgqa7"]
 [ext_resource type="AudioStream" uid="uid://4ti2g17bibwd" path="res://assets/Audio/Sounds/step/water/wade-03.ogg" id="17_ln3h3"]
 [ext_resource type="Script" uid="uid://844br5dfvoxg" path="res://scripts/Audio/ButtonAudio.gd" id="18_5q8fn"]
-[ext_resource type="Texture2D" uid="uid://brpqh1fs8ehlm" path="res://assets/UI/DrawingTextures/undo.png" id="18_28m0y"]
 [ext_resource type="AudioStream" uid="uid://bra2fbokrdy32" path="res://assets/Audio/Sounds/step/water/wade-04.ogg" id="18_uygh0"]
-[ext_resource type="Texture2D" uid="uid://bcl6wemmq0l6l" path="res://assets/UI/DrawingTextures/undo_disabled.png" id="19_iqsei"]
 [ext_resource type="Script" uid="uid://bxcb4a2dh5up1" path="res://scripts/Player/UI/Reticle.gd" id="19_lgqa7"]
-[ext_resource type="Texture2D" uid="uid://dm3qhr2rxyogl" path="res://assets/UI/DrawingTextures/redo.png" id="19_uniwh"]
 [ext_resource type="Texture2D" uid="uid://ddwmpowaagnad" path="res://assets/UI/Cursors/paint.png" id="20_8ydkj"]
-[ext_resource type="Texture2D" uid="uid://15j4g0k00kbr" path="res://assets/UI/DrawingTextures/redo_disabled.png" id="21_tffgl"]
 [ext_resource type="Environment" uid="uid://0ealanx3xpbs" path="res://assets/Environment/drawing_background.tres" id="21_upxxc"]
 [ext_resource type="Script" uid="uid://bxsrfagnpfje8" path="res://scripts/Player/UI/PauseMenu.gd" id="22_cnsyf"]
 [ext_resource type="Texture2D" uid="uid://bgukvj8qog42s" path="res://assets/UI/ButtonIcons/connect.PNG" id="22_ioxgp"]
@@ -55,11 +51,15 @@
 [ext_resource type="AudioStream" uid="uid://bdwyokcmncrj1" path="res://assets/Audio/Sounds/step/concrete/concrete_step-02.ogg" id="40_rw8a5"]
 [ext_resource type="AudioStream" uid="uid://gdeip5m28b8r" path="res://assets/Audio/Sounds/step/concrete/concrete_step-03.ogg" id="41_iwuka"]
 [ext_resource type="AudioStream" uid="uid://bks0ir7hsyaa8" path="res://assets/Audio/Sounds/step/concrete/concrete_step-04.ogg" id="42_hyqqp"]
+[ext_resource type="Texture2D" uid="uid://i2qt8pb02dn2" path="res://assets/UI/DrawingTextures/Brushes/2x.PNG" id="42_t1aof"]
 [ext_resource type="AudioStream" uid="uid://b1r26q0d33ohe" path="res://assets/Audio/Sounds/step/concrete/concrete_step-05.ogg" id="43_ds1xl"]
+[ext_resource type="Texture2D" uid="uid://br7ytit8e833y" path="res://assets/UI/DrawingTextures/is_tool.png" id="44_t1aof"]
+[ext_resource type="Texture2D" uid="uid://crnxmc5bs7xjb" path="res://assets/UI/DrawingTextures/color_picker.png" id="47_uygh0"]
+[ext_resource type="Resource" uid="uid://ieoflfw4u2qd" path="res://assets/Brushes/Small/2x_brush.tres" id="49_upxxc"]
 [ext_resource type="PackedScene" uid="uid://b8emmr35u0852" path="res://scenes/ui/options.tscn" id="55_uygh0"]
 [ext_resource type="Script" uid="uid://dhrbxd84tmb3u" path="res://scripts/Options/ApplyOptions.gd" id="57_uygh0"]
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_t1aof"]
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_w8qe1"]
 points = PackedVector3Array(0.5, 0.5, 0, 0.46193975, 0.5, 0.19134171, 0.35355338, 0.5, 0.35355338, 0.19134171, 0.5, 0.46193975, 3.061516e-17, 0.5, 0.5, -0.19134171, 0.5, 0.46193975, -0.35355338, 0.5, 0.35355338, -0.46193975, 0.5, 0.19134171, -0.5, 0.5, 6.123032e-17, -0.46193975, 0.5, -0.19134171, -0.35355338, 0.5, -0.35355338, -0.19134171, 0.5, -0.46193975, -9.1845477e-17, 0.5, -0.5, 0.19134171, 0.5, -0.46193975, 0.35355338, 0.5, -0.35355338, 0.46193975, 0.5, -0.19134171, 0.5, -0.5, 0, 0.46193975, -0.5, 0.19134171, 0.35355338, -0.5, 0.35355338, 0.19134171, -0.5, 0.46193975, 3.061516e-17, -0.5, 0.5, -0.19134171, -0.5, 0.46193975, -0.35355338, -0.5, 0.35355338, -0.46193975, -0.5, 0.19134171, -0.5, -0.5, 6.123032e-17, -0.46193975, -0.5, -0.19134171, -0.35355338, -0.5, -0.35355338, -0.19134171, -0.5, -0.46193975, -9.1845477e-17, -0.5, -0.5, 0.19134171, -0.5, -0.46193975, 0.35355338, -0.5, -0.35355338, 0.46193975, -0.5, -0.19134171, 0, 1, 0, 0, -1, 0)
 
 [sub_resource type="PrismMesh" id="PrismMesh_g4v7s"]
@@ -104,7 +104,7 @@ max_camera_sensitivity = 3.0
 min_camera_sensitivity = 0.1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=679124615]
-shape = SubResource("ConvexPolygonShape3D_t1aof")
+shape = SubResource("ConvexPolygonShape3D_w8qe1")
 script = ExtResource("2_t1aof")
 
 [node name="CameraPivot" type="Node3D" parent="CharacterBody3D" unique_id=30639229]
@@ -294,7 +294,7 @@ stretch_mode = 2
 [node name="Button Audio" type="Node" parent="." unique_id=1327157235]
 script = ExtResource("18_5q8fn")
 
-[node name="Drawing Controls" type="Control" parent="Button Audio" unique_id=2036386123 node_paths=PackedStringArray("selection_indicator", "button_parent", "eraser", "brush_buttons", "replace_color", "alpha_replace_mode_text", "alpha_replace_mode_selector", "mute_on_selection", "undo_button", "redo_button")]
+[node name="Drawing Controls" type="Control" parent="Button Audio" unique_id=2036386123 node_paths=PackedStringArray("selection_indicator", "button_parent", "eraser", "brush_buttons", "pick_color_selector", "replace_color", "alpha_replace_mode_text", "alpha_replace_mode_selector")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -309,12 +309,10 @@ palette_button_scene = ExtResource("4_lvxji")
 button_parent = NodePath("MarginContainer/VBoxContainer/GridContainer")
 eraser = NodePath("MarginContainer/VBoxContainer/GridContainer/Erase")
 brush_buttons = NodePath("Brush Selector")
-replace_color = NodePath("MarginContainer/VBoxContainer/Options/HBoxContainer/Replace")
-alpha_replace_mode_text = NodePath("MarginContainer/VBoxContainer/Options/Label")
-alpha_replace_mode_selector = NodePath("MarginContainer/VBoxContainer/Options/HBoxContainer/Alpha/Enabled Selection")
-mute_on_selection = [NodePath("MarginContainer/VBoxContainer/Options"), NodePath("MarginContainer/VBoxContainer/Brushes")]
-undo_button = NodePath("MarginContainer/VBoxContainer/Options/HBoxContainer/Undo")
-redo_button = NodePath("MarginContainer/VBoxContainer/Options/HBoxContainer/Redo")
+pick_color_selector = NodePath("MarginContainer/VBoxContainer/Brushes/GridContainer/Pick/Pick Selection")
+replace_color = NodePath("MarginContainer/VBoxContainer/Brushes/GridContainer/Pick")
+alpha_replace_mode_text = NodePath("MarginContainer/VBoxContainer/Brushes/Label2")
+alpha_replace_mode_selector = NodePath("MarginContainer/VBoxContainer/Brushes/GridContainer/Alpha/Enabled Selection")
 metadata/_custom_type_script = "uid://rip4hs5mbpcf"
 
 [node name="Color Selection" type="TextureRect" parent="Button Audio/Drawing Controls" unique_id=113881339]
@@ -366,12 +364,24 @@ text = "Press E to finish"
 horizontal_alignment = 1
 
 [node name="Brushes" type="Panel" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer" unique_id=2093834330]
-custom_minimum_size = Vector2(0, 49)
+custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 mouse_behavior_recursive = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_uf5tr")
 
+[node name="Label2" type="Label" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Brushes" unique_id=1314362142]
+visible = false
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 16.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 12
+text = "Drawing Over"
+
 [node name="Label" type="Label" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Brushes" unique_id=637539122]
+visible = false
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 0
 offset_right = 43.0
@@ -380,6 +390,7 @@ theme_override_font_sizes/font_size = 12
 text = "brushes"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Brushes" unique_id=1297035103]
+visible = false
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -390,12 +401,24 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 0
 
-[node name="Brush 1" type="TextureButton" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Brushes/HBoxContainer" unique_id=20391077]
+[node name="GridContainer" type="GridContainer" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Brushes" unique_id=858377330]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -32.0
+grow_horizontal = 2
+grow_vertical = 0
+columns = 3
+
+[node name="Brush 1" type="TextureButton" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Brushes/GridContainer" unique_id=20391077]
 layout_mode = 2
 action_mode = 0
 texture_normal = ExtResource("12_uf5tr")
 
-[node name="Brush Selection" type="TextureRect" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Brushes/HBoxContainer/Brush 1" unique_id=530265329]
+[node name="Brush Selection" type="TextureRect" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Brushes/GridContainer/Brush 1" unique_id=530265329]
 z_index = 10
 layout_mode = 0
 offset_right = 36.0
@@ -404,15 +427,95 @@ offset_transform_enabled = true
 offset_transform_position = Vector2(-2, -2)
 texture = ExtResource("9_5gtgg")
 
-[node name="Brush 2" type="TextureButton" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Brushes/HBoxContainer" unique_id=1936248680]
+[node name="Brush 2" type="TextureButton" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Brushes/GridContainer" unique_id=1936248680]
 layout_mode = 2
 action_mode = 0
 texture_normal = ExtResource("13_lgqa7")
 
-[node name="Brush 3" type="TextureButton" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Brushes/HBoxContainer" unique_id=121942153]
+[node name="Brush 3" type="TextureButton" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Brushes/GridContainer" unique_id=121942153]
 layout_mode = 2
 action_mode = 0
 texture_normal = ExtResource("14_8ydkj")
+
+[node name="Brush 4" type="TextureButton" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Brushes/GridContainer" unique_id=1241034431]
+layout_mode = 2
+action_mode = 0
+texture_normal = ExtResource("42_t1aof")
+
+[node name="Alpha" type="TextureButton" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Brushes/GridContainer" unique_id=1726986221]
+z_index = 1
+layout_mode = 2
+tooltip_text = "Draw Over"
+mouse_default_cursor_shape = 2
+toggle_mode = true
+action_mode = 0
+texture_normal = ExtResource("6_5gtgg")
+texture_pressed = ExtResource("7_h17s1")
+
+[node name="TextureRect" type="TextureRect" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Brushes/GridContainer/Alpha" unique_id=897407837]
+custom_maximum_size = Vector2(32, 32)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("13_6cv16")
+stretch_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Brushes/GridContainer/Alpha" unique_id=960409880]
+custom_maximum_size = Vector2(32, 32)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("13_6cv16")
+stretch_mode = 2
+
+[node name="Enabled Selection" type="TextureRect" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Brushes/GridContainer/Alpha" unique_id=1893196798]
+visible = false
+z_index = 10
+layout_mode = 0
+offset_right = 36.0
+offset_bottom = 36.0
+offset_transform_enabled = true
+offset_transform_position = Vector2(-2, -2)
+texture = ExtResource("9_5gtgg")
+
+[node name="Tool" type="TextureRect" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Brushes/GridContainer/Alpha" unique_id=1312241111]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("44_t1aof")
+
+[node name="Pick" type="TextureButton" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Brushes/GridContainer" unique_id=1149392180]
+z_index = 1
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+tooltip_text = "Pick Color"
+mouse_default_cursor_shape = 2
+action_mode = 0
+texture_normal = ExtResource("47_uygh0")
+
+[node name="Pick Selection" type="TextureRect" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Brushes/GridContainer/Pick" unique_id=2024679338]
+visible = false
+z_index = 10
+layout_mode = 0
+offset_right = 36.0
+offset_bottom = 36.0
+offset_transform_enabled = true
+offset_transform_position = Vector2(-2, -2)
+texture = ExtResource("9_5gtgg")
+
+[node name="Tool" type="TextureRect" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Brushes/GridContainer/Pick" unique_id=18562907]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("44_t1aof")
 
 [node name="GridContainer" type="GridContainer" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer" unique_id=909549344]
 layout_mode = 2
@@ -423,20 +526,11 @@ layout_mode = 2
 texture_normal = ExtResource("6_qek5x")
 
 [node name="Options" type="Panel" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer" unique_id=2059390905]
+visible = false
 custom_minimum_size = Vector2(0, 49)
 layout_mode = 2
 mouse_behavior_recursive = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_fm80t")
-
-[node name="Label" type="Label" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Options" unique_id=1314362142]
-custom_minimum_size = Vector2(0, 16)
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 16.0
-grow_horizontal = 2
-theme_override_font_sizes/font_size = 12
-text = "Drawing Over"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Options" unique_id=1132036088]
 layout_mode = 1
@@ -450,59 +544,6 @@ grow_vertical = 0
 theme_override_constants/separation = 0
 alignment = 1
 
-[node name="Alpha" type="TextureButton" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Options/HBoxContainer" unique_id=1726986221]
-layout_mode = 2
-toggle_mode = true
-action_mode = 0
-texture_normal = ExtResource("6_5gtgg")
-texture_pressed = ExtResource("7_h17s1")
-
-[node name="TextureRect" type="TextureRect" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Options/HBoxContainer/Alpha" unique_id=897407837]
-custom_maximum_size = Vector2(32, 32)
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-texture = ExtResource("13_6cv16")
-stretch_mode = 2
-
-[node name="TextureRect2" type="TextureRect" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Options/HBoxContainer/Alpha" unique_id=960409880]
-custom_maximum_size = Vector2(32, 32)
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-texture = ExtResource("13_6cv16")
-stretch_mode = 2
-
-[node name="Enabled Selection" type="TextureRect" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Options/HBoxContainer/Alpha" unique_id=1893196798]
-visible = false
-z_index = 10
-layout_mode = 0
-offset_right = 36.0
-offset_bottom = 36.0
-offset_transform_enabled = true
-offset_transform_position = Vector2(-2, -2)
-texture = ExtResource("9_5gtgg")
-
-[node name="Undo" type="TextureButton" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Options/HBoxContainer" unique_id=468311419]
-layout_mode = 2
-disabled = true
-action_mode = 0
-texture_normal = ExtResource("18_28m0y")
-texture_disabled = ExtResource("19_iqsei")
-
-[node name="Redo" type="TextureButton" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Options/HBoxContainer" unique_id=747253162]
-layout_mode = 2
-disabled = true
-action_mode = 0
-texture_normal = ExtResource("19_uniwh")
-texture_disabled = ExtResource("21_tffgl")
-
-[node name="Replace" type="TextureButton" parent="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Options/HBoxContainer" unique_id=1149392180]
-visible = false
-layout_mode = 2
-action_mode = 0
-texture_normal = ExtResource("6_qek5x")
-
 [node name="Panel" type="Panel" parent="Button Audio/Drawing Controls/MarginContainer" unique_id=753478739]
 visible = false
 layout_mode = 2
@@ -510,16 +551,18 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_g4v7s")
 
 [node name="Brush Selector" type="Node" parent="Button Audio/Drawing Controls" unique_id=1347413319 node_paths=PackedStringArray("selection_indicator", "brush_types", "default_brush", "replace_alpha")]
 script = ExtResource("15_kvlxm")
-selection_indicator = NodePath("../MarginContainer/VBoxContainer/Brushes/HBoxContainer/Brush 1/Brush Selection")
+selection_indicator = NodePath("../MarginContainer/VBoxContainer/Brushes/GridContainer/Brush 1/Brush Selection")
 brush_types = {
-NodePath("../MarginContainer/VBoxContainer/Brushes/HBoxContainer/Brush 1"): ExtResource("16_uf5tr"),
-NodePath("../MarginContainer/VBoxContainer/Brushes/HBoxContainer/Brush 2"): ExtResource("17_lgqa7"),
-NodePath("../MarginContainer/VBoxContainer/Brushes/HBoxContainer/Brush 3"): ExtResource("4_ugbui")
+NodePath("../MarginContainer/VBoxContainer/Brushes/GridContainer/Brush 1"): ExtResource("16_uf5tr"),
+NodePath("../MarginContainer/VBoxContainer/Brushes/GridContainer/Brush 2"): ExtResource("17_lgqa7"),
+NodePath("../MarginContainer/VBoxContainer/Brushes/GridContainer/Brush 3"): ExtResource("4_ugbui"),
+NodePath("../MarginContainer/VBoxContainer/Brushes/GridContainer/Brush 4"): ExtResource("49_upxxc")
 }
-default_brush = NodePath("../MarginContainer/VBoxContainer/Brushes/HBoxContainer/Brush 1")
-replace_alpha = NodePath("../MarginContainer/VBoxContainer/Options/HBoxContainer/Alpha")
+default_brush = NodePath("../MarginContainer/VBoxContainer/Brushes/GridContainer/Brush 1")
+replace_alpha = NodePath("../MarginContainer/VBoxContainer/Brushes/GridContainer/Alpha")
 
 [node name="Pause" type="Control" parent="Button Audio" unique_id=299459546]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -595,11 +638,9 @@ metadata/_custom_type_script = "uid://dhrbxd84tmb3u"
 [connection signal="on_stop_drawing" from="Camera3D" to="Camera3D/Audio/Stop" method="play"]
 [connection signal="on_press_any" from="Button Audio" to="Camera3D/Audio/Click" method="play"]
 [connection signal="on_unpress_any" from="Button Audio" to="Camera3D/Audio/Unclick" method="play"]
+[connection signal="toggled" from="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Brushes/GridContainer/Alpha" to="Button Audio/Drawing Controls" method="set_replace_mode"]
+[connection signal="pressed" from="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Brushes/GridContainer/Pick" to="Button Audio/Drawing Controls" method="pick_color"]
 [connection signal="pressed" from="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/GridContainer/Erase" to="Button Audio/Drawing Controls" method="set_erase"]
-[connection signal="toggled" from="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Options/HBoxContainer/Alpha" to="Button Audio/Drawing Controls" method="set_replace_mode"]
-[connection signal="pressed" from="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Options/HBoxContainer/Undo" to="Camera3D/Painter" method="move_undo" binds= [-1]]
-[connection signal="pressed" from="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Options/HBoxContainer/Redo" to="Camera3D/Painter" method="move_undo" binds= [1]]
-[connection signal="pressed" from="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Options/HBoxContainer/Replace" to="Button Audio/Drawing Controls" method="set_replace_color"]
 [connection signal="pressed" from="Button Audio/Pause/Panel/Panel/VBoxContainer/Resume" to="Button Audio/Pause" method="unpause"]
 [connection signal="pressed" from="Button Audio/Pause/Panel/Panel/VBoxContainer/Button" to="Button Audio/Pause" method="load_title"]
 

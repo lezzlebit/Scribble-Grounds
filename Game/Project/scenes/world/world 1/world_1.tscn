@@ -15,6 +15,8 @@
 [ext_resource type="Script" uid="uid://hi4g4hn0pjmg" path="res://scripts/Player/WaterReflectionCamera.gd" id="10_7v8v1"]
 [ext_resource type="AudioStream" uid="uid://ctk2uv76xu7na" path="res://assets/Audio/Ambience/lake.ogg" id="10_nxewp"]
 [ext_resource type="Script" uid="uid://dsmwani7x1672" path="res://assets/Audio/RandomlyFadingAmbience.gd" id="11_2bkla"]
+[ext_resource type="AudioStream" uid="uid://bhd5gmeo8kuh7" path="res://assets/Audio/Sounds/redo.ogg" id="12_o7s2e"]
+[ext_resource type="Script" uid="uid://df3mhcd3y3c4s" path="res://scripts/Audio/DrawingUpdateAudio.gd" id="13_yl8gf"]
 [ext_resource type="AudioStream" uid="uid://bmw1wbsd4okl6" path="res://assets/Audio/Ambience/wind.ogg" id="15_a3dpt"]
 [ext_resource type="AudioStream" uid="uid://cubptnwnkwh6p" path="res://assets/Audio/Ambience/crickets.ogg" id="16_7dwk6"]
 
@@ -89,8 +91,9 @@ script = ExtResource("1_5f0vg")
 Motd = NodePath("../World/SubViewport/Control/Label")
 metadata/_custom_type_script = "uid://dh27jx5i4ixab"
 
-[node name="World" type="Node3D" parent="." unique_id=61106289]
+[node name="World" type="Node3D" parent="." unique_id=61106289 node_paths=PackedStringArray("update_audio")]
 script = ExtResource("2_1lswo")
+update_audio = NodePath("DrawingUpdateAudio")
 metadata/_custom_type_script = "uid://dbruja1g6egnu"
 
 [node name="water" type="MeshInstance3D" parent="World" unique_id=738275049]
@@ -184,6 +187,13 @@ attenuation_filter_cutoff_hz = 20500.0
 script = ExtResource("11_2bkla")
 
 [node name="Wall-Map" parent="World" unique_id=1695952427 instance=ExtResource("3_5f0vg")]
+
+[node name="DrawingUpdateAudio" type="AudioStreamPlayer3D" parent="World" unique_id=1562518259]
+stream = ExtResource("12_o7s2e")
+unit_size = 25.0
+max_distance = 200.0
+script = ExtResource("13_yl8gf")
+metadata/_custom_type_script = "uid://df3mhcd3y3c4s"
 
 [node name="Player" parent="." unique_id=1104231176 instance=ExtResource("4_vqnqe")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -259.3733, 0, 182.12578)

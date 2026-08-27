@@ -37,7 +37,6 @@ func clear_tiles_in_stroke():
 func paint(obj: DrawTile):
 	
 
-	# print(Time.get_ticks_msec())
 	
 	var collision_point: Vector3 = get_collision_point()
 	
@@ -59,7 +58,7 @@ func paint(obj: DrawTile):
 				i.add_undo()
 				tiles_hit_in_stroke.append(i)
 			
-		GameValues.drawing_controls.update_undo_buttons(undo_slots, redo_slots)
+		# GameValues.drawing_controls.update_undo_buttons(undo_slots, redo_slots)
 		
 		var new_mesh = obj as MeshInstance3D
 		if current_mesh != new_mesh: 
@@ -88,9 +87,7 @@ func paint(obj: DrawTile):
 		
 		last_raycast_pos = collision_point
 		previous_frame_available = true
-		
-		
-		
+
 		pass
 	else:
 		
@@ -99,13 +96,13 @@ func paint(obj: DrawTile):
 
 func add_one_to_undo_buffer(obj: DrawTile):
 	obj.add_undo()
-	GameValues.drawing_controls.update_undo_buttons(undo_slots, redo_slots)
+	# GameValues.drawing_controls.update_undo_buttons(undo_slots, redo_slots)
 
 func add_to_undo_buffer():
 	var edited_objects: Array[DrawTile] = GlobalGameplayValues.world_textures.painted_tiles
 	for i in edited_objects:
 		i.add_undo()
-	GameValues.drawing_controls.update_undo_buttons(undo_slots, redo_slots)
+	# GameValues.drawing_controls.update_undo_buttons(undo_slots, redo_slots)
 
 func move_undo(index: int):
 	var edited_objects: Array[DrawTile] = GlobalGameplayValues.world_textures.painted_tiles
@@ -115,7 +112,7 @@ func move_undo(index: int):
 		undo_slots = 0
 		redo_slots = 0
 		i.move_undo(index)
-	GameValues.drawing_controls.update_undo_buttons(undo_slots, redo_slots)
+	# GameValues.drawing_controls.update_undo_buttons(undo_slots, redo_slots)
 
 func _process(_delta: float) -> void:
 	if !Input.is_action_pressed("pen_down"):
@@ -133,25 +130,38 @@ func _process(_delta: float) -> void:
 		previous_frame_available = false
 	
 
+func look_at_mouse_position():
+	var cam: Camera3D = GameValues.main_camera as Camera3D
+	var mousepos = GameValues.main_camera.mouse_drawing_position
+	global_position = cam.project_position(mousepos, cam.near)
+	var end_position: Vector3 = cam.project_position(mousepos, cam.far)
+	look_at(end_position)
+	var target_distance = global_position.distance_to(end_position)
+	target_position = Vector3(0, 0, -target_distance)
 
+func pick_color(obj: DrawTile):
+	
+	if Input.is_action_just_released("pen_down") and !GameValues.main_camera.currently_panning:
+		
+		var collision_point: Vector3 = get_collision_point()
+		UvPosition.set_mesh(obj as MeshInstance3D, true)
+		var coords = UvPosition.get_uv_coords(get_collision_point(), get_collision_normal(), false)
+		
+		if obj != null and coords != null:
+			var got_color: Color = obj.pick_pixel(coords.x, coords.y)
+			
+			GameValues.drawing_controls.find_button_for_pick_color(got_color)
+			
+			GameValues.drawing_controls.end_pick_color()
+			GameValues.main_camera.picking_color = false
 
 func raycast_draw(_ray_length: float):
 	
 
-	var cam: Camera3D = GameValues.main_camera as Camera3D
 	if !GameValues.main_camera.currently_drawing:
 		previous_frame_available = false
 
-	var mousepos = GameValues.main_camera.mouse_drawing_position
-	#global_position = cam.global_position + (-cam.transform.basis.z * cam.near)
-	global_position = cam.project_position(mousepos, cam.near)
-	#var look_at_pos = global_position + cam.project_ray_normal(mousepos)
-	var end_position: Vector3 = cam.project_position(mousepos, cam.far)
-	#target_position = end_position
-	look_at(end_position)
-	
-	var target_distance = global_position.distance_to(end_position)
-	target_position = Vector3(0, 0, -target_distance)
+	look_at_mouse_position()
 	
 	#var space_state = get_world_3d().direct_space_state
 
@@ -162,7 +172,8 @@ func raycast_draw(_ray_length: float):
 	if result as StaticBody3D:
 		var parent = result.get_parent()
 		if parent is DrawTile and able_to_draw:
-			paint(parent)
+			if !GameValues.main_camera.picking_color: paint(parent)
+			else: pick_color(parent)
 			could_reach = true
 			pass
 	if !could_reach:
