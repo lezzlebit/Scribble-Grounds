@@ -15,7 +15,7 @@ var GameValues = GlobalGameplayValues
 @export var drawing_environment: Environment
 
 
-
+var pan_pixels_per_second: float = 256
 
 var screen_pixel_size: int = 2
 
@@ -64,6 +64,8 @@ func _unhandled_input(event: InputEvent):
 
 	if event is InputEventMouseMotion:
 		currently_drawing = event.button_mask == 1
+	
+	# if Input.is_action_pressed("button_draw"): currently_drawing = true
 
 	if event is InputEventMouseMotion:
 		mouse_drawing_position = event.position
@@ -75,7 +77,7 @@ func _unhandled_input(event: InputEvent):
 	
 	if !mouse_motion_occupied:
 		mouse_motion_occupied = true
-		raycast.raycast_draw(camera_distance)
+		raycast.raycast_draw()
 
 func clamp_pan():
 	pan_pixels.x = clamp(pan_pixels.x, -512, 512)
@@ -286,6 +288,17 @@ func drawing_mouse():
 		else:
 			Input.set_default_cursor_shape(Input.CURSOR_ARROW)
 
+func key_pan(delta: float):
+	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	
+	if input_dir.length() > 0.1:
+		var direction := Vector2(input_dir.x, input_dir.y) * -1.5
+		if direction.length() > direction.normalized().length():
+			direction = direction.normalized()
+		
+		pan_pixels += (direction * delta * pan_pixels_per_second / float(screen_pixel_size)).rotated(-pan_rotation)
+		raycast.raycast_draw()
+
 func _process(delta: float) -> void:
 	
 	
@@ -324,6 +337,7 @@ func _process(delta: float) -> void:
 			pan_rotation += deg_to_rad(-90)
 		if Input.is_action_just_pressed("rotate_right"):
 			pan_rotation += deg_to_rad(90)
+		key_pan(delta)
 
 	update_position(delta)
 	

@@ -10,6 +10,7 @@ class_name PlayerMovement
 @export var max_camera_sensitivity = 0.001
 @export var min_camera_sensitivity = 0.001
 @export var all_camera_sensitivity_multiplier = 0.001
+var controller_camera_speed = 1024
 var vertical_look: float
 var acceleration: Vector3 = Vector3.ZERO
 var speed_lerp: float = 0
@@ -28,7 +29,7 @@ func _init():
 	GlobalGameplayValues.player_controller = self
 
 func _input(event: InputEvent):
-	if event.is_action_pressed("ui_cancel"):
+	if event.is_action_pressed("pause"):
 		GlobalGameplayValues.paused = !GlobalGameplayValues.paused
 
 func _unhandled_input(event: InputEvent):
@@ -39,12 +40,26 @@ func _unhandled_input(event: InputEvent):
 		var camera_sensitivity = lerp(min_camera_sensitivity, max_camera_sensitivity, GlobalGameplayValues.camera_sensitivity) * all_camera_sensitivity_multiplier
 		if event is InputEventMouseMotion:
 			rotate_y(-event.relative.x * camera_sensitivity)
-			CameraPivot.rotation.x = vertical_look
 			vertical_look += (-event.relative.y * camera_sensitivity)
-			vertical_look = clampf(vertical_look, -PI/2, PI/2)
+			apply_vertical_look()
 	else: Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
+func controller_look(delta: float):
+	var input_dir = Input.get_vector("look_left", "look_right", "look_up", "look_down") * delta * controller_camera_speed
+	if input_dir.length() > 0:
+		var camera_sensitivity = lerp(min_camera_sensitivity, max_camera_sensitivity, GlobalGameplayValues.camera_sensitivity) * all_camera_sensitivity_multiplier
+		rotate_y(-input_dir.x * camera_sensitivity)
+		vertical_look += (-input_dir.y * camera_sensitivity)
+		apply_vertical_look()
+
+
+func apply_vertical_look():
+	vertical_look = clampf(vertical_look, -PI/2, PI/2)
+	CameraPivot.rotation.x = vertical_look
+
 func process_movement(delta: float):
+	
+	controller_look(delta)
 	
 	var move_friction: float = 7.0
 	var stop_friction: float = 25.0
@@ -63,7 +78,9 @@ func process_movement(delta: float):
 		able_to_jump = false
 
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
-	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)) * 1.5
+	if direction.length() > direction.normalized().length():
+		direction = direction.normalized()
 	if direction:
 		var true_speed = lerp(min_speed, max_speed, speed_lerp)
 		if Input.is_action_pressed("sprint"):

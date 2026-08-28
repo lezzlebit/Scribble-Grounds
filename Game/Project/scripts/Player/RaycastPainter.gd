@@ -157,7 +157,7 @@ func pick_color(obj: DrawTile):
 			GameValues.drawing_controls.end_pick_color()
 			GameValues.main_camera.picking_color = false
 
-func raycast_draw(_ray_length: float):
+func raycast_draw():
 	
 
 	if !GameValues.main_camera.currently_drawing:

@@ -1,3 +1,9 @@
+Aug 28 2026
+[hr]
+	- Attempted to fix undo/redo bindings on non-US keyboard layouts
+	- Added controller support to walk around and view drawings (you still cannot draw with a controller, though)
+	- You can now use WASD to pan while drawing, allowing you to create straight lines easily
+
 Aug 27 2026
 [hr]
 	- Added a 2x2 pixel wide brush
