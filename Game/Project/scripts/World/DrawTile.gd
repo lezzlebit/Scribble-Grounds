@@ -23,16 +23,28 @@ var texture_height: int = 1024
 
 var in_undo_selection: bool = false
 
+var initialized_material: bool = false
 
-func _init() -> void:
-	
-	material_override = get_surface_override_material(0).duplicate()
-	texture_material = material_override
+
+
 	# texture_material.shader = GlobalGameplayValues.draw_tile_shader
-	
-	
+
+
+func initialize_material():
+	if !initialized_material:
+		if get_surface_override_material(0):
+			material_override = get_surface_override_material(0).duplicate()
+		else:
+			material_override = material_override.duplicate()
+		texture_material = material_override
+		initialized_material = true
+
+func set_instanced_material():
+	texture_material = material_override
+	initialized_material = true
 
 func _ready():
+	initialize_material()
 	for i in get_children():
 		if i is MeshInstance3D:
 			print(i.name)
@@ -49,6 +61,7 @@ func check_add_username_to_index(username_in: String):
 		username_index.append(username_in)
 
 func set_image(image_username: String, set_image: Image):
+	initialize_material()
 	print("Updated " + name)
 
 		

@@ -6,6 +6,6 @@
 script = ExtResource("1_1xo4k")
 extra_transforms = Array[Vector2i]([Vector2i(0, 1), Vector2i(1, 0), Vector2i(1, 1)])
 brush_center_pixel_offset = Vector2(-0.5, -0.5)
-dots_per_unit = 8
+dots_per_unit = 6
 max_dots_per_stroke = 4
 metadata/_custom_type_script = "uid://bjfhqy5nmht0l"

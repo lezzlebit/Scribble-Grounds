@@ -4,5 +4,5 @@
 
 [resource]
 script = ExtResource("1_w4cq5")
-fill_count = 32
+dots_per_unit = 16
 metadata/_custom_type_script = "uid://bjfhqy5nmht0l"

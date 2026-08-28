@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://c13rahyu8qyld"]
+
+[ext_resource type="Script" uid="uid://dh27jx5i4ixab" path="res://scripts/Network/NetworkHandler.gd" id="1_viiu6"]
+[ext_resource type="Script" uid="uid://dbruja1g6egnu" path="res://scripts/World/WorldTextures.gd" id="2_8inpx"]
+[ext_resource type="Theme" uid="uid://dr757m870tmqg" path="res://assets/UI/Theme/graffiti_theme.tres" id="7_8oo3i"]
+[ext_resource type="Shader" uid="uid://dnxxklccjl584" path="res://assets/Materials/world_ui/world_ui.gdshader" id="8_jjujo"]
+[ext_resource type="Script" uid="uid://bfc2umuwbhd51" path="res://scripts/World/LoadModel.gd" id="9_h3ajn"]
+[ext_resource type="PackedScene" uid="uid://bqw6025khq3bg" path="res://scenes/player/player.tscn" id="14_k4o2y"]
+[ext_resource type="AudioStream" uid="uid://bmw1wbsd4okl6" path="res://assets/Audio/Ambience/wind.ogg" id="15_k1e3i"]
+[ext_resource type="PackedScene" uid="uid://ckjxfqndgkrk5" path="res://scenes/ui/logger.tscn" id="16_3356m"]
+[ext_resource type="Environment" uid="uid://dnoppw2hmxvf0" path="res://assets/Environment/environment.tres" id="17_6du5r"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_pva0k"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_a3dpt"]
+viewport_path = NodePath("World/SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nxewp"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("8_jjujo")
+shader_parameter/main_texture = SubResource("ViewportTexture_a3dpt")
+
+[sub_resource type="QuadMesh" id="QuadMesh_bwkwh"]
+size = Vector2(4, 4)
+
+[node name="World2" type="Node3D" unique_id=1916285311]
+
+[node name="NetworkHandler" type="Node" parent="." unique_id=630522918 node_paths=PackedStringArray("Motd")]
+script = ExtResource("1_viiu6")
+Motd = NodePath("../World/SubViewport/Control/Label")
+wait_until_model_loaded = true
+metadata/_custom_type_script = "uid://dh27jx5i4ixab"
+
+[node name="World" type="Node3D" parent="." unique_id=61106289]
+script = ExtResource("2_8inpx")
+metadata/_custom_type_script = "uid://dbruja1g6egnu"
+
+[node name="Boundaries" type="Node" parent="World" unique_id=135983352]
+
+[node name="Water" type="StaticBody3D" parent="World/Boundaries" unique_id=218700627]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -32, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Boundaries/Water" unique_id=817671495]
+shape = SubResource("WorldBoundaryShape3D_pva0k")
+
+[node name="SubViewport" type="SubViewport" parent="World" unique_id=397806085]
+transparent_bg = true
+
+[node name="Control" type="Control" parent="World/SubViewport" unique_id=1541275609]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("7_8oo3i")
+
+[node name="Label" type="Label" parent="World/SubViewport/Control" unique_id=44640155]
+custom_maximum_size = Vector2(512, -1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 24
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Motd" type="MeshInstance3D" parent="World" unique_id=111908984]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -259.79962, 2.8339663, 174.17531)
+material_override = SubResource("ShaderMaterial_nxewp")
+mesh = SubResource("QuadMesh_bwkwh")
+
+[node name="Load" type="Node" parent="World" unique_id=2032341668]
+script = ExtResource("9_h3ajn")
+
+[node name="Player" parent="." unique_id=1104231176 instance=ExtResource("14_k4o2y")]
+
+[node name="Wind" type="AudioStreamPlayer" parent="Player" unique_id=622286714]
+stream = ExtResource("15_k1e3i")
+volume_db = -12.0
+autoplay = true
+bus = &"Ambience"
+
+[node name="Logger" parent="." unique_id=278674006 instance=ExtResource("16_3356m")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=754354177]
+environment = ExtResource("17_6du5r")

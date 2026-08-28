@@ -1,6 +1,8 @@
 extends Node
 
 var first_person: bool = true
+var load_model: LoadModel = null
+var player_controller: PlayerMovement = null
 var main_camera: CameraController = null
 var network_handler: NetworkHandler = null
 var world_textures: WorldTextures = null

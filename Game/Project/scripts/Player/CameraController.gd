@@ -333,7 +333,7 @@ func _process(delta: float) -> void:
 	else:
 		pause_screen.process_mode = Node.PROCESS_MODE_DISABLED
 	
-	if !GameValues.paused and GameValues.first_person:
+	if !GameValues.paused and GameValues.first_person and !GameValues.player_controller.paused:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	else:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE

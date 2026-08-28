@@ -12,20 +12,24 @@ var current_images: Dictionary[String, String]
 var new_images: Dictionary[String, String]
 var required_images: Dictionary[String, String]
 
+@export var wait_until_model_loaded: bool = false
+var model_name: String = GlobalNetworkValues.model_name
+
 
 func _init():
 	GlobalGameplayValues.network_handler = self
 
 func _ready():
+	if !wait_until_model_loaded:
+		begin_loading()
+	else:
+		request_model()
+
+func begin_loading():
 	retrieve_list()
 	GlobalGameplayValues.world_textures.update_image_pool(true)
 	initialize_process_timers()
 
-func _process(_delta: float) -> void:
-	if (Input.is_action_just_pressed("debug_action")):
-		get_one_required_image()
-	if (Input.is_action_just_pressed("ui_down")):
-		retrieve_list()
 
 func initialize_process_timers():
 	initialize_single_timer("RetrieveTimer", 2, retrieve_list)
@@ -45,7 +49,7 @@ func create_request(headers, method, body):
 	request.network_handler = self
 	request.request_completed.connect(request._http_request_completed)
 	request.timeout = 10
-	headers.append("Authorization: " + GlobalNetworkValues.server_password)
+	headers.append("Authorization: " + GlobalNetworkValues.server_password + "," + GlobalNetworkValues.compatibility_version)
 	request.request_raw(network_address, headers, method, body)
 
 
@@ -69,6 +73,8 @@ func _http_request_completed(_result, response_code, headers, body):
 			_on_image_uploaded(headers_dictionary, body)
 		if (content_type == "image/png" && request_method == "POST"):
 			_on_retrieve_image(headers_dictionary, body)
+		if (content_type == "model/gltf-binary" && request_method == "POST"):
+			_on_retrieve_model(headers_dictionary, body)
 
 func headers_to_dictionary(strings: PackedStringArray):
 	print(strings)
@@ -227,6 +233,31 @@ func _on_image_uploaded(_headers, body):
 	
 	print(content)
 	GlobalGameplayValues.user_message_log("Uploaded drawing")
+
+func request_model():
+
+	GlobalGameplayValues.player_controller.paused = true
+	var model_exists: bool = FileAccess.file_exists(directory + model_name)
+	if !model_exists:
+		GlobalGameplayValues.user_message_log("Downloading world models...")
+		var headers = ["Content-type: text/plain"]
+		var body = GlobalNetworkValues.model_name.to_ascii_buffer()
+		
+		create_request(headers, HTTPClient.METHOD_POST, body)
+	else:
+		GlobalGameplayValues.load_model.load_gltf()
+
+func _on_retrieve_model(headers, body):
 	
+	DirAccess.make_dir_recursive_absolute(directory)
+	var model_file = FileAccess.open(directory + model_name, FileAccess.WRITE)
+	await model_file.store_buffer(body)
+	model_file.close()
+	await get_tree().create_timer(0.5).timeout
+	print("Done storing")
+	GlobalGameplayValues.load_model.load_gltf()
+	
+	
+
 func get_only_directory(only_directory):
 	return only_directory.split("/")[0]

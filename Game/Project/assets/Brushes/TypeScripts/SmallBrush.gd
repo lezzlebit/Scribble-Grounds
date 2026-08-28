@@ -36,9 +36,11 @@ func draw_line(h: HitData):
 	var pos_1 = h.hit_position
 	var pos_2 = h.last_hit_position
 	
-	var distance_requirement: float = dots_per_unit
-	var distance: int = (pos_1.distance_to(pos_2) * distance_requirement) + 1
+	var spacial_distance: float = pos_1.distance_to(pos_2) / h.pixels_per_unit
+
+	var distance: int = (spacial_distance * dots_per_unit) + 1
 	distance = clampi(distance, 1, max_dots_per_stroke)
+
 	
 	for i in range(distance):
 		var lerpPos: Vector3 = pos_2.lerp(pos_1, float(i)/float(distance))

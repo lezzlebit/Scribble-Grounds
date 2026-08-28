@@ -68,11 +68,13 @@ func paint(obj: DrawTile):
 				
 		var coords = UvPosition.get_uv_coords(get_collision_point(), get_collision_normal(), false)
 		
+		var pixel_scale_for_drawing = GameValues.main_camera.current_pixel_scale / float(GlobalNetworkValues.texture_dimensions.x)
 		
 		if coords:
 			
 			var hit_data = HitData.new()
 			
+			hit_data.pixels_per_unit = pixel_scale_for_drawing
 			hit_data.hit_position = get_collision_point()
 			hit_data.hit_normal = get_collision_normal()
 			hit_data.hit_color = current_color

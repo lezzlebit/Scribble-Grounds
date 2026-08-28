@@ -6,6 +6,7 @@ class_name TitleServerManager
 @export_subgroup("References")
 @export var server_button: PackedScene
 @export var main_game: PackedScene
+@export var custom_world_game: PackedScene
 @export var button_parent: Control
 @export var main_page: NodePath
 @export var username_setter: TitleInputLine
@@ -64,6 +65,7 @@ func connect_to_server(button: ServerButton):
 		i.visible = loading_visibilities[i]
 	await RenderingServer.frame_post_draw
 	GlobalNetworkValues.username = username_setter.text
+
 	
 
 	
@@ -72,7 +74,13 @@ func connect_to_server(button: ServerButton):
 	GlobalNetworkValues.server_password = button.server_password
 	DirAccess.make_dir_absolute(GlobalNetworkValues.save_directory)
 	DirAccess.make_dir_absolute(GlobalNetworkValues.save_directory + GlobalNetworkValues.save_folder)
-	get_tree().change_scene_to_packed(main_game)
+	
+	
+	if button.has_custom_world:
+		GlobalNetworkValues.model_name = button.server_world
+		get_tree().change_scene_to_packed(custom_world_game)
+	else:
+		get_tree().change_scene_to_packed(main_game)
 
 func set_editor_enabled(is_enabled: bool):
 	editor_parent.visible = is_enabled

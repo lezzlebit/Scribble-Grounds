@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://pfisnywtx2c2" path="res://assets/UI/ButtonIcons/delete.PNG" id="5_awdk6"]
 [ext_resource type="PackedScene" uid="uid://ckjxfqndgkrk5" path="res://scenes/ui/logger.tscn" id="5_yjwoi"]
 [ext_resource type="Texture2D" uid="uid://dghvrfkv488af" path="res://assets/UI/ButtonIcons/back.PNG" id="6_7uqqr"]
+[ext_resource type="PackedScene" uid="uid://c13rahyu8qyld" path="res://scenes/world/world loader/world_loader.tscn" id="7_dawno"]
 [ext_resource type="PackedScene" uid="uid://xhptjxrh2irh" path="res://scenes/title/elements/info.tscn" id="11_4yl2o"]
 [ext_resource type="PackedScene" uid="uid://b8emmr35u0852" path="res://scenes/ui/options.tscn" id="12_784tc"]
 [ext_resource type="Environment" uid="uid://dsm777h6m4m2o" path="res://assets/Environment/title_environment.tres" id="12_awdk6"]
@@ -52,6 +53,7 @@ volume_db = -18.0
 script = ExtResource("2_ds13r")
 server_button = ExtResource("1_ds13r")
 main_game = ExtResource("4_awdk6")
+custom_world_game = ExtResource("7_dawno")
 button_parent = NodePath("../MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer")
 main_page = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Information")
 username_setter = NodePath("../MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Username/Username")

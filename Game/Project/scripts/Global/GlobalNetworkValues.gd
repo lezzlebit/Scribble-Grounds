@@ -3,12 +3,15 @@ extends Node
 
 var username: String = "default_user"
 
+var compatibility_version: String = "1"
 var server_password: String = "Burgerslop"
 var game_directory: String = "user://game/"
 var server_directory: String = "user://game/servers/"
 var save_directory: String = "user://game/saves/"
-var save_folder: String = ""
+var save_folder: String = "none/"
 var changelog_filename: String = "changelog_latest.txt"
+
+var model_name: String = "world.glb"
 
 var network_address: String = "http://127.0.0.1:55555"
 

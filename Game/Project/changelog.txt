@@ -1,3 +1,12 @@
+Aug 27 2026
+[hr]
+	- Added a 2x2 pixel wide brush
+	- Reorganized the toolbar
+	- Fixed overlapping UVs on one object (that resulted in duplicated drawings)
+	- Added a compatibility version across client and server to deny players with an outdated version
+	- Added experimental custom map support
+	- You can now hold the jump button to keep jumping
+
 Aug 26 2026
 [hr]
 	- Hopefully prevented players from uploading corrupted files, or downloading them and having the game stop functioning

@@ -20,7 +20,12 @@ var last_collider
 
 signal on_jump
 
+var paused: bool = false
+
 var able_to_jump: bool
+
+func _init():
+	GlobalGameplayValues.player_controller = self
 
 func _input(event: InputEvent):
 	if event.is_action_pressed("ui_cancel"):
@@ -28,7 +33,7 @@ func _input(event: InputEvent):
 
 func _unhandled_input(event: InputEvent):
 	
-	if GameValues.first_person:
+	if GameValues.first_person and !paused:
 	
 		
 		var camera_sensitivity = lerp(min_camera_sensitivity, max_camera_sensitivity, GlobalGameplayValues.camera_sensitivity) * all_camera_sensitivity_multiplier
@@ -81,7 +86,7 @@ func process_movement(delta: float):
 		last_collider = current_last_collider.get_collider(0)
 
 func _physics_process(delta: float) -> void:
-	if GameValues.first_person and !GlobalGameplayValues.paused:
+	if GameValues.first_person and !GlobalGameplayValues.paused and !paused:
 
 		process_movement(delta)
 		if !first_person_switch: 

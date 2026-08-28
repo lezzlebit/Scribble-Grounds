@@ -1,5 +1,5 @@
 Port=55555
 Folder=ServerComputer
-Version=1
+Compatibility=1
 Password=
-Motd=Hello, welcome to the server.\nPlease only draw things that are nice.\nThank you!
+Motd=Hello, welcome to the server.\nPlease only draw things that are nice.\nThank you

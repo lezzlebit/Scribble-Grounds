@@ -13,22 +13,33 @@ changelog_path = "images/changelog.txt"
 changelog_dict = {}
 
 
-config_dict = {}
-read_config = open("config.txt").readlines()
-for i in read_config:
-	pair = i.split("=")
-	config_dict[pair[0]] = pair[1].replace("\n","")
+def get_config_dict():
+	return_config_dict = {}
+	read_config = open("config.txt").readlines()
+	for i in read_config:
+		pair = i.split("=")
+		return_config_dict[pair[0]] = pair[1].replace("\n","")
+	return return_config_dict
+
+config_dict = get_config_dict()
 
 
 PORT = int(config_dict["Port"])
-server_folder = config_dict["Folder"] + "-" + config_dict["Version"]
+server_folder = config_dict["Folder"]
+compatibility_version = config_dict["Compatibility"]
+
+world_file_path = ""
+if "World" in config_dict:
+	world_file_path = config_dict["World"]
 
 password = ""
 if "Password" in config_dict:
 	if config_dict["Password"]:
 		password = config_dict["Password"]
 
-unauthorized_message = bytes("wrong_password", "utf-8")
+denied_unknown_message = bytes("Denied", "utf-8")
+incompatible_version_message = bytes("Wrong Version", "utf-8")
+wrong_password_message = bytes("Wrong Password", "utf-8")
 
 
 
@@ -68,26 +79,42 @@ def getPathOnly(fullpath):
 	returnpath = "/".join(segments)
 	return returnpath
 
-def trim_password(inp):
+def trim_text(inp):
 	return inp.replace("\n","").replace(" ","")
 
 
 def validate_password(self):
 
+	reason_denied = denied_unknown_message
 	allowed = False
-	if len(password) >= 1:
-		if self.headers['Authorization']:
-			recieved_password = trim_password(self.headers['Authorization'])
-			allowed = (recieved_password == password)
-	else:
-		return True
+	if self.headers['Authorization']:
+		authorization_pair = self.headers['Authorization'].split(",")
+
+		if len(authorization_pair) > 0:
+
+			recieved_password = trim_text(authorization_pair[0])
+			recieved_compatibility = trim_text(authorization_pair[1])
+
+			if recieved_compatibility == compatibility_version:
+				if len(password) > 0:
+					if recieved_password == password:
+						allowed = True
+					else:
+						allowed = False
+						reason_denied = wrong_password_message
+				else:
+					allowed = True
+			else:
+				reason_denied = incompatible_version_message
+		else:
+			allowed = False
 
 	if not allowed:
 		print(password)
-		self.send_header("Content-length", len(unauthorized_message))
+		self.send_header("Content-length", len(reason_denied))
 		self.send_header("Content-type", "text/plain")
 		self.end_headers()
-		self.wfile.write(unauthorized_message)
+		self.wfile.write(reason_denied)
 		self.send_response(401)
 
 		return False
@@ -163,12 +190,18 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 
 				filename = saved.decode("utf-8")
 
-				content = open(image_path + filename, "rb").read()
+				if ".glb" in filename:
+					content = open(filename, "rb").read()
+					self.send_header('Content-type','model/gltf-binary')
+				else:
+					content = open(image_path + filename, "rb").read()
+					self.send_header('Content-type','image/png')
+
+				
 
 				print(printCurrentDateTime() + "Sending " + filename)
 
 				self.send_header('Content-name',filename)
-				self.send_header('Content-type','image/png')
 				self.send_header('Content-length',len(content))
 				self.end_headers()
 
@@ -186,8 +219,7 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 
 		
 		changelogfile = open(changelog_path).read()
-		changelogfile += "\nMotd:" + config_dict["Motd"]
-
+		changelogfile += "\nMotd:" + get_config_dict()["Motd"]
 
 		content_length = int(self.headers['Content-Length'])
 		content_type = self.headers['Content-Type']
@@ -196,14 +228,14 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 		recieved = self.rfile.read(content_length)
 		message = recieved.decode("utf-8")
 
-		check_response = "graffiti_server_online/" + server_folder
+		check_response = "scribble_server_online/" + server_folder
+		if world_file_path != "": check_response += "/" + world_file_path
 
 		content = ""
 		if message == "retrieve_drawings_list":
 			content = bytes(changelogfile, "utf-8")
-		if message == "ping_graffiti_server":
+		if message == "ping_scribble_server":
 			content = bytes(check_response, "utf-8")
-		
 
 		self.send_header("Content-length", len(content))
 		self.send_header("Content-type", "text/plain")
