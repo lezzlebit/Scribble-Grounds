@@ -11,6 +11,7 @@ class_name TitleServerManager
 @export var main_page: NodePath
 @export var username_page: NodePath
 @export var username_setter: TitleInputLine
+@export var user_password_setter: TitleInputLine
 @export var disable_on_edit: Array[Control]
 @export var loading_visibilities: Dictionary[Control, bool]
 @export var color_setter: PlayerColorSetter
@@ -37,7 +38,9 @@ func _ready() -> void:
 	DirAccess.make_dir_absolute(server_path)
 	
 	username_setter.text_input.text_changed.connect(update_username_to)
+	user_password_setter.text_input.text_changed.connect(update_username_to)
 	get_username()
+	update_username()
 	
 	refresh()
 	close_editor()
@@ -51,6 +54,8 @@ func get_username():
 			username_setter.text = pair[0]
 			color_setter.color_selected = int(pair[1])
 			color_setter.set_color()
+			if len(pair) == 3:
+				user_password_setter.text = pair[2]
 
 
 func update_username_to(new_name: String):
@@ -58,7 +63,13 @@ func update_username_to(new_name: String):
 
 func update_username():
 	var w = FileAccess.open(username_path, FileAccess.WRITE)
-	var to_store = username_setter.text + "," + str(color_setter.color_selected)
+	GlobalNetworkValues.username = username_setter.text
+	if len(user_password_setter.text) > 0:
+		GlobalNetworkValues.user_password = user_password_setter.text.sha1_text()
+	else:
+		GlobalNetworkValues.user_password = ""
+	print(GlobalNetworkValues.user_password)
+	var to_store = username_setter.text + "," + str(color_setter.color_selected) + "," + user_password_setter.text
 	w.store_string(to_store)
 
 func open_path():
@@ -209,10 +220,11 @@ func create_server_from_dict(server_info: Dictionary[String, String]):
 	var server_button_instance: ServerButton = server_button.instantiate()
 	button_parent.add_child(server_button_instance)
 	button_parent.move_child(server_button_instance, 2)
+	server_button_instance.manager = self
 	if server_info.has("password"):
 		server_button_instance.create_button(server_info["folder"], server_info["address"], server_info["password"])
 	
-	server_button_instance.manager = self
+	
 	created_instances.append(server_button_instance)
 	make_new_button.emit()
 

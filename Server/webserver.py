@@ -6,7 +6,7 @@ import os
 import datetime
 
 
-
+passwords_path = "validation.txt"
 image_path = "images/"
 
 changelog_path = "images/changelog.txt"
@@ -40,6 +40,7 @@ if "Password" in config_dict:
 denied_unknown_message = bytes("Denied", "utf-8")
 incompatible_version_message = bytes("Wrong Version", "utf-8")
 wrong_password_message = bytes("Wrong Password", "utf-8")
+wrong_user_password_message = bytes("Wrong User Password", "utf-8")
 
 
 
@@ -83,7 +84,44 @@ def trim_text(inp):
 	return inp.replace("\n","").replace(" ","")
 
 
-def validate_password(self):
+def password_dictionary():
+	all_passwords = []
+	if os.path.isfile(passwords_path):
+		all_passwords = open(passwords_path).readlines()
+
+	password_dict = {}
+	for i in all_passwords:
+		validation_pair = i.split(",")
+		for v in range(len(validation_pair)):
+			validation_pair[v] = validation_pair[v].replace("\n","")
+		if len(validation_pair) > 1:
+			password_dict[validation_pair[0]] = validation_pair[1]
+	return password_dict
+
+
+def store_username_password(username, user_password):
+
+
+	user_password = user_password.replace("\n", "")
+
+	password_dict = password_dictionary()
+
+	print(username)
+	if len(user_password) > 1:
+		if not (username in password_dict):
+			password_dict[username] = user_password
+
+
+	all_passwords = []
+	for i in password_dict:
+		all_passwords.append(i + "," + password_dict[i] + "\n")
+	combined_passwords = "\n".join(all_passwords)
+
+	with open(passwords_path, "w") as w:
+		w.write(combined_passwords)
+
+
+def validate_password(self, upload_password):
 
 	reason_denied = denied_unknown_message
 	allowed = False
@@ -108,6 +146,24 @@ def validate_password(self):
 				reason_denied = incompatible_version_message
 		else:
 			allowed = False
+
+		if len(authorization_pair) >= 4 and allowed:
+			if upload_password:
+				store_username_password(authorization_pair[2],authorization_pair[3])
+			password_dict = password_dictionary()
+			pair_username = authorization_pair[2]
+			pair_password = authorization_pair[3]
+			if pair_username in password_dict:
+				print(password_dict)
+				print(pair_password)
+				if password_dict[pair_username] == pair_password:
+					print("yes! correct!")
+				else:
+					allowed = False
+					reason_denied = wrong_user_password_message
+
+			
+		print(len(authorization_pair))
 
 	if not allowed:
 		print(password)
@@ -169,6 +225,25 @@ def send_footsteps():
 		all += i.position + "/" + str(i.time) + "/" + i.color + "\n"
 	return all
 
+def validate_image_upload_username(self, username):
+	print("tried to validate")
+	username = username.split("/")[0]
+	password_dict = password_dictionary()
+	if username in password_dict:
+		if self.headers["Authorization"]:
+			print(self.headers["Authorization"])
+			authorization_pair = self.headers['Authorization'].split(",")
+			if len(authorization_pair) >= 4:
+				if authorization_pair[3] == password_dict[username]:
+					print("password successfully validated!")
+				else:
+					print("wrong password for image upload!")
+				
+			else:
+				print("user tried to upload image with no password!")
+		else:
+			print("user tried to upload image with no authorization!")
+
 
 
 # https://stackoverflow.com/questions/66514500/how-do-i-configure-a-python-server-for-post
@@ -186,7 +261,7 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 		self.send_response(200)
 		self.send_header("Access-control-request-method", "POST")
 
-		if not validate_password(self):
+		if not validate_password(self, False):
 			return
 
 		if self.headers['Content-length']:
@@ -205,6 +280,8 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 				directory_path = getPathOnly(image_path + content_name)
 				if not os.path.isdir(directory_path):
 					os.mkdir(directory_path)
+
+				# validate_image_upload_username(self, content_name)
 
 				updateLog(content_name)
 
@@ -265,19 +342,29 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 		
 		self.send_response(200)
 
-		if not validate_password(self):
+		content_length = int(self.headers['Content-Length'])
+		content_type = self.headers['Content-Type']
+		content_name = self.headers['Content-Name']
+
+		recieved = self.rfile.read(content_length)
+
+		message = recieved.decode("utf-8")
+
+		check_ping = "ping_scribble_server"
+		check_join = "join_scribble_server"
+
+		upload_password = False
+		if message == check_join: upload_password = True
+
+		if not validate_password(self, upload_password):
 			return
 
 		
 		changelogfile = open(changelog_path).read()
 		changelogfile += "\nMotd:" + get_config_dict()["Motd"]
 
-		content_length = int(self.headers['Content-Length'])
-		content_type = self.headers['Content-Type']
-		content_name = self.headers['Content-Name']
 
-		recieved = self.rfile.read(content_length)
-		message = recieved.decode("utf-8")
+
 
 		check_response = "scribble_server_online/" + server_folder
 		if world_file_path != "": check_response += "/" + world_file_path
@@ -285,7 +372,7 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 		content = ""
 		if message == "retrieve_drawings_list":
 			content = bytes(changelogfile, "utf-8")
-		if message == "ping_scribble_server":
+		if message == check_ping or message == check_join:
 			content = bytes(check_response, "utf-8")
 
 		self.send_header("Content-length", len(content))

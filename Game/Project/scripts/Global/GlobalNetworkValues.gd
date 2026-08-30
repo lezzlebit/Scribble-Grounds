@@ -2,6 +2,7 @@ extends Node
 
 
 var username: String = "default_user"
+var user_password: String = ""
 
 var compatibility_version: String = "1"
 var server_password: String = "Burgerslop"

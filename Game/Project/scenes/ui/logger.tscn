@@ -26,6 +26,7 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="Label" type="Label" parent="MarginContainer" unique_id=200808969]
+z_index = 256
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 20

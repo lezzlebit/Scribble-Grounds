@@ -49,7 +49,10 @@ func create_request(headers, method, body):
 	request.network_handler = self
 	request.request_completed.connect(request._http_request_completed)
 	request.timeout = 10
-	headers.append("Authorization: " + GlobalNetworkValues.server_password + "," + GlobalNetworkValues.compatibility_version)
+	var authorization: String = "Authorization: " + GlobalNetworkValues.server_password + "," + GlobalNetworkValues.compatibility_version
+	if len(GlobalNetworkValues.user_password) > 0:
+		authorization += "," + GlobalNetworkValues.username + "," + GlobalNetworkValues.user_password
+		headers.append(authorization)
 	request.request_raw(network_address, headers, method, body)
 
 
@@ -231,8 +234,9 @@ func create_image_offline(filename):
 func _on_image_uploaded(_headers, body):
 	var content = body.get_string_from_ascii()
 	var pair = content.split(":")
-	current_images[pair[0]] = pair[1]
-	save_current_changelog()
+	if len(content) > 1:
+		current_images[pair[0]] = pair[1]
+		save_current_changelog()
 	
 	print(content)
 	GlobalGameplayValues.user_message_log("Uploaded drawing")

@@ -51,7 +51,7 @@ volume_db = -18.0
 stream = ExtResource("14_784tc")
 volume_db = -18.0
 
-[node name="Server Manager" type="Node" parent="." unique_id=919283246 node_paths=PackedStringArray("button_parent", "username_setter", "disable_on_edit", "loading_visibilities", "color_setter", "editor_parent", "address_setter", "folder_setter", "password_setter", "create_server_button", "edit_server_button", "delete_server_button")]
+[node name="Server Manager" type="Node" parent="." unique_id=919283246 node_paths=PackedStringArray("button_parent", "username_setter", "user_password_setter", "disable_on_edit", "loading_visibilities", "color_setter", "editor_parent", "address_setter", "folder_setter", "password_setter", "create_server_button", "edit_server_button", "delete_server_button")]
 script = ExtResource("2_ds13r")
 server_button = ExtResource("1_ds13r")
 main_game = ExtResource("4_awdk6")
@@ -59,7 +59,8 @@ custom_world_game = ExtResource("7_dawno")
 button_parent = NodePath("../MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer")
 main_page = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Information")
 username_page = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User")
-username_setter = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User/Username/Username")
+username_setter = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User/Username Box")
+user_password_setter = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User/Password Box")
 disable_on_edit = [NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Changelog"), NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Options"), NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Information"), NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User")]
 loading_visibilities = {
 NodePath("../MarginContainer"): false,
@@ -319,22 +320,31 @@ color_rect = NodePath("VBoxContainer/HBoxContainer/TextureRect")
 layout_mode = 2
 text = "Player"
 
-[node name="Username" type="Panel" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User" unique_id=1494717406]
-custom_minimum_size = Vector2(320, 64)
+[node name="Username Box" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User" unique_id=1552471214 instance=ExtResource("1_gl121")]
 layout_mode = 2
-
-[node name="Username" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User/Username" unique_id=1552471214 instance=ExtResource("1_gl121")]
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
 label_text = "Username"
 edit_value = "username"
 unwanted = Array[String](["=", "?", "
-", ".", ":"])
+", ".", ":", ",", "@", "\\", " "])
+
+[node name="Password Box" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User" unique_id=412921571 instance=ExtResource("1_gl121")]
+layout_mode = 2
+label_text = "User Password (Optional)"
+edit_value = "userpassword"
+unwanted = Array[String](["=", "?", "
+", ".", ":", ",", "@", "\\"])
+
+[node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User" unique_id=1750093195]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Your user password is stored alongside your username on the server when you join.
+
+Once it is stored on the server, it can NOT be changed. After this, players can only log onto the server with this username if this user password is also used."
+autowrap_mode = 2
+
+[node name="Username" type="Panel" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User" unique_id=1494717406]
+custom_minimum_size = Vector2(320, 64)
+layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User" unique_id=2064164144]
 layout_mode = 2
