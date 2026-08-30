@@ -10,9 +10,24 @@ var user_log: UserLog = null
 var draw_tile_shader: Shader = preload("res://assets/Materials/draw_tile/draw_tile.gdshader")
 var paused: bool = false
 var drawing_controls: PaletteButtons = null
+var footsteps: FootstepHandler = null
 var camera_sensitivity: float = 0
+var use_footsteps: bool = false
 
 var undo_limit = 16
+
+var palette_colors: Array[String] = [
+"ffffff","000000","1c3c00",
+"581931","2a005f","008738",
+"b00020","0009e8","88a671",
+"fd0368","625ab5","00e637",
+"ff622e","1e7dff","9fff7f",
+"ff81a6","96c2ff","725335",
+"214c48","3d2d43","957a5b",
+"227491","822eb3","ff9d4e",
+"6d9e8f","905999","ffe42b",
+"06e7c9","ff26f2","fff39e",
+"baffc3","df7dff"]
 
 func user_message_log(log: String):
 	user_log.update_log(log)

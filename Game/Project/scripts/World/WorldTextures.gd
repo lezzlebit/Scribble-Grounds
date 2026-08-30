@@ -13,6 +13,8 @@ var directory: String = GlobalNetworkValues.save_directory + GlobalNetworkValues
 
 var updated_image_queue: Dictionary[String, float]
 
+var lightmap_disabled: bool
+
 func _init() -> void:
 	GlobalGameplayValues.world_textures = self
 
@@ -20,6 +22,9 @@ func _ready() -> void:
 	check_tiles_dictionary()
 
 
+func toggle_light_mode():
+	lightmap_disabled = !lightmap_disabled
+	RenderingServer.global_shader_parameter_set("lightmap_disabled", lightmap_disabled)
 
 func get_all_children(node):
 	var nodes : Array = []
@@ -84,6 +89,8 @@ func update_one_image(image_path: String):
 	
 	if tiles.has(file_name):
 		var tile_found: DrawTile = tiles[file_name]
+		if update_audio != null:
+			update_audio.update_at_position(tile_found)
 		
 		tile_found.set_image(image_username, imported_image)
 	return true
@@ -146,4 +153,8 @@ func process_image_queue(delta: float):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	process_image_queue(delta)
+	
+	if Input.is_action_just_pressed("toggle_lightmap"):
+		toggle_light_mode()
+	
 	pass

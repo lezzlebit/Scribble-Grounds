@@ -41,6 +41,7 @@
 [ext_resource type="AudioStream" uid="uid://bra2fbokrdy32" path="res://assets/Audio/Sounds/step/water/wade-04.ogg" id="18_uygh0"]
 [ext_resource type="Script" uid="uid://bxcb4a2dh5up1" path="res://scripts/Player/UI/Reticle.gd" id="19_lgqa7"]
 [ext_resource type="Texture2D" uid="uid://ddwmpowaagnad" path="res://assets/UI/Cursors/paint.png" id="20_8ydkj"]
+[ext_resource type="Script" uid="uid://cv1yfyhgyjyp1" path="res://scripts/Player/Footsteps/FootstepHandler.gd" id="20_w8qe1"]
 [ext_resource type="Environment" uid="uid://0ealanx3xpbs" path="res://assets/Environment/drawing_background.tres" id="21_upxxc"]
 [ext_resource type="Script" uid="uid://bxsrfagnpfje8" path="res://scripts/Player/UI/PauseMenu.gd" id="22_cnsyf"]
 [ext_resource type="Texture2D" uid="uid://bgukvj8qog42s" path="res://assets/UI/ButtonIcons/connect.PNG" id="22_ioxgp"]
@@ -59,7 +60,7 @@
 [ext_resource type="PackedScene" uid="uid://b8emmr35u0852" path="res://scenes/ui/options.tscn" id="55_uygh0"]
 [ext_resource type="Script" uid="uid://dhrbxd84tmb3u" path="res://scripts/Options/ApplyOptions.gd" id="57_uygh0"]
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_t1aof"]
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_hdvrm"]
 points = PackedVector3Array(0.5, 0.5, 0, 0.46193975, 0.5, 0.19134171, 0.35355338, 0.5, 0.35355338, 0.19134171, 0.5, 0.46193975, 3.061516e-17, 0.5, 0.5, -0.19134171, 0.5, 0.46193975, -0.35355338, 0.5, 0.35355338, -0.46193975, 0.5, 0.19134171, -0.5, 0.5, 6.123032e-17, -0.46193975, 0.5, -0.19134171, -0.35355338, 0.5, -0.35355338, -0.19134171, 0.5, -0.46193975, -9.1845477e-17, 0.5, -0.5, 0.19134171, 0.5, -0.46193975, 0.35355338, 0.5, -0.35355338, 0.46193975, 0.5, -0.19134171, 0.5, -0.5, 0, 0.46193975, -0.5, 0.19134171, 0.35355338, -0.5, 0.35355338, 0.19134171, -0.5, 0.46193975, 3.061516e-17, -0.5, 0.5, -0.19134171, -0.5, 0.46193975, -0.35355338, -0.5, 0.35355338, -0.46193975, -0.5, 0.19134171, -0.5, -0.5, 6.123032e-17, -0.46193975, -0.5, -0.19134171, -0.35355338, -0.5, -0.35355338, -0.19134171, -0.5, -0.46193975, -9.1845477e-17, -0.5, -0.5, 0.19134171, -0.5, -0.46193975, 0.35355338, -0.5, -0.35355338, 0.46193975, -0.5, -0.19134171, 0, 1, 0, 0, -1, 0)
 
 [sub_resource type="PrismMesh" id="PrismMesh_g4v7s"]
@@ -104,7 +105,7 @@ max_camera_sensitivity = 3.0
 min_camera_sensitivity = 0.1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=679124615]
-shape = SubResource("ConvexPolygonShape3D_t1aof")
+shape = SubResource("ConvexPolygonShape3D_hdvrm")
 script = ExtResource("2_t1aof")
 
 [node name="CameraPivot" type="Node3D" parent="CharacterBody3D" unique_id=30639229]
@@ -145,6 +146,9 @@ script = ExtResource("38_niom3")
 audio_clips = Array[AudioStream]([ExtResource("15_0ncpa"), ExtResource("16_upxxc"), ExtResource("17_ln3h3"), ExtResource("18_uygh0")])
 pitch_variation = 0.2
 metadata/_custom_type_script = "uid://478itlpiweyr"
+
+[node name="FootstepCounter" type="Node3D" parent="CharacterBody3D" unique_id=1893074618]
+script = ExtResource("20_w8qe1")
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=2080823682 node_paths=PackedStringArray("raycast", "first_person_pivot", "wall_sticker", "wall_camera_pivot", "drawing_controls", "pause_screen")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
@@ -634,6 +638,7 @@ palette_margin_container = NodePath("../Button Audio/Drawing Controls/MarginCont
 metadata/_custom_type_script = "uid://dhrbxd84tmb3u"
 
 [connection signal="on_jump" from="CharacterBody3D" to="CharacterBody3D/FootstepAudio" method="on_step"]
+[connection signal="step_taken" from="CharacterBody3D/FootstepAudio" to="CharacterBody3D/FootstepCounter" method="create_footstep"]
 [connection signal="on_start_drawing" from="Camera3D" to="Camera3D/Audio/Start" method="play"]
 [connection signal="on_stop_drawing" from="Camera3D" to="Camera3D/Audio/Stop" method="play"]
 [connection signal="on_press_any" from="Button Audio" to="Camera3D/Audio/Click" method="play"]

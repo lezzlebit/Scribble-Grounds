@@ -75,6 +75,8 @@ func _http_request_completed(_result, response_code, headers, body):
 			_on_retrieve_image(headers_dictionary, body)
 		if (content_type == "model/gltf-binary" && request_method == "POST"):
 			_on_retrieve_model(headers_dictionary, body)
+		if (content_type == "text/csv" && request_method == "POST"):
+			_on_retrieve_steps(headers_dictionary, body)
 
 func headers_to_dictionary(strings: PackedStringArray):
 	print(strings)
@@ -104,6 +106,7 @@ func retrieve_list():
 	var headers = ["Content-type: text/plain"]
 	
 	create_request(headers, HTTPClient.METHOD_GET, body)
+	if GlobalGameplayValues.use_footsteps: send_steps()
 
 func _on_retrieve_list(_headers, body):
 	
@@ -192,7 +195,7 @@ func _on_retrieve_image(headers, body):
 	required_images.erase(filename)
 	current_images[filename] = new_images[filename]
 	save_current_changelog()
-	if len(required_images) >= 1:
+	if len(required_images) > 0:
 		GlobalGameplayValues.user_message_log("Updating drawings (" + str(len(required_images)) + " remaining)")
 	else:
 		GlobalGameplayValues.user_message_log("World updated")
@@ -233,6 +236,25 @@ func _on_image_uploaded(_headers, body):
 	
 	print(content)
 	GlobalGameplayValues.user_message_log("Uploaded drawing")
+
+
+func send_steps():
+	
+	var all: String = ""
+	for i in GlobalGameplayValues.footsteps.my_footsteps:
+		all += i + "\n"
+	GlobalGameplayValues.footsteps.my_footsteps.clear()
+
+	var body = all.to_ascii_buffer()
+	var headers = ["Content-type: text/csv","Content-length: " + str(len(body))]
+
+	
+	create_request(headers, HTTPClient.METHOD_POST, body)
+
+func _on_retrieve_steps(headers, body):
+	
+	var new_all: String = body.get_string_from_ascii()
+	GlobalGameplayValues.footsteps.read_footsteps(new_all)
 
 func request_model():
 

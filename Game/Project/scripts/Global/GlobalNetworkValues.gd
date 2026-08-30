@@ -11,6 +11,11 @@ var save_directory: String = "user://game/saves/"
 var save_folder: String = "none/"
 var changelog_filename: String = "changelog_latest.txt"
 
+var footstep_color: int = 16
+var footstep_delete_time: float = 30
+var footstep_fade_time: float = 4
+var footstep_appear_delay: float = 4
+
 var model_name: String = "world.glb"
 
 var network_address: String = "http://127.0.0.1:55555"

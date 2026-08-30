@@ -12,12 +12,14 @@
 [ext_resource type="PackedScene" uid="uid://ckjxfqndgkrk5" path="res://scenes/ui/logger.tscn" id="5_yjwoi"]
 [ext_resource type="Texture2D" uid="uid://dghvrfkv488af" path="res://assets/UI/ButtonIcons/back.PNG" id="6_7uqqr"]
 [ext_resource type="PackedScene" uid="uid://c13rahyu8qyld" path="res://scenes/world/world loader/world_loader.tscn" id="7_dawno"]
+[ext_resource type="Texture2D" uid="uid://btxnr638bd66" path="res://assets/UI/DrawingTextures/palette_button.PNG" id="10_xraam"]
 [ext_resource type="PackedScene" uid="uid://xhptjxrh2irh" path="res://scenes/title/elements/info.tscn" id="11_4yl2o"]
 [ext_resource type="PackedScene" uid="uid://b8emmr35u0852" path="res://scenes/ui/options.tscn" id="12_784tc"]
 [ext_resource type="Environment" uid="uid://dsm777h6m4m2o" path="res://assets/Environment/title_environment.tres" id="12_awdk6"]
 [ext_resource type="AudioStream" uid="uid://b04wlpp1krow8" path="res://assets/Audio/Sounds/click_button.ogg" id="14_784tc"]
 [ext_resource type="Script" uid="uid://b3o3i66uefokc" path="res://scripts/Title/ChangelogFile.gd" id="15_bjs8b"]
 [ext_resource type="Script" uid="uid://dhrbxd84tmb3u" path="res://scripts/Options/ApplyOptions.gd" id="15_rtgr4"]
+[ext_resource type="Script" uid="uid://c37ayr2s0snwf" path="res://scripts/Title/PlayerColorSelector.gd" id="16_ucj5f"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iqsei"]
 bg_color = Color(0.45504338, 0.48945183, 0.5417958, 1)
@@ -49,19 +51,21 @@ volume_db = -18.0
 stream = ExtResource("14_784tc")
 volume_db = -18.0
 
-[node name="Server Manager" type="Node" parent="." unique_id=919283246 node_paths=PackedStringArray("button_parent", "username_setter", "disable_on_edit", "loading_visibilities", "editor_parent", "address_setter", "folder_setter", "password_setter", "create_server_button", "edit_server_button", "delete_server_button")]
+[node name="Server Manager" type="Node" parent="." unique_id=919283246 node_paths=PackedStringArray("button_parent", "username_setter", "disable_on_edit", "loading_visibilities", "color_setter", "editor_parent", "address_setter", "folder_setter", "password_setter", "create_server_button", "edit_server_button", "delete_server_button")]
 script = ExtResource("2_ds13r")
 server_button = ExtResource("1_ds13r")
 main_game = ExtResource("4_awdk6")
 custom_world_game = ExtResource("7_dawno")
 button_parent = NodePath("../MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer")
 main_page = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Information")
-username_setter = NodePath("../MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Username/Username")
-disable_on_edit = [NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Changelog"), NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Options"), NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Information")]
+username_page = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User")
+username_setter = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User/Username/Username")
+disable_on_edit = [NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Changelog"), NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Options"), NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Information"), NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User")]
 loading_visibilities = {
 NodePath("../MarginContainer"): false,
 NodePath("../Label"): true
 }
+color_setter = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User")
 editor_parent = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit")
 address_setter = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Address")
 folder_setter = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Folder")
@@ -117,21 +121,6 @@ theme_override_constants/line_spacing = 0
 theme_override_font_sizes/font_size = 24
 text = "Scribble Grounds"
 horizontal_alignment = 1
-
-[node name="Username" type="Panel" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer" unique_id=1494717406]
-custom_minimum_size = Vector2(320, 64)
-layout_mode = 2
-
-[node name="Username" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Username" unique_id=1552471214 instance=ExtResource("1_gl121")]
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
-label_text = "Username"
-edit_value = "username"
 
 [node name="Server Button" type="Control" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer" unique_id=1279676831]
 custom_minimum_size = Vector2(200, 72)
@@ -198,6 +187,11 @@ layout_mode = 2
 mouse_default_cursor_shape = 2
 text = "Info"
 
+[node name="User" type="Button" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Pages" unique_id=1816532118]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Player"
+
 [node name="Settings" type="Button" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Pages" unique_id=1199829052]
 layout_mode = 2
 mouse_default_cursor_shape = 2
@@ -222,6 +216,8 @@ layout_mode = 2
 layout_mode = 2
 label_text = "Local Name"
 edit_value = "folder"
+unwanted = Array[String](["=", "?", "
+", "/"])
 
 [node name="Address" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer" unique_id=1319260046 instance=ExtResource("1_gl121")]
 layout_mode = 2
@@ -232,6 +228,8 @@ edit_value = "address"
 layout_mode = 2
 label_text = "Server Password (Optional)"
 edit_value = "password"
+unwanted = Array[String](["=", "?", "
+", ","])
 
 [node name="LineEdit" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Password" index="0" unique_id=1004302945]
 secret = true
@@ -310,6 +308,61 @@ text = "Things to know:
 
 "
 autowrap_mode = 2
+
+[node name="User" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=60738711 node_paths=PackedStringArray("color_rect")]
+layout_mode = 2
+theme_override_constants/separation = 16
+script = ExtResource("16_ucj5f")
+color_rect = NodePath("VBoxContainer/HBoxContainer/TextureRect")
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User" unique_id=1660927257]
+layout_mode = 2
+text = "Player"
+
+[node name="Username" type="Panel" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User" unique_id=1494717406]
+custom_minimum_size = Vector2(320, 64)
+layout_mode = 2
+
+[node name="Username" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User/Username" unique_id=1552471214 instance=ExtResource("1_gl121")]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+label_text = "Username"
+edit_value = "username"
+unwanted = Array[String](["=", "?", "
+", ".", ":"])
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User" unique_id=2064164144]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User/VBoxContainer" unique_id=109848261]
+layout_mode = 2
+text = "Player Color"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User/VBoxContainer" unique_id=507559357]
+layout_mode = 2
+
+[node name="Prev" type="Button" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User/VBoxContainer/HBoxContainer" unique_id=2093917877]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "<"
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User/VBoxContainer/HBoxContainer" unique_id=318612569]
+custom_minimum_size = Vector2(32, 32)
+custom_maximum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_vertical = 8
+texture = ExtResource("10_xraam")
+stretch_mode = 3
+
+[node name="Next" type="Button" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User/VBoxContainer/HBoxContainer" unique_id=890981242]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = ">"
 
 [node name="Changelog" type="VBoxContainer" parent="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer" unique_id=1834237738]
 visible = false
@@ -406,12 +459,16 @@ metadata/_custom_type_script = "uid://dhrbxd84tmb3u"
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button/Panel/HBoxContainer/Refresh" to="Server Manager" method="refresh"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button/Panel/HBoxContainer/Directory" to="Server Manager" method="open_path"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Pages/Info" to="Server Manager" method="enter_mode" binds= [NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Information")]]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Pages/User" to="Server Manager" method="enter_mode" binds= [NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User")]]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Pages/Settings" to="Server Manager" method="enter_mode" binds= [NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Options")]]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Pages/Changelog" to="Server Manager" method="enter_mode" binds= [NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Changelog")]]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Control/HBoxContainer/Create" to="Server Manager" method="create_server"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Control/HBoxContainer/Edit" to="Server Manager" method="create_server"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Control/HBoxContainer/Delete" to="Server Manager" method="delete_server"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Control/HBoxContainer/Cancel" to="Server Manager" method="close_editor"]
+[connection signal="on_change" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User" to="Server Manager" method="update_username"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User/VBoxContainer/HBoxContainer/Prev" to="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User" method="move" binds= [-1]]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User/VBoxContainer/HBoxContainer/Next" to="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User" method="move" binds= [1]]
 
 [editable path="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Edit/VBoxContainer/Password"]
 [editable path="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Options"]

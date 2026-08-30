@@ -19,6 +19,7 @@ func _process(delta: float) -> void:
 	fov = main_cam.fov
 	near = main_cam.near
 	far = main_cam.far
+	environment = main_cam.environment
 	viewport.size = main_cam.get_viewport().size / 1
 	var height = -(main_cam.global_position.y - water_height) + water_height
 	global_position = Vector3(main_cam.global_position.x, height, main_cam.global_position.z)

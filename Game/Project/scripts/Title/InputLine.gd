@@ -6,6 +6,7 @@ class_name TitleInputLine
 @export var edit_value: String
 @export var label: Label
 @export var text_input: LineEdit
+@export var unwanted: Array[String] = ['=','?',"\n"]
 
 var text: String:
 	get:
@@ -20,7 +21,6 @@ func _ready() -> void:
 func correct_input(new_text):
 	var input_pos = text_input.caret_column
 	var input: String = new_text
-	var unwanted = ['/','=','?',"\n"]
 	for i in unwanted:
 		input = input.replace(i, "")
 	text_input.text = input

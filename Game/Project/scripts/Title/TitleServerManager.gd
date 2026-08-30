@@ -9,9 +9,11 @@ class_name TitleServerManager
 @export var custom_world_game: PackedScene
 @export var button_parent: Control
 @export var main_page: NodePath
+@export var username_page: NodePath
 @export var username_setter: TitleInputLine
 @export var disable_on_edit: Array[Control]
 @export var loading_visibilities: Dictionary[Control, bool]
+@export var color_setter: PlayerColorSetter
 
 @export_subgroup("Editor")
 @export var editor_parent: Control
@@ -44,14 +46,20 @@ func _ready() -> void:
 func get_username():
 	if FileAccess.file_exists(username_path):
 		var r = FileAccess.open(username_path, FileAccess.READ).get_as_text()
-		username_setter.text = r
+		var pair = r.split(",")
+		if len(pair) >= 2:
+			username_setter.text = pair[0]
+			color_setter.color_selected = int(pair[1])
+			color_setter.set_color()
+
 
 func update_username_to(new_name: String):
 	update_username()
 
 func update_username():
 	var w = FileAccess.open(username_path, FileAccess.WRITE)
-	w.store_string(username_setter.text)
+	var to_store = username_setter.text + "," + str(color_setter.color_selected)
+	w.store_string(to_store)
 
 func open_path():
 	OS.shell_open( ProjectSettings.globalize_path(GlobalNetworkValues.game_directory) )
@@ -60,11 +68,13 @@ func connect_to_server(button: ServerButton):
 	update_username()
 	if (len(username_setter.text)) <= 0:
 		GlobalGameplayValues.user_error_log("Please enter a username")
+		enter_mode(username_page)
 		return
 	for i in loading_visibilities:
 		i.visible = loading_visibilities[i]
 	await RenderingServer.frame_post_draw
 	GlobalNetworkValues.username = username_setter.text
+	GlobalNetworkValues.footstep_color = color_setter.color_selected
 
 	
 

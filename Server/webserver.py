@@ -130,6 +130,44 @@ if not os.path.isfile(changelog_path):
 
 
 
+class footstep:
+	position = ""
+	time = 0.0
+	color = ""
+
+footsteps = []
+
+
+footstep_delete_timer = 25
+
+def store_footsteps(all):
+	for i in all.split("\n"):
+		values = i.split("/")
+
+		if len(values) == 3:
+
+			new_footstep = footstep()
+			new_footstep.position = values[0]
+			new_footstep.time = float(values[1])
+			new_footstep.color = values[2]
+
+			footsteps.append(new_footstep)
+
+	footsteps_to_delete = []
+	for i in footsteps:
+		current_time = datetime.datetime.now().timestamp()
+		if (current_time - footstep_delete_timer) > i.time:
+			footsteps_to_delete.append(i)
+	for i in footsteps_to_delete:
+		footsteps.remove(i)
+
+def send_footsteps():
+
+
+	all = ""
+	for i in footsteps:
+		all += i.position + "/" + str(i.time) + "/" + i.color + "\n"
+	return all
 
 
 
@@ -169,6 +207,7 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 					os.mkdir(directory_path)
 
 				updateLog(content_name)
+
 				with open(image_path + content_name, "wb") as w:
 					w.write(saved)
 
@@ -206,6 +245,18 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 				self.end_headers()
 
 				
+				self.wfile.write(content)
+			elif content_type == "text/csv":
+
+				store_footsteps(saved.decode("utf-8"))
+				content = bytes(send_footsteps(), "utf-8")
+				if len(content) == 0:
+					content = bytes("no footsteps", "utf-8")
+				self.send_header('Content-type','text/csv')
+				self.send_header('Content-length',len(content))
+				self.end_headers()
+
+
 				self.wfile.write(content)
 				
 

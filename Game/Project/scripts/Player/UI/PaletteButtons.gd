@@ -15,18 +15,7 @@ class_name PaletteButtons
 
 var selecting_replace_color: bool = false
 
-var colors: Array[String] = [
-	"#ffffff","#000000",
-	"#1c3c00","#581931","#2a005f", 
-	"#008738","#c6082a","0009e8",
-	"#88a671","#ff257d","#625ab5",
-	"#00ff3d","#ff622e","#1e7dff",
-	"#9fff7f","#ff81a6","#96c2ff",
-	"#7e4b1b","#214c48","#3d2d43",
-	"#e47a00","#227491","#822eb3",
-	"#c4a77e","#67998a","#905999",
-	"#ffe42b","#44ffe6","#ff26f2",
-	"#fff39e","#baffc3","#ff9abf"]
+var colors: Array[String] = GlobalGameplayValues.palette_colors
 
 var all_buttons: Array[ColorButton]
 

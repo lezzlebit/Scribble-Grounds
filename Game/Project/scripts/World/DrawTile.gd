@@ -25,6 +25,14 @@ var in_undo_selection: bool = false
 
 var initialized_material: bool = false
 
+var texture_slots: int = 64
+
+#var footsteps_fade_image: Image
+#var footsteps_background_image: Image
+var footsteps_texture: ImageTexture
+var footsteps_texture_scale: Vector2i = Vector2i(64, 64)
+var footstep_background_color: Color = Color(0.0, 0.0, 0.0, 0.0)
+
 
 
 	# texture_material.shader = GlobalGameplayValues.draw_tile_shader
@@ -38,10 +46,17 @@ func initialize_material():
 			material_override = material_override.duplicate()
 		texture_material = material_override
 		initialized_material = true
+		initialize_footsteps()
 
 func set_instanced_material():
 	texture_material = material_override
 	initialized_material = true
+	initialize_footsteps()
+
+#func _process(delta: float) -> void:
+	#var footsteps_image = footsteps_texture.get_image()
+	#var src_rect = Rect2i(Vector2i(0, 0), Vector2i(footsteps_texture_scale.x, footsteps_texture_scale.y))
+	#footsteps_image.blend_rect_mask(footsteps_background_image, footsteps_fade_image, src_rect, Vector2i.ZERO)
 
 func _ready():
 	initialize_material()
@@ -49,6 +64,27 @@ func _ready():
 		if i is MeshInstance3D:
 			print(i.name)
 			i.set_surface_override_material(0, material_override)
+
+func initialize_footsteps():
+	#footsteps_fade_image = Image.create_empty(footsteps_texture_scale.x, footsteps_texture_scale.y, false, Image.FORMAT_RGBA8)
+	#footsteps_fade_image.fill(Color(0.0, 0.0, 0.0, 0.5))
+	#footsteps_background_image = Image.create_empty(footsteps_texture_scale.x, footsteps_texture_scale.y, false, Image.FORMAT_RGBA8)
+	#footsteps_background_image.fill(Color(0.0, 0.0, 0.0, 0.5))
+	var empty_image: Image = Image.create_empty(footsteps_texture_scale.x, footsteps_texture_scale.y, false, Image.FORMAT_RGBA8)
+	empty_image.fill(footstep_background_color)
+	footsteps_texture = ImageTexture.create_from_image(empty_image)
+	
+	texture_material.set_shader_parameter("texture_footsteps", footsteps_texture)
+
+func set_footstep_color(pos: Vector2, color: Color, alpha: float):
+	var footsteps_image = footsteps_texture.get_image()
+	var footstep_pos: Vector2i = Vector2i(pos.x * float(footsteps_texture_scale.x), pos.y * float(footsteps_texture_scale.y))
+	
+	var footstep_color = color
+	footstep_color = lerp(footstep_color, footstep_background_color, 1-alpha)
+	
+	footsteps_image.set_pixelv(footstep_pos, footstep_color)
+	footsteps_texture.update(footsteps_image)
 
 func index_of_username(username_in: String):
 	for i in range(username_index.size()):
@@ -70,6 +106,9 @@ func set_image(image_username: String, set_image: Image):
 	painted_textures[image_username].update(set_image)
 	
 	# print(image_username + " - " + str(index_of_username(image_username)))	
+	var username_index: int = index_of_username(image_username)
+	if username_index > texture_slots:
+		print("uh ohhh")
 	texture_material.set_shader_parameter("texture_" + str(index_of_username(image_username)), painted_textures[image_username])
 
 func end_drawing():
@@ -80,6 +119,11 @@ func start_drawing():
 	
 
 	var player_username = GlobalNetworkValues.username
+	
+	if username_index.size() > texture_slots:
+		GlobalGameplayValues.user_error_log("Max users per object is " + str(texture_slots) + ". Please draw somewhere else!")
+		return
+	
 	if painted_textures.has(player_username):
 		pass
 	else:
@@ -87,7 +131,7 @@ func start_drawing():
 		empty_image.fill(Color(1, 1, 1, 0))
 		
 		set_image(player_username, empty_image)
-	
+		
 	texture_material.set_shader_parameter("selected", index_of_username(player_username))
 	
 	if image == null:
@@ -102,7 +146,8 @@ func add_undo():
 	if image == null:
 		start_drawing()
 	
-	
+	if image == null:
+		return
 
 	undo_buffer = undo_buffer.slice(0, undo_index, 1)
 	undo_index += 1
@@ -119,6 +164,7 @@ func add_undo():
 	
 func move_undo(index: int):
 	
+	if image == null: return
 	if !in_undo_selection:
 		if index == -1: 
 			add_undo()
@@ -154,6 +200,7 @@ func undo_limit_push():
 func blit_texture(x: float, y: float, paste_image: Image, h: HitData, round_scale: int, erase: bool):
 	
 	start_drawing()
+	if image == null: return
 	var paste_size: Vector2i = Vector2i(paste_image.get_width(), paste_image.get_height())
 	
 	var draw_behind: bool = !h.should_overwrite
@@ -227,7 +274,9 @@ func pick_pixel(x: float, y:float) -> Color:
 	
 func set_pixel(x: float, y: float, pixel_offset: Vector2i, color: Color, h: HitData):
 	
+	
 	start_drawing()
+	if image == null: return
 	
 	var player_username = GlobalNetworkValues.username
 	

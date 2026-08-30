@@ -7,6 +7,7 @@ uniform sampler2D water_lightmap : source_color;
 uniform sampler2D water_noise : source_color;
 uniform sampler2D screen_noise : source_color;
 uniform sampler2D reflection : source_color, repeat_disable;
+global uniform bool lightmap_disabled;
 
 void vertex() {
 	world_position = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
@@ -76,14 +77,20 @@ void fragment() {
 	
 	vec2 water_noise_sample = mix(water_noise_sample_2, water_noise_sample_3, 0.4);
 	
+	float water_angle = fresnel(3.0, NORMAL, VIEW);
+	water_angle = clamp(water_angle, 0.2, 1.0);
+	
+	if (lightmap_disabled) {
+		water_noise_sample = vec2(0.0);
+		water_angle = 1.0;
+	}
 	vec2 reflection_sample_uv = (SCREEN_UV * vec2(1.0, -1.0)) + (water_noise_sample/2.0) + vec2(0.0, 1.0);
 	
 	vec4 sampled_reflection = texture(reflection, reflection_sample_uv);
 	
 	vec4 lightmap_sample = texture(water_lightmap, UV2);
 	
-	float water_angle = fresnel(3.0, NORMAL, VIEW);
-	water_angle = clamp(water_angle, 0.2, 1.0);
+
 	
 	
 	vec2 screen_resolution = FRAGCOORD.xy / SCREEN_UV;

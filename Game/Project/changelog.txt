@@ -1,8 +1,17 @@
+Aug 29 2026
+[hr]
+	- Increased the maximum number of layers on objects from 16 to 64
+	- You are no longer able to draw on an object once its 64 layers have been used up, and you will recieve a message instead of the object simply not working correctly
+	- You can now toggle the lighting by pressing F1 (this will also make the water be a perfect mirror)
+	- You can now erase by holding right click
+	- The palette has been tweaked (Thank you YakiYuki :3)
+
 Aug 28 2026
 [hr]
 	- Attempted to fix undo/redo bindings on non-US keyboard layouts
 	- Added controller support to walk around and view drawings (you still cannot draw with a controller, though)
 	- You can now use WASD to pan while drawing, allowing you to create straight lines easily
+	- Fixed another overlapping UV
 
 Aug 27 2026
 [hr]

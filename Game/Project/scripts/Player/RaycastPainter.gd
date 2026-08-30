@@ -70,6 +70,11 @@ func paint(obj: DrawTile):
 		
 		var pixel_scale_for_drawing = GameValues.main_camera.current_pixel_scale / float(GlobalNetworkValues.texture_dimensions.x)
 		
+		var output_color: Color = current_color
+		var output_overwrite: bool = should_overwrite
+		if Input.is_action_pressed("erase"): 
+			output_color = Color.TRANSPARENT
+			output_overwrite = true
 		if coords:
 			
 			var hit_data = HitData.new()
@@ -77,8 +82,8 @@ func paint(obj: DrawTile):
 			hit_data.pixels_per_unit = pixel_scale_for_drawing
 			hit_data.hit_position = get_collision_point()
 			hit_data.hit_normal = get_collision_normal()
-			hit_data.hit_color = current_color
-			hit_data.should_overwrite = should_overwrite
+			hit_data.hit_color = output_color
+			hit_data.should_overwrite = output_overwrite
 			hit_data.has_last_hit_position = previous_frame_available
 			hit_data.last_hit_position = last_raycast_pos
 			hit_data.hit_tile = obj

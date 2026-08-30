@@ -15,9 +15,11 @@
 [ext_resource type="Script" uid="uid://hi4g4hn0pjmg" path="res://scripts/Player/WaterReflectionCamera.gd" id="10_7v8v1"]
 [ext_resource type="AudioStream" uid="uid://ctk2uv76xu7na" path="res://assets/Audio/Ambience/lake.ogg" id="10_nxewp"]
 [ext_resource type="Script" uid="uid://dsmwani7x1672" path="res://assets/Audio/RandomlyFadingAmbience.gd" id="11_2bkla"]
-[ext_resource type="AudioStream" uid="uid://bhd5gmeo8kuh7" path="res://assets/Audio/Sounds/redo.ogg" id="12_o7s2e"]
+[ext_resource type="AudioStream" uid="uid://dk33k1edajfli" path="res://assets/Audio/Sounds/scribble/scribble-01.ogg" id="12_o7s2e"]
 [ext_resource type="Script" uid="uid://df3mhcd3y3c4s" path="res://scripts/Audio/DrawingUpdateAudio.gd" id="13_yl8gf"]
+[ext_resource type="AudioStream" uid="uid://dwgdq6ljehn4s" path="res://assets/Audio/Sounds/scribble/scribble-02.ogg" id="14_x0vjt"]
 [ext_resource type="AudioStream" uid="uid://bmw1wbsd4okl6" path="res://assets/Audio/Ambience/wind.ogg" id="15_a3dpt"]
+[ext_resource type="AudioStream" uid="uid://cg5rt31udlbw4" path="res://assets/Audio/Sounds/scribble/scribble-03.ogg" id="15_xq51j"]
 [ext_resource type="AudioStream" uid="uid://cubptnwnkwh6p" path="res://assets/Audio/Ambience/crickets.ogg" id="16_7dwk6"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yidcf"]
@@ -189,10 +191,15 @@ script = ExtResource("11_2bkla")
 [node name="Wall-Map" parent="World" unique_id=1695952427 instance=ExtResource("3_5f0vg")]
 
 [node name="DrawingUpdateAudio" type="AudioStreamPlayer3D" parent="World" unique_id=1562518259]
-stream = ExtResource("12_o7s2e")
-unit_size = 25.0
+volume_db = 15.0
+unit_size = 100.0
+max_db = -5.0
 max_distance = 200.0
+panning_strength = 0.5
+attenuation_filter_cutoff_hz = 20500.0
 script = ExtResource("13_yl8gf")
+audio_clips = Array[AudioStream]([ExtResource("12_o7s2e"), ExtResource("14_x0vjt"), ExtResource("15_xq51j")])
+pitch_variation = 0.1
 metadata/_custom_type_script = "uid://df3mhcd3y3c4s"
 
 [node name="Player" parent="." unique_id=1104231176 instance=ExtResource("4_vqnqe")]

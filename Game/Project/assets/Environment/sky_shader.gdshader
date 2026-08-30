@@ -5,6 +5,7 @@ uniform sampler2D sky_gradient : source_color;
 uniform sampler2D noise_texture : source_color;
 uniform sampler2D skybox_texture : source_color;
 
+
 float soft_light_g(float base) {
 	float g = 0.0;
 	if (base <= 0.25) {

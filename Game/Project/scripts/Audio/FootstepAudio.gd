@@ -8,6 +8,8 @@ var distance_traveled: float
 
 @export var sound_types: Dictionary[String, RandomAudioOneshot]
 
+signal step_taken
+
 
 func footstep(delta: float):
 	var horizontal_velocity: Vector2 = Vector2(player_movement.velocity.x, player_movement.velocity.z)
@@ -28,6 +30,7 @@ func on_step():
 				sound_types[i].play_random()
 				return
 	sound_types["none"].play_random()
+	step_taken.emit()
 	return
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

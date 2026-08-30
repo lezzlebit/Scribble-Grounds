@@ -6,5 +6,5 @@
 [resource]
 shader = ExtResource("1_jjwwf")
 shader_parameter/checker_texture = ExtResource("2_keo47")
-shader_parameter/bright = Color(0.30323282, 0.30323285, 0.30323276, 1)
-shader_parameter/dark = Color(0.28235295, 0.28235295, 0.28235295, 1)
+shader_parameter/bright = Color(0.40392157, 0.40392157, 0.40392157, 1)
+shader_parameter/dark = Color(0.427493, 0.42749307, 0.42749295, 1)

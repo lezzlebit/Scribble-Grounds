@@ -14,6 +14,14 @@ var GameValues = GlobalGameplayValues
 @export var first_person_environment: Environment
 @export var drawing_environment: Environment
 
+var use_drawing_environment_for_first_person: bool:
+	get: 
+		return use_drawing_environment_for_first_person
+	set(value):
+		if GameValues.first_person:
+			if value == true: environment = drawing_environment
+			if value == false: environment = first_person_environment
+		use_drawing_environment_for_first_person = value
 
 var pan_pixels_per_second: float = 256
 
@@ -118,6 +126,7 @@ func find_paint_wall():
 			if up_dot > 0.85:
 				var up_normal: Vector3 = Vector3(current_uv_up_position.y, 0, current_uv_up_position.x).normalized()
 				wall_sticker.look_at(wall_sticker.global_position - collision_normal, up_normal)
+
 
 func enter_drawing_mode():
 	pan_rotation = 0
@@ -329,7 +338,9 @@ func _process(delta: float) -> void:
 			on_stop_drawing.emit()
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		GameValues.first_person = true
-		environment = first_person_environment
+		print(use_drawing_environment_for_first_person)
+		if use_drawing_environment_for_first_person == true: environment = drawing_environment
+		if use_drawing_environment_for_first_person == false: environment = first_person_environment
 		GameValues.world_textures.save_unsaved_textures()
 
 	if !GameValues.first_person:
