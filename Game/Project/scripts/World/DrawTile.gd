@@ -25,7 +25,7 @@ var in_undo_selection: bool = false
 
 var initialized_material: bool = false
 
-var texture_slots: int = 64
+var texture_slots: int = 32
 
 #var footsteps_fade_image: Image
 #var footsteps_background_image: Image

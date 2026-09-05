@@ -13,7 +13,7 @@ dest_files=["res://.godot/imported/HankenGrotesk-VariableFont_wght.ttf-45bd0e0ae
 [params]
 
 Rendering=null
-antialiasing=0
+antialiasing=1
 generate_mipmaps=false
 disable_embedded_bitmaps=true
 multichannel_signed_distance_field=false
@@ -34,9 +34,8 @@ preload=[{
 "chars": [],
 "glyphs": [],
 "name": "New Configuration",
-"size": Vector2i(16, 0),
-&"variation_embolden": 0.0,
-&"variation_opentype": {}
+&"size": Vector2i(19, 0),
+&"variation_embolden": 0.0
 }]
 language_support={}
 script_support={}

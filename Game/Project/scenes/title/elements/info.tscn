@@ -38,7 +38,8 @@ E  /  S:
 Z:
 Y  /  Shift+Z:
 Mouse3 / Space:
-Left / Right arrows:"
+Left / Right arrows:
+F1:"
 horizontal_alignment = 2
 
 [node name="Label2" type="Panel" parent="." unique_id=1916323234]
@@ -68,7 +69,8 @@ Save & finish drawing
 Undo
 Redo
 Pan Canvas
-Rotate Canvas"
+Rotate Canvas
+Toggle Lighting"
 
 [node name="Label3" type="Label" parent="." unique_id=312470124]
 visible = false

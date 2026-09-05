@@ -11,7 +11,7 @@ uniform sampler2D lightmap_noise : source_color;
 uniform sampler2D fade_drawing_noise : filter_nearest, hint_default_transparent;
 uniform sampler2D texture_footsteps : filter_linear, source_color;
 uniform int selected = -1;
-const float texture_count = 65.0;
+const float texture_count = 33.0;
 const int texture_scale = 1024;
 
 global uniform bool lightmap_disabled;
@@ -94,38 +94,6 @@ vec4 single_texture(sampler2D tex, vec2 uv, int selection, int current, vec2 scr
 
 
 
-uniform sampler2D texture_64 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_63 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_62 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_61 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_60 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_59 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_58 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_57 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_56 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_55 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_54 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_53 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_52 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_51 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_50 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_49 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_48 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_47 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_46 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_45 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_44 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_43 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_42 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_41 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_40 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_39 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_38 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_37 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_36 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_35 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_34 : filter_nearest, hint_default_transparent, source_color;
-uniform sampler2D texture_33 : filter_nearest, hint_default_transparent, source_color;
 uniform sampler2D texture_32 : filter_nearest, hint_default_transparent, source_color;
 uniform sampler2D texture_31 : filter_nearest, hint_default_transparent, source_color;
 uniform sampler2D texture_30 : filter_nearest, hint_default_transparent, source_color;
@@ -162,7 +130,6 @@ uniform sampler2D texture_0 : filter_nearest, hint_default_transparent, source_c
 
 vec4 sample_textures(vec4 base, vec2 uv, vec2 screenuv, vec2 resolution) {
         vec4 sample = vec4(0.0);
-        base = mix(base, sample, sample.a);
         sample = single_texture(texture_0, uv, selected, 0, screenuv, resolution);
         base = mix(base, sample, sample.a);
         sample = single_texture(texture_1, uv, selected, 1, screenuv, resolution);
@@ -228,70 +195,6 @@ vec4 sample_textures(vec4 base, vec2 uv, vec2 screenuv, vec2 resolution) {
         sample = single_texture(texture_31, uv, selected, 31, screenuv, resolution);
         base = mix(base, sample, sample.a);
         sample = single_texture(texture_32, uv, selected, 32, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_33, uv, selected, 33, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_34, uv, selected, 34, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_35, uv, selected, 35, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_36, uv, selected, 36, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_37, uv, selected, 37, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_38, uv, selected, 38, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_39, uv, selected, 39, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_40, uv, selected, 40, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_41, uv, selected, 41, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_42, uv, selected, 42, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_43, uv, selected, 43, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_44, uv, selected, 44, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_45, uv, selected, 45, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_46, uv, selected, 46, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_47, uv, selected, 47, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_48, uv, selected, 48, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_49, uv, selected, 49, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_50, uv, selected, 50, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_51, uv, selected, 51, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_52, uv, selected, 52, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_53, uv, selected, 53, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_54, uv, selected, 54, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_55, uv, selected, 55, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_56, uv, selected, 56, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_57, uv, selected, 57, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_58, uv, selected, 58, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_59, uv, selected, 59, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_60, uv, selected, 60, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_61, uv, selected, 61, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_62, uv, selected, 62, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_63, uv, selected, 63, screenuv, resolution);
-        base = mix(base, sample, sample.a);
-        sample = single_texture(texture_64, uv, selected, 64, screenuv, resolution);
         base = mix(base, sample, sample.a);
         return base;
 }
@@ -371,8 +274,8 @@ void fragment() {
 	}
 	// vec4 lightmap = texture(lightmap_texture, UV2);
 	
-	vec4 footsteps_sampled = sample_footsteps(UV, SCREEN_UV, screen_resolution);
-	tex = mix(footsteps_sampled, tex, tex.a);
+	//vec4 footsteps_sampled = sample_footsteps(UV, SCREEN_UV, screen_resolution);
+	//tex = mix(footsteps_sampled, tex, tex.a);
 	
 	vec3 result = mix(lightmap.rgb, tex.rgb * lightmap.rgb, tex.a);
 	// result = vec3(tex.a);

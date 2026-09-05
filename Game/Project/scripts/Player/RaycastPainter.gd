@@ -43,8 +43,11 @@ func paint(obj: DrawTile):
 	if Input.is_action_pressed("pen_down") and !GameValues.main_camera.currently_panning:
 		
 
-		if Input.is_action_just_pressed("pen_down") and !undo_triggered:
+		pen_down_switch = false
+		print(undo_triggered)
+		if !pen_down_switch and !undo_triggered:
 			clear_tiles_in_stroke()
+			print("cleared")
 			undo_slots = 0
 			redo_slots = 0
 			undo_triggered = true
@@ -124,6 +127,7 @@ func move_undo(index: int):
 func _process(_delta: float) -> void:
 	if !Input.is_action_pressed("pen_down"):
 		undo_triggered = false
+		pen_down_switch = true
 		
 	if Input.is_action_just_pressed("undo"):
 		if Input.is_action_pressed("shift"):

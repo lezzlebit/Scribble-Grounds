@@ -1,7 +1,12 @@
+Sep 4 2026
+[hr]
+	- Capped the FPS to 120 to reduce severe strain on GPUs
+	- Attempted to fix an issue that prevented undo slots from being saved
+
 Aug 29 2026
 [hr]
-	- Increased the maximum number of layers on objects from 16 to 64
-	- You are no longer able to draw on an object once its 64 layers have been used up, and you will recieve a message instead of the object simply not working correctly
+	- Increased the maximum number of layers on objects from 16 to 32
+	- You are no longer able to draw on an object once its 32 layers have been used up, and you will recieve a message instead of the object simply not working correctly
 	- You can now toggle the lighting by pressing F1 (this will also make the water be a perfect mirror)
 	- You can now erase by holding right click
 	- The palette has been tweaked (Thank you YakiYuki :3)
