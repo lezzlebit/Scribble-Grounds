@@ -268,6 +268,11 @@ func handle_zoom():
 
 
 func begin_pan_input():
+	
+	if (GlobalGameplayValues.viewing_offline):
+		currently_panning = true
+		return
+	
 	if (Input.is_action_just_released("pen_down") \
 	or Input.is_action_just_released("pan_mouse")) \
 	and !Input.is_action_pressed("begin_pan"):
@@ -289,7 +294,7 @@ func drawing_mouse():
 		else:
 			Input.set_default_cursor_shape(Input.CURSOR_MOVE)
 	else:
-		if hit_paint_wall:
+		if hit_paint_wall && !GlobalGameplayValues.viewing_offline:
 			if !picking_color:
 				Input.set_default_cursor_shape(Input.CURSOR_CROSS)
 			else:
@@ -314,7 +319,7 @@ func _process(delta: float) -> void:
 
 	handle_zoom()
 	
-	drawing_controls.visible = !GameValues.first_person
+	drawing_controls.visible = !GameValues.first_person and !GlobalGameplayValues.viewing_offline
 	
 	
 	#if !Input.is_action_pressed("pen_down"):

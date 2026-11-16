@@ -96,6 +96,49 @@ script = ExtResource("3_pykmj")
 option_to_store = NodePath("..")
 metadata/_custom_type_script = "uid://bqc35y6v55d65"
 
+[node name="Reflection" type="Panel" parent="." unique_id=1351779408]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_hhwow")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Reflection" unique_id=1338316909]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Reflection/HBoxContainer" unique_id=2093050601]
+visible = false
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("2_wby6m")
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="Reflection/HBoxContainer" unique_id=1444133869]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Reflection Quality"
+vertical_alignment = 1
+
+[node name="Reflection" type="HSlider" parent="Reflection/HBoxContainer" unique_id=2061212768]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+size_flags_vertical = 1
+max_value = 4.0
+value = 4.0
+tick_count = 5
+ticks_on_borders = true
+ticks_position = 3
+
+[node name="StoreOption" type="Node" parent="Reflection/HBoxContainer/Reflection" unique_id=1946088726 node_paths=PackedStringArray("option_to_store")]
+script = ExtResource("3_pykmj")
+option_to_store = NodePath("..")
+metadata/_custom_type_script = "uid://bqc35y6v55d65"
+
 [node name="PaletteOnLeft" type="CheckBox" parent="." unique_id=493334597]
 layout_mode = 2
 text = "Palette on left"
@@ -146,6 +189,7 @@ metadata/_custom_type_script = "uid://bqc35y6v55d65"
 
 [connection signal="drag_ended" from="Volume/HBoxContainer/Volume" to="Volume/HBoxContainer/Volume/StoreOption" method="store_with_bool"]
 [connection signal="drag_ended" from="Sensitivity/HBoxContainer/Sensitivity" to="Sensitivity/HBoxContainer/Sensitivity/StoreOption" method="store_with_bool"]
+[connection signal="drag_ended" from="Reflection/HBoxContainer/Reflection" to="Reflection/HBoxContainer/Reflection/StoreOption" method="store_with_bool"]
 [connection signal="button_up" from="PaletteOnLeft" to="PaletteOnLeft/StoreOption" method="store"]
 [connection signal="button_up" from="FullscreenMode" to="FullscreenMode/StoreOption" method="store"]
 [connection signal="item_selected" from="TabletDriver" to="TabletDriver/StoreOption" method="store_with_value"]

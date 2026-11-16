@@ -8,7 +8,8 @@ var color_selected: int = 1
 signal on_change
 
 func set_color():
-	color_rect.self_modulate = Color.from_string(GlobalGameplayValues.palette_colors[color_selected], Color.BLACK)
+	pass
+	# color_rect.self_modulate = Color.from_string(GlobalGameplayValues.palette_colors[color_selected], Color.BLACK)
 
 
 

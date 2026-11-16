@@ -10,6 +10,7 @@ class_name PlayerMovement
 @export var max_camera_sensitivity = 0.001
 @export var min_camera_sensitivity = 0.001
 @export var all_camera_sensitivity_multiplier = 0.001
+@export var ground_raycast: RayCast3D
 var controller_camera_speed = 1024
 var vertical_look: float
 var acceleration: Vector3 = Vector3.ZERO
@@ -17,7 +18,7 @@ var speed_lerp: float = 0
 
 var GameValues = GlobalGameplayValues
 var first_person_switch: bool = false
-var last_collider
+var last_collider: Node
 
 signal on_jump
 
@@ -98,9 +99,9 @@ func process_movement(delta: float):
 	
 
 	move_and_slide()
-	var current_last_collider = get_last_slide_collision()
+	var current_last_collider = ground_raycast.get_collider()
 	if current_last_collider != null:
-		last_collider = current_last_collider.get_collider(0)
+		last_collider = current_last_collider
 
 func _physics_process(delta: float) -> void:
 	if GameValues.first_person and !GlobalGameplayValues.paused and !paused:

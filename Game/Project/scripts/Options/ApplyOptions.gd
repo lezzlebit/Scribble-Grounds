@@ -3,6 +3,7 @@ extends Node
 class_name ApplyOptions
 
 @export_category("Options")
+@export var reflection_quality: HSlider
 @export var volume_slider: HSlider
 @export var sensitivity_slider: HSlider
 @export var left_palette: CheckBox
@@ -36,9 +37,17 @@ func set_fullscreen_mode():
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 	
+func set_reflection_quality():
+
+	if GlobalGameplayValues.reflection_camera != null:
+		GlobalGameplayValues.reflection_camera.can_view_objects = reflection_quality.value != 0
+		GlobalGameplayValues.reflection_camera.pixel_size = (reflection_quality.max_value + 1) - reflection_quality.value
+	
 
 
 func _process(delta: float) -> void:
+	if reflection_quality:
+		set_reflection_quality()
 	if volume_slider:
 		set_global_volume()
 	if left_palette:

@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://ckjxfqndgkrk5" path="res://scenes/ui/logger.tscn" id="5_yjwoi"]
 [ext_resource type="Texture2D" uid="uid://dghvrfkv488af" path="res://assets/UI/ButtonIcons/back.PNG" id="6_7uqqr"]
 [ext_resource type="PackedScene" uid="uid://c13rahyu8qyld" path="res://scenes/world/world loader/world_loader.tscn" id="7_dawno"]
+[ext_resource type="Texture2D" uid="uid://bgukvj8qog42s" path="res://assets/UI/ButtonIcons/connect.PNG" id="9_hgyff"]
 [ext_resource type="Texture2D" uid="uid://btxnr638bd66" path="res://assets/UI/DrawingTextures/palette_button.PNG" id="10_xraam"]
 [ext_resource type="PackedScene" uid="uid://xhptjxrh2irh" path="res://scenes/title/elements/info.tscn" id="11_4yl2o"]
 [ext_resource type="PackedScene" uid="uid://b8emmr35u0852" path="res://scenes/ui/options.tscn" id="12_784tc"]
@@ -122,11 +123,11 @@ theme_override_font_sizes/font_size = 24
 text = "Scribble Grounds"
 horizontal_alignment = 1
 
-[node name="Server Button" type="Control" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer" unique_id=1279676831]
-custom_minimum_size = Vector2(200, 72)
+[node name="Server Editing Buttons" type="Control" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer" unique_id=1279676831]
+custom_minimum_size = Vector2(200, 32)
 layout_mode = 2
 
-[node name="Panel" type="Panel" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button" unique_id=904294646]
+[node name="Panel" type="Panel" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Editing Buttons" unique_id=904294646]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -134,7 +135,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button/Panel" unique_id=454785568]
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Editing Buttons/Panel" unique_id=454785568]
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -146,20 +147,81 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Add Server" type="Button" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button/Panel/HBoxContainer" unique_id=1376297296]
+[node name="Add Server" type="Button" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Editing Buttons/Panel/HBoxContainer" unique_id=1376297296]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 text = "Add New Server"
 
-[node name="Refresh" type="Button" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button/Panel/HBoxContainer" unique_id=1805540089]
+[node name="Refresh" type="Button" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Editing Buttons/Panel/HBoxContainer" unique_id=1805540089]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 text = "Refresh All"
 
-[node name="Directory" type="Button" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button/Panel/HBoxContainer" unique_id=358865333]
+[node name="Directory" type="Button" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Editing Buttons/Panel/HBoxContainer" unique_id=358865333]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 text = "Open Directory"
+
+[node name="Quit" type="Button" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Editing Buttons/Panel/HBoxContainer" unique_id=257656016]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Quit"
+
+[node name="Control" type="Control" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer" unique_id=1626029696]
+custom_minimum_size = Vector2(200, 80)
+layout_mode = 2
+
+[node name="Server Button" type="Control" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Control" unique_id=680344756]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -166.5
+offset_top = -25.0
+offset_right = 166.5
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_g4gru")
+
+[node name="Panel" type="Panel" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Control/Server Button" unique_id=1240184942]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Control/Server Button/Panel" unique_id=14986825]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Control/Server Button/Panel/HBoxContainer2" unique_id=810121201]
+layout_mode = 2
+text = "Local Save"
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Control/Server Button/Panel" unique_id=1802955398]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 2
+
+[node name="Offline Button" type="Button" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Control/Server Button/Panel/HBoxContainer" unique_id=2144317111]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Play"
+icon = ExtResource("9_hgyff")
 
 [node name="Panel2" type="Panel" parent="MarginContainer/HBoxContainer" unique_id=388803129]
 layout_mode = 2
@@ -456,9 +518,11 @@ metadata/_custom_type_script = "uid://dhrbxd84tmb3u"
 [connection signal="on_press_any" from="." to="Click" method="play"]
 [connection signal="on_unpress_any" from="." to="Unclick" method="play"]
 [connection signal="make_new_button" from="Server Manager" to="." method="connect_buttons_to_audio"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button/Panel/HBoxContainer/Add Server" to="Server Manager" method="start_create_server"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button/Panel/HBoxContainer/Refresh" to="Server Manager" method="refresh"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Button/Panel/HBoxContainer/Directory" to="Server Manager" method="open_path"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Editing Buttons/Panel/HBoxContainer/Add Server" to="Server Manager" method="start_create_server"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Editing Buttons/Panel/HBoxContainer/Refresh" to="Server Manager" method="refresh"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Editing Buttons/Panel/HBoxContainer/Directory" to="Server Manager" method="open_path"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Editing Buttons/Panel/HBoxContainer/Quit" to="Server Manager" method="quit_game"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Control/Server Button/Panel/HBoxContainer/Offline Button" to="Server Manager" method="play_locally"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Pages/Info" to="Server Manager" method="enter_mode" binds= [NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Information")]]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Pages/User" to="Server Manager" method="enter_mode" binds= [NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/User")]]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Pages/Settings" to="Server Manager" method="enter_mode" binds= [NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Options")]]

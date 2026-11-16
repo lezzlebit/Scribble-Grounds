@@ -2,7 +2,7 @@ extends Node
 
 
 @export var able_to_draw: Control
-
+@export var label: Label
 
 func _process(delta: float) -> void:
 	
@@ -13,6 +13,11 @@ func _process(delta: float) -> void:
 			hit = GlobalGameplayValues.first_person
 	
 	able_to_draw.visible = hit
+	
+	if !GlobalGameplayValues.viewing_offline:
+		label.text = "E - Draw"
+	else:
+		label.text = "E - View"
 	
 	
 	pass

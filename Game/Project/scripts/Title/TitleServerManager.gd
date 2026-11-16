@@ -52,6 +52,8 @@ func get_username():
 			color_setter.color_selected = int(pair[1])
 			color_setter.set_color()
 
+func quit_game():
+	get_tree().quit()
 
 func update_username_to(new_name: String):
 	update_username()
@@ -64,7 +66,16 @@ func update_username():
 func open_path():
 	OS.shell_open( ProjectSettings.globalize_path(GlobalNetworkValues.game_directory) )
 
+func play_locally():
+	GlobalNetworkValues.changelog_filename = GlobalNetworkValues.default_changelog_filename
+	GlobalGameplayValues.playing_locally = true
+	GlobalGameplayValues.viewing_offline = false
+	GlobalNetworkValues.network_address = ""
+	GlobalNetworkValues.save_folder = "local/"
+	get_tree().change_scene_to_packed(main_game)
+
 func connect_to_server(button: ServerButton):
+	GlobalGameplayValues.playing_locally = false
 	update_username()
 	if (len(username_setter.text)) <= 0:
 		GlobalGameplayValues.user_error_log("Please enter a username")
@@ -208,7 +219,7 @@ func refresh():
 func create_server_from_dict(server_info: Dictionary[String, String]):
 	var server_button_instance: ServerButton = server_button.instantiate()
 	button_parent.add_child(server_button_instance)
-	button_parent.move_child(server_button_instance, 2)
+	button_parent.move_child(server_button_instance, 3)
 	if server_info.has("password"):
 		server_button_instance.create_button(server_info["folder"], server_info["address"], server_info["password"])
 	

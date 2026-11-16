@@ -24,6 +24,7 @@ func footstep(delta: float):
 
 
 func on_step():
+	
 	if player_movement.last_collider != null:
 		for i in sound_types:
 			if i in player_movement.last_collider.name:

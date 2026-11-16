@@ -8,7 +8,7 @@ import datetime
 
 
 image_path = "images/"
-
+palette_path = "resources/palette.txt"
 changelog_path = "images/changelog.txt"
 changelog_dict = {}
 
@@ -169,6 +169,12 @@ def send_footsteps():
 		all += i.position + "/" + str(i.time) + "/" + i.color + "\n"
 	return all
 
+def reject_content(c):
+	reject = False
+
+	if ("../" in c) or (".py" in c) or (".bat" in c) or (".exe" in c):
+		reject = True
+	return reject
 
 
 # https://stackoverflow.com/questions/66514500/how-do-i-configure-a-python-server-for-post
@@ -208,6 +214,9 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 
 				updateLog(content_name)
 
+				if reject_content(image_path + content_name):
+					return
+				
 				with open(image_path + content_name, "wb") as w:
 					w.write(saved)
 
@@ -227,6 +236,9 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 				
 			elif content_type == "text/plain":
 
+				if reject_content(saved.decode("utf-8")):
+					return
+				
 				filename = saved.decode("utf-8")
 
 				if ".glb" in filename:
@@ -287,6 +299,14 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
 			content = bytes(changelogfile, "utf-8")
 		if message == "ping_scribble_server":
 			content = bytes(check_response, "utf-8")
+
+		if message == "connect_retrieve_colors":
+
+			palette = ""
+			if os.path.exists(palette_path):
+				palette = open(palette_path).read()
+
+			content = bytes(palette, "utf-8")
 
 		self.send_header("Content-length", len(content))
 		self.send_header("Content-type", "text/plain")

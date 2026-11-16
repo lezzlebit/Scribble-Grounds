@@ -37,7 +37,7 @@ func clear_tiles_in_stroke():
 func paint(obj: DrawTile):
 	
 
-	
+	if (GlobalGameplayValues.viewing_offline): return
 	var collision_point: Vector3 = get_collision_point()
 	
 	if Input.is_action_pressed("pen_down") and !GameValues.main_camera.currently_panning:

@@ -60,7 +60,7 @@
 [ext_resource type="PackedScene" uid="uid://b8emmr35u0852" path="res://scenes/ui/options.tscn" id="55_uygh0"]
 [ext_resource type="Script" uid="uid://dhrbxd84tmb3u" path="res://scripts/Options/ApplyOptions.gd" id="57_uygh0"]
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_hdvrm"]
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_w8qe1"]
 points = PackedVector3Array(0.5, 0.5, 0, 0.46193975, 0.5, 0.19134171, 0.35355338, 0.5, 0.35355338, 0.19134171, 0.5, 0.46193975, 3.061516e-17, 0.5, 0.5, -0.19134171, 0.5, 0.46193975, -0.35355338, 0.5, 0.35355338, -0.46193975, 0.5, 0.19134171, -0.5, 0.5, 6.123032e-17, -0.46193975, 0.5, -0.19134171, -0.35355338, 0.5, -0.35355338, -0.19134171, 0.5, -0.46193975, -9.1845477e-17, 0.5, -0.5, 0.19134171, 0.5, -0.46193975, 0.35355338, 0.5, -0.35355338, 0.46193975, 0.5, -0.19134171, 0.5, -0.5, 0, 0.46193975, -0.5, 0.19134171, 0.35355338, -0.5, 0.35355338, 0.19134171, -0.5, 0.46193975, 3.061516e-17, -0.5, 0.5, -0.19134171, -0.5, 0.46193975, -0.35355338, -0.5, 0.35355338, -0.46193975, -0.5, 0.19134171, -0.5, -0.5, 6.123032e-17, -0.46193975, -0.5, -0.19134171, -0.35355338, -0.5, -0.35355338, -0.19134171, -0.5, -0.46193975, -9.1845477e-17, -0.5, -0.5, 0.19134171, -0.5, -0.46193975, 0.35355338, -0.5, -0.35355338, 0.46193975, -0.5, -0.19134171, 0, 1, 0, 0, -1, 0)
 
 [sub_resource type="PrismMesh" id="PrismMesh_g4v7s"]
@@ -90,7 +90,7 @@ bg_color = Color(0, 0, 0, 0.68235296)
 
 [node name="Player" type="Node3D" unique_id=1104231176]
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=373349286 node_paths=PackedStringArray("CameraPivot")]
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=373349286 node_paths=PackedStringArray("CameraPivot", "ground_raycast")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 collision_layer = 2
 floor_constant_speed = true
@@ -103,9 +103,10 @@ seconds_to_full_speed = 6.0
 jump_velocity = 5.0
 max_camera_sensitivity = 3.0
 min_camera_sensitivity = 0.1
+ground_raycast = NodePath("RayCast3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=679124615]
-shape = SubResource("ConvexPolygonShape3D_hdvrm")
+shape = SubResource("ConvexPolygonShape3D_w8qe1")
 script = ExtResource("2_t1aof")
 
 [node name="CameraPivot" type="Node3D" parent="CharacterBody3D" unique_id=30639229]
@@ -149,6 +150,9 @@ metadata/_custom_type_script = "uid://478itlpiweyr"
 
 [node name="FootstepCounter" type="Node3D" parent="CharacterBody3D" unique_id=1893074618]
 script = ExtResource("20_w8qe1")
+
+[node name="RayCast3D" type="RayCast3D" parent="CharacterBody3D" unique_id=1401150667]
+target_position = Vector3(0, -3, 0)
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=2080823682 node_paths=PackedStringArray("raycast", "first_person_pivot", "wall_sticker", "wall_camera_pivot", "drawing_controls", "pause_screen")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
@@ -223,7 +227,7 @@ volume_db = -20.0
 stream = ExtResource("8_pk8ii")
 volume_db = -12.0
 
-[node name="Reticle" type="Control" parent="." unique_id=615782849 node_paths=PackedStringArray("able_to_draw")]
+[node name="Reticle" type="Control" parent="." unique_id=615782849 node_paths=PackedStringArray("able_to_draw", "label")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -234,6 +238,7 @@ mouse_behavior_recursive = 1
 theme = ExtResource("4_fm80t")
 script = ExtResource("19_lgqa7")
 able_to_draw = NodePath("Panel")
+label = NodePath("Panel/Label")
 
 [node name="Panel" type="Panel" parent="Reticle" unique_id=121933134]
 custom_minimum_size = Vector2(64, 64)
@@ -249,22 +254,6 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="Label2" type="Label" parent="Reticle/Panel" unique_id=102432094]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-offset_transform_enabled = true
-offset_transform_position = Vector2(1, 1)
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 12
-text = "E - draw"
-horizontal_alignment = 1
-vertical_alignment = 2
 
 [node name="Label" type="Label" parent="Reticle/Panel" unique_id=1656262613]
 layout_mode = 1
@@ -299,6 +288,7 @@ stretch_mode = 2
 script = ExtResource("18_5q8fn")
 
 [node name="Drawing Controls" type="Control" parent="Button Audio" unique_id=2036386123 node_paths=PackedStringArray("selection_indicator", "button_parent", "eraser", "brush_buttons", "pick_color_selector", "replace_color", "alpha_replace_mode_text", "alpha_replace_mode_selector")]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -627,8 +617,9 @@ layout_mode = 2
 [node name="Info" parent="Button Audio/Pause/Panel/Panel/VBoxContainer" unique_id=1961662103 instance=ExtResource("25_007i1")]
 layout_mode = 2
 
-[node name="ApplyOptions" type="Node" parent="." unique_id=2029212884 node_paths=PackedStringArray("volume_slider", "sensitivity_slider", "left_palette", "fullscreen_mode", "tablet_driver", "palette_margin_container")]
+[node name="ApplyOptions" type="Node" parent="." unique_id=2029212884 node_paths=PackedStringArray("reflection_quality", "volume_slider", "sensitivity_slider", "left_palette", "fullscreen_mode", "tablet_driver", "palette_margin_container")]
 script = ExtResource("57_uygh0")
+reflection_quality = NodePath("../Button Audio/Pause/Panel/Panel/VBoxContainer/Options/Reflection/HBoxContainer/Reflection")
 volume_slider = NodePath("../Button Audio/Pause/Panel/Panel/VBoxContainer/Options/Volume/HBoxContainer/Volume")
 sensitivity_slider = NodePath("../Button Audio/Pause/Panel/Panel/VBoxContainer/Options/Sensitivity/HBoxContainer/Sensitivity")
 left_palette = NodePath("../Button Audio/Pause/Panel/Panel/VBoxContainer/Options/PaletteOnLeft")

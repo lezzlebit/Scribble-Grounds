@@ -44,6 +44,7 @@ func initialize_single_timer(timer_name: String, timer_length: float, signal_out
 	added_timer.start()
 
 func create_request(headers, method, body):
+	if GlobalGameplayValues.playing_locally: return
 	var request: SingleRequest = SingleRequest.new()
 	add_child(request)
 	request.network_handler = self
@@ -93,6 +94,7 @@ func headers_to_dictionary(strings: PackedStringArray):
 # Get required images (GET)
 func retrieve_list():
 	
+	
 	DirAccess.make_dir_absolute(directory)
 	
 	if (FileAccess.file_exists(directory + changelog_filename)):
@@ -105,6 +107,9 @@ func retrieve_list():
 	
 	var headers = ["Content-type: text/plain"]
 	
+	if GlobalGameplayValues.viewing_offline: 
+		GlobalGameplayValues.user_message_log("Viewing saved offline data")
+		return
 	create_request(headers, HTTPClient.METHOD_GET, body)
 	if GlobalGameplayValues.use_footsteps: send_steps()
 
@@ -222,7 +227,10 @@ func upload_image(filename: String):
 	
 	var headers = ["Content-type: image/png","Content-name: " + filename, "Content-length: " + str(len(body))]
 	
-	create_request(headers, HTTPClient.METHOD_POST, body)
+	if GlobalGameplayValues.playing_locally:
+		create_image_offline(filename)
+	else:
+		create_request(headers, HTTPClient.METHOD_POST, body)
 
 func create_image_offline(filename):
 	current_images[filename] = str(Time.get_unix_time_from_system()).split(".")[0]

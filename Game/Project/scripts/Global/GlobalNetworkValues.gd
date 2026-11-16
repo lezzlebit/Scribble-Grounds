@@ -8,8 +8,11 @@ var server_password: String = "Burgerslop"
 var game_directory: String = "user://game/"
 var server_directory: String = "user://game/servers/"
 var save_directory: String = "user://game/saves/"
-var save_folder: String = "none/"
-var changelog_filename: String = "changelog_latest.txt"
+var save_folder: String = "local/"
+var default_changelog_filename: String = "changelog.txt"
+var changelog_filename: String = "changelog.txt"
+
+var server_prefix = "http://"
 
 var footstep_color: int = 16
 var footstep_delete_time: float = 30

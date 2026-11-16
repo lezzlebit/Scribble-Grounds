@@ -1,3 +1,13 @@
+Nov 16 2026
+[hr]
+	- Added a slider to reduce the water reflection quality
+	- You can now view your backup of a server offline
+	- You can also now play on a locally stored world without having to join a server (it doesn't support multiplayer)
+	- Servers can send custom palettes to the client
+	- Fixed an issue where the footstep sound would be incorrect if you hit a wall while standing on a different material type
+	- Added a quit button to the title
+	- Security fixes on the server side (download the new server if you're running one)
+
 Sep 4 2026
 [hr]
 	- Capped the FPS to 120 to reduce severe strain on GPUs
