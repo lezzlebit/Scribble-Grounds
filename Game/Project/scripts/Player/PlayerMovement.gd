@@ -20,6 +20,11 @@ var GameValues = GlobalGameplayValues
 var first_person_switch: bool = false
 var last_collider: Node
 
+var current_camera_sensitivity_multiplier:
+	get():
+		return all_camera_sensitivity_multiplier * GlobalGameplayValues.main_camera.fps_zoom_fov_multiplier_lerp
+
+
 signal on_jump
 
 var paused: bool = false
@@ -37,8 +42,8 @@ func _unhandled_input(event: InputEvent):
 	
 	if GameValues.first_person and !paused:
 	
-		
-		var camera_sensitivity = lerp(min_camera_sensitivity, max_camera_sensitivity, GlobalGameplayValues.camera_sensitivity) * all_camera_sensitivity_multiplier
+	
+		var camera_sensitivity = lerp(min_camera_sensitivity, max_camera_sensitivity, GlobalGameplayValues.camera_sensitivity) * current_camera_sensitivity_multiplier
 		if event is InputEventMouseMotion:
 			rotate_y(-event.relative.x * camera_sensitivity)
 			vertical_look += (-event.relative.y * camera_sensitivity)
@@ -48,7 +53,7 @@ func _unhandled_input(event: InputEvent):
 func controller_look(delta: float):
 	var input_dir = Input.get_vector("look_left", "look_right", "look_up", "look_down") * delta * controller_camera_speed
 	if input_dir.length() > 0:
-		var camera_sensitivity = lerp(min_camera_sensitivity, max_camera_sensitivity, GlobalGameplayValues.camera_sensitivity) * all_camera_sensitivity_multiplier
+		var camera_sensitivity = lerp(min_camera_sensitivity, max_camera_sensitivity, GlobalGameplayValues.camera_sensitivity) * current_camera_sensitivity_multiplier
 		rotate_y(-input_dir.x * camera_sensitivity)
 		vertical_look += (-input_dir.y * camera_sensitivity)
 		apply_vertical_look()

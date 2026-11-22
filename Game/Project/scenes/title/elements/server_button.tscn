@@ -57,12 +57,6 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 2
 
-[node name="Edit Button" type="Button" parent="Panel/HBoxContainer" unique_id=1681973622]
-layout_mode = 2
-mouse_default_cursor_shape = 2
-text = "Edit"
-icon = ExtResource("2_8sjr6")
-
 [node name="Connect Button" type="Button" parent="Panel/HBoxContainer" unique_id=1376297296]
 layout_mode = 2
 mouse_default_cursor_shape = 2
@@ -75,9 +69,15 @@ mouse_default_cursor_shape = 2
 text = "View Offline"
 icon = ExtResource("3_o75xn")
 
+[node name="Edit Button" type="Button" parent="Panel/HBoxContainer" unique_id=1681973622]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Edit"
+icon = ExtResource("2_8sjr6")
+
 [node name="HTTPRequest" type="HTTPRequest" parent="." unique_id=1091472796]
 timeout = 5.0
 
-[connection signal="pressed" from="Panel/HBoxContainer/Edit Button" to="." method="edit_this_server"]
 [connection signal="pressed" from="Panel/HBoxContainer/Connect Button" to="." method="connect_to_this_server"]
 [connection signal="pressed" from="Panel/HBoxContainer/Offline Button" to="." method="start_server_offline"]
+[connection signal="pressed" from="Panel/HBoxContainer/Edit Button" to="." method="edit_this_server"]

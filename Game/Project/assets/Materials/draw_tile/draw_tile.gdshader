@@ -63,9 +63,9 @@ vec4 lightmap_dither(vec2 uv, vec2 screenuv, vec2 resolution, vec4 vcolor) {
 	vec3 result = mix(sample.rgb, noise_overlay_1.rgb, 0.005);
 	result = mix(result.rgb, noise_overlay_2.rgb, 0.008);
 	result = mix(result.rgb, noise_overlay_3.rgb, 0.008);
-	// result = mix(result.rgb, soft_light(result, noise_sample.rgb), 0.4);
+	//result = mix(result.rgb, soft_light(result, noise_sample.rgb), 0.4);
 	
-	// vec3 simple_result = round(result * 16.0) / 16.0;
+	//vec3 simple_result = round(result * 4.0) / 4.0;
 	
 	return vec4(sample.rgb, 1.0);
 }
@@ -84,6 +84,9 @@ float drawing_dither(vec2 screenuv, vec2 resolution, bool round_result) {
 }
 
 vec4 single_texture(sampler2D tex, vec2 uv, int selection, int current, vec2 screenuv, vec2 resolution) {
+	
+	//float pixelate = float(texture_scale) / 6.0;
+	//uv = round(uv * pixelate) / pixelate;
 	vec4 current_tex = texture(tex, uv);
 	if (selection != -1 && selection != current) {
 		current_tex.a *= drawing_dither(screenuv, resolution, true);
@@ -274,8 +277,8 @@ void fragment() {
 	}
 	// vec4 lightmap = texture(lightmap_texture, UV2);
 	
-	//vec4 footsteps_sampled = sample_footsteps(UV, SCREEN_UV, screen_resolution);
-	//tex = mix(footsteps_sampled, tex, tex.a);
+	vec4 footsteps_sampled = sample_footsteps(UV, SCREEN_UV, screen_resolution);
+	tex = mix(footsteps_sampled, tex, tex.a);
 	
 	vec3 result = mix(lightmap.rgb, tex.rgb * lightmap.rgb, tex.a);
 	// result = vec3(tex.a);

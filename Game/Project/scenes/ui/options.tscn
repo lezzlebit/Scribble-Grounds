@@ -139,6 +139,47 @@ script = ExtResource("3_pykmj")
 option_to_store = NodePath("..")
 metadata/_custom_type_script = "uid://bqc35y6v55d65"
 
+[node name="UndoHistory" type="Panel" parent="." unique_id=536181735]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+theme_override_styles/panel = ExtResource("1_hhwow")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UndoHistory" unique_id=450319146]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="UndoHistory/HBoxContainer" unique_id=415052043]
+visible = false
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("2_wby6m")
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="UndoHistory/HBoxContainer" unique_id=1227860719]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Max Undo History"
+vertical_alignment = 1
+
+[node name="UndoHistory" type="SpinBox" parent="UndoHistory/HBoxContainer" unique_id=553756420]
+layout_mode = 2
+min_value = 8.0
+max_value = 32.0
+step = 8.0
+value = 16.0
+rounded = true
+
+[node name="StoreOption" type="Node" parent="UndoHistory/HBoxContainer/UndoHistory" unique_id=117040993 node_paths=PackedStringArray("option_to_store")]
+script = ExtResource("3_pykmj")
+option_to_store = NodePath("..")
+metadata/_custom_type_script = "uid://bqc35y6v55d65"
+
 [node name="PaletteOnLeft" type="CheckBox" parent="." unique_id=493334597]
 layout_mode = 2
 text = "Palette on left"
@@ -153,6 +194,15 @@ layout_mode = 2
 text = "Fullscreen"
 
 [node name="StoreOption" type="Node" parent="FullscreenMode" unique_id=233588701 node_paths=PackedStringArray("option_to_store")]
+script = ExtResource("3_pykmj")
+option_to_store = NodePath("..")
+metadata/_custom_type_script = "uid://bqc35y6v55d65"
+
+[node name="VerticalSync" type="CheckBox" parent="." unique_id=1510198075]
+layout_mode = 2
+text = "Vertical Sync"
+
+[node name="StoreOption" type="Node" parent="VerticalSync" unique_id=1709040243 node_paths=PackedStringArray("option_to_store")]
 script = ExtResource("3_pykmj")
 option_to_store = NodePath("..")
 metadata/_custom_type_script = "uid://bqc35y6v55d65"
@@ -190,7 +240,9 @@ metadata/_custom_type_script = "uid://bqc35y6v55d65"
 [connection signal="drag_ended" from="Volume/HBoxContainer/Volume" to="Volume/HBoxContainer/Volume/StoreOption" method="store_with_bool"]
 [connection signal="drag_ended" from="Sensitivity/HBoxContainer/Sensitivity" to="Sensitivity/HBoxContainer/Sensitivity/StoreOption" method="store_with_bool"]
 [connection signal="drag_ended" from="Reflection/HBoxContainer/Reflection" to="Reflection/HBoxContainer/Reflection/StoreOption" method="store_with_bool"]
+[connection signal="value_changed" from="UndoHistory/HBoxContainer/UndoHistory" to="UndoHistory/HBoxContainer/UndoHistory/StoreOption" method="store_with_value"]
 [connection signal="button_up" from="PaletteOnLeft" to="PaletteOnLeft/StoreOption" method="store"]
 [connection signal="button_up" from="FullscreenMode" to="FullscreenMode/StoreOption" method="store"]
+[connection signal="button_up" from="VerticalSync" to="VerticalSync/StoreOption" method="store"]
 [connection signal="item_selected" from="TabletDriver" to="TabletDriver/StoreOption" method="store_with_value"]
 [connection signal="item_selected" from="TabletDriver" to="TabletDriver/StoreOption" method="set_tablet_driver"]

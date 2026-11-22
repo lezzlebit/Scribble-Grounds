@@ -121,10 +121,15 @@ layout_mode = 2
 theme_override_constants/line_spacing = 0
 theme_override_font_sizes/font_size = 24
 text = "Scribble Grounds"
-horizontal_alignment = 1
+
+[node name="Title2" type="Label" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer" unique_id=1486322458]
+layout_mode = 2
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
+text = "made by Lezzlebit"
 
 [node name="Server Editing Buttons" type="Control" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer" unique_id=1279676831]
-custom_minimum_size = Vector2(200, 32)
+custom_minimum_size = Vector2(200, 64)
 layout_mode = 2
 
 [node name="Panel" type="Panel" parent="MarginContainer/HBoxContainer/Panel/PanelContainer/MarginContainer/VBoxContainer/Server Editing Buttons" unique_id=904294646]

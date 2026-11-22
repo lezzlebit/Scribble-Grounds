@@ -9,7 +9,10 @@ class_name ApplyOptions
 @export var left_palette: CheckBox
 @export var fullscreen_mode: CheckBox
 @export var tablet_driver: OptionButton
+@export var undo_history: SpinBox
+@export var vertical_sync: CheckBox
 var fullscreen_mode_switch
+var vertical_sync_switch
 @export_category("Applying References")
 @export var palette_margin_container: Control
 
@@ -43,9 +46,22 @@ func set_reflection_quality():
 		GlobalGameplayValues.reflection_camera.can_view_objects = reflection_quality.value != 0
 		GlobalGameplayValues.reflection_camera.pixel_size = (reflection_quality.max_value + 1) - reflection_quality.value
 	
+func set_undo_history():
+	GlobalGameplayValues.undo_limit = undo_history.value
 
+func set_vertical_sync():
+	if vertical_sync_switch != vertical_sync.button_pressed:
+		vertical_sync_switch = vertical_sync.button_pressed
+		if vertical_sync.button_pressed:
+			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
+		else:
+			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 
 func _process(delta: float) -> void:
+	
+	if vertical_sync:
+		set_vertical_sync()
+	
 	if reflection_quality:
 		set_reflection_quality()
 	if volume_slider:
@@ -56,6 +72,8 @@ func _process(delta: float) -> void:
 		GlobalGameplayValues.camera_sensitivity = sensitivity_slider.value
 	if fullscreen_mode:
 		set_fullscreen_mode()
+	if undo_history:
+		set_undo_history()
 	
 
 	pass

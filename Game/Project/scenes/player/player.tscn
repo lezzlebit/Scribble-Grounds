@@ -152,7 +152,7 @@ metadata/_custom_type_script = "uid://478itlpiweyr"
 script = ExtResource("20_w8qe1")
 
 [node name="RayCast3D" type="RayCast3D" parent="CharacterBody3D" unique_id=1401150667]
-target_position = Vector3(0, -3, 0)
+target_position = Vector3(0, -1.3, 0)
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=2080823682 node_paths=PackedStringArray("raycast", "first_person_pivot", "wall_sticker", "wall_camera_pivot", "drawing_controls", "pause_screen")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
@@ -617,7 +617,7 @@ layout_mode = 2
 [node name="Info" parent="Button Audio/Pause/Panel/Panel/VBoxContainer" unique_id=1961662103 instance=ExtResource("25_007i1")]
 layout_mode = 2
 
-[node name="ApplyOptions" type="Node" parent="." unique_id=2029212884 node_paths=PackedStringArray("reflection_quality", "volume_slider", "sensitivity_slider", "left_palette", "fullscreen_mode", "tablet_driver", "palette_margin_container")]
+[node name="ApplyOptions" type="Node" parent="." unique_id=2029212884 node_paths=PackedStringArray("reflection_quality", "volume_slider", "sensitivity_slider", "left_palette", "fullscreen_mode", "tablet_driver", "undo_history", "vertical_sync", "palette_margin_container")]
 script = ExtResource("57_uygh0")
 reflection_quality = NodePath("../Button Audio/Pause/Panel/Panel/VBoxContainer/Options/Reflection/HBoxContainer/Reflection")
 volume_slider = NodePath("../Button Audio/Pause/Panel/Panel/VBoxContainer/Options/Volume/HBoxContainer/Volume")
@@ -625,6 +625,8 @@ sensitivity_slider = NodePath("../Button Audio/Pause/Panel/Panel/VBoxContainer/O
 left_palette = NodePath("../Button Audio/Pause/Panel/Panel/VBoxContainer/Options/PaletteOnLeft")
 fullscreen_mode = NodePath("../Button Audio/Pause/Panel/Panel/VBoxContainer/Options/FullscreenMode")
 tablet_driver = NodePath("../Button Audio/Pause/Panel/Panel/VBoxContainer/Options/TabletDriver")
+undo_history = NodePath("../Button Audio/Pause/Panel/Panel/VBoxContainer/Options/UndoHistory/HBoxContainer/UndoHistory")
+vertical_sync = NodePath("../Button Audio/Pause/Panel/Panel/VBoxContainer/Options/VerticalSync")
 palette_margin_container = NodePath("../Button Audio/Drawing Controls/MarginContainer")
 metadata/_custom_type_script = "uid://dhrbxd84tmb3u"
 

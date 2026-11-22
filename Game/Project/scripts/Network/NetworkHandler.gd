@@ -24,6 +24,8 @@ func _ready():
 		begin_loading()
 	else:
 		request_model()
+	if GlobalGameplayValues.playing_locally:
+		Motd.text = "This is your local, offline save\nJoin a server to play with others"
 
 func begin_loading():
 	retrieve_list()
@@ -80,7 +82,6 @@ func _http_request_completed(_result, response_code, headers, body):
 			_on_retrieve_steps(headers_dictionary, body)
 
 func headers_to_dictionary(strings: PackedStringArray):
-	print(strings)
 	
 	var return_dictionary: Dictionary[String, String]
 	for i in strings:
@@ -101,7 +102,7 @@ func retrieve_list():
 
 		var read = FileAccess.open(directory + changelog_filename, FileAccess.READ)
 		current_images = text_list_to_dictionary(read.get_as_text())
-	
+	current_images = discard_images(current_images)
 	
 	var body = "retrieve_drawings_list".to_ascii_buffer()
 	
@@ -113,6 +114,17 @@ func retrieve_list():
 	create_request(headers, HTTPClient.METHOD_GET, body)
 	if GlobalGameplayValues.use_footsteps: send_steps()
 
+
+func discard_images(dict: Dictionary[String, String]):
+	var marked_for_erase: Array[String]
+	for i in dict:
+		if int(dict[i]) == 0:
+			marked_for_erase.append(i)
+	
+	for i in marked_for_erase:
+		dict.erase(i)
+	return dict
+
 func _on_retrieve_list(_headers, body):
 	
 	var new_read = body.get_string_from_ascii()
@@ -121,6 +133,7 @@ func _on_retrieve_list(_headers, body):
 		if Motd != null:
 			Motd.text = new_images["Motd"].replace("\\n","\n")
 		new_images.erase("Motd")
+	new_images = discard_images(new_images)
 	
 	required_images = compare_dictionaries(current_images, new_images)
 	# print(required_images)
@@ -241,8 +254,6 @@ func _on_image_uploaded(_headers, body):
 	var pair = content.split(":")
 	current_images[pair[0]] = pair[1]
 	save_current_changelog()
-	
-	print(content)
 	GlobalGameplayValues.user_message_log("Uploaded drawing")
 
 

@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://dvoohegem5mpw" path="res://assets/UI/ButtonIcons/dropdown.PNG" id="7_1u634"]
 [ext_resource type="Texture2D" uid="uid://ct8ovxoimwg6a" path="res://assets/UI/ButtonIcons/radio-checked.PNG" id="8_ihl1x"]
 [ext_resource type="Texture2D" uid="uid://dyojs52kt3fcq" path="res://assets/UI/ButtonIcons/radio.PNG" id="9_m7ao1"]
+[ext_resource type="Texture2D" uid="uid://cgl4ie805frmc" path="res://assets/UI/ButtonIcons/down.PNG" id="10_e5i1t"]
+[ext_resource type="Texture2D" uid="uid://d4nf6y1nlleuq" path="res://assets/UI/ButtonIcons/up.PNG" id="11_nwedr"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4and3"]
 content_margin_left = 5.0
@@ -120,6 +122,46 @@ border_width_bottom = 1
 border_color = Color(0, 0, 0, 1)
 anti_aliasing = false
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x68on"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0.44705883, 0.44705883, 0.44705883, 1)
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3h2tq"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0.44705883, 0.44705883, 0.44705883, 1)
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ihsui"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0.446777, 0.44677705, 0.44677693, 1)
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x2v8l"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0.44705883, 0.44705883, 0.44705883, 1)
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+anti_aliasing = false
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m7ao1"]
 content_margin_left = 5.0
 content_margin_top = 5.0
@@ -200,6 +242,18 @@ PopupMenu/styles/hover = SubResource("StyleBoxFlat_ihl1x")
 PopupMenu/styles/panel = ExtResource("2_58upl")
 ScrollContainer/styles/focus = ExtResource("1_uuqsc")
 ScrollContainer/styles/panel = ExtResource("1_uuqsc")
+SpinBox/icons/down = ExtResource("10_e5i1t")
+SpinBox/icons/down_disabled = ExtResource("10_e5i1t")
+SpinBox/icons/down_hover = ExtResource("10_e5i1t")
+SpinBox/icons/down_pressed = ExtResource("10_e5i1t")
+SpinBox/icons/up = ExtResource("11_nwedr")
+SpinBox/icons/up_disabled = ExtResource("11_nwedr")
+SpinBox/icons/up_hover = ExtResource("11_nwedr")
+SpinBox/icons/up_pressed = ExtResource("11_nwedr")
+SpinBox/styles/down_background_hovered = SubResource("StyleBoxFlat_x68on")
+SpinBox/styles/down_background_pressed = SubResource("StyleBoxFlat_3h2tq")
+SpinBox/styles/up_background_hovered = SubResource("StyleBoxFlat_ihsui")
+SpinBox/styles/up_background_pressed = SubResource("StyleBoxFlat_x2v8l")
 TooltipPanel/styles/panel = ExtResource("1_uuqsc")
 VScrollBar/styles/grabber = SubResource("StyleBoxFlat_m7ao1")
 VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_nwedr")

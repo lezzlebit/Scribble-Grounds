@@ -11,6 +11,8 @@ var image : Image
 var image_texture : ImageTexture
 var texture_material: ShaderMaterial
 
+var other_player_images: Image
+
 var undo_index: int = 0
 var undo_buffer: Array[Image]
 var full_buffer_storage: Array[Image]
@@ -40,6 +42,8 @@ var footstep_background_color: Color = Color(0.0, 0.0, 0.0, 0.0)
 
 func initialize_material():
 	if !initialized_material:
+		other_player_images = Image.create_empty(texture_width, texture_height, false, Image.FORMAT_RGBA8)
+		other_player_images.fill(Color(1, 1, 1, 0))
 		if get_surface_override_material(0):
 			material_override = get_surface_override_material(0).duplicate()
 		else:
@@ -59,6 +63,7 @@ func set_instanced_material():
 	#footsteps_image.blend_rect_mask(footsteps_background_image, footsteps_fade_image, src_rect, Vector2i.ZERO)
 
 func _ready():
+	
 	initialize_material()
 	for i in get_children():
 		if i is MeshInstance3D:
@@ -100,7 +105,12 @@ func set_image(image_username: String, set_image: Image):
 	initialize_material()
 	print("Updated " + name)
 
-		
+	#if image_username != GlobalNetworkValues.username && image_username != "other":
+		#var new_image_rect = Rect2i(0, 0, set_image.get_width(), set_image.get_height())
+		#other_player_images.blend_rect(set_image, new_image_rect, Vector2.ZERO)
+		#set_image("other", other_player_images)
+		#return
+	
 	check_add_username_to_index(image_username)
 	painted_textures[image_username] = ImageTexture.create_from_image(set_image)
 	painted_textures[image_username].update(set_image)

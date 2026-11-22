@@ -51,6 +51,8 @@ var currently_drawing: bool = false
 var was_drawing_this_frame: bool = false
 
 var sprint_fov_multiplier_lerp: float = 1.0
+var fps_zoom_fov_multiplier_lerp: float = 1.0
+var fps_zoom_fov_multiplier: float = 0.2
 
 signal on_start_drawing
 signal on_stop_drawing
@@ -110,8 +112,12 @@ func find_paint_wall():
 			
 			print("normal: " + str(collision_normal))
 			
+			var dot_to_up: float = collision_normal.dot(Vector3.UP)
 			
-			wall_sticker.look_at(wall_sticker.global_position - collision_normal, Vector3.UP)
+			if (dot_to_up > 0.8):
+				wall_sticker.look_at(wall_sticker.global_position - Vector3.UP, Vector3.UP)
+			else:
+				wall_sticker.look_at(wall_sticker.global_position - collision_normal, Vector3.UP)
 			
 			
 			set_mesh(parent, false)
@@ -124,6 +130,7 @@ func find_paint_wall():
 			var up_dot: float = abs(collision_normal.dot(Vector3.UP))
 			print(up_dot)
 			if up_dot > 0.85:
+				print("looking up")
 				var up_normal: Vector3 = Vector3(current_uv_up_position.y, 0, current_uv_up_position.x).normalized()
 				wall_sticker.look_at(wall_sticker.global_position - collision_normal, up_normal)
 
@@ -154,7 +161,6 @@ func get_pixel_scale(hit_position: Vector3, normal: Vector3, obj: DrawTile):
 
 	
 	if pos_1 == null or pos_2 == null:
-		print("oh no")
 		return false
 
 	current_uv_up_position = pos_1 - pos_2;
@@ -208,7 +214,7 @@ func update_position(delta: float):
 	var wall_pivot_rotation: Quaternion = wall_camera_pivot.global_basis.get_rotation_quaternion()
 	
 	var wall_pivot_fov: float = 30
-	var default_fov: float = 75 * sprint_fov_multiplier_lerp
+	var default_fov: float = 75 * sprint_fov_multiplier_lerp * fps_zoom_fov_multiplier_lerp
 	
 	var wall_pivot_camera_near: float = get_camera_distance() - clamp(2, 0, distance/2)
 	var default_near: float = 0.1
@@ -316,6 +322,10 @@ func key_pan(delta: float):
 func _process(delta: float) -> void:
 	
 	
+	if Input.is_action_pressed("first_person_zoom"):
+		fps_zoom_fov_multiplier_lerp = lerp(fps_zoom_fov_multiplier_lerp, fps_zoom_fov_multiplier, delta*30)
+	else:
+		fps_zoom_fov_multiplier_lerp = lerp(fps_zoom_fov_multiplier_lerp, 1.0, delta*30)
 
 	handle_zoom()
 	
