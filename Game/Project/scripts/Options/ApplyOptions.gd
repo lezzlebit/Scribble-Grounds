@@ -10,16 +10,17 @@ class_name ApplyOptions
 @export var fullscreen_mode: CheckBox
 @export var tablet_driver: OptionButton
 @export var undo_history: SpinBox
+@export var ui_scale: SpinBox
 @export var vertical_sync: CheckBox
+@export var toggle_sprint: CheckBox
 var fullscreen_mode_switch
 var vertical_sync_switch
 @export_category("Applying References")
 @export var palette_margin_container: Control
 
 func _init() -> void:
+	
 	UserOptionsSaving.options_applier = self
-
-
 
 func set_global_volume():
 	var linear = volume_slider.value
@@ -57,6 +58,9 @@ func set_vertical_sync():
 		else:
 			DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 
+func set_ui_scale():
+	get_window().content_scale_factor = ui_scale.value
+
 func _process(delta: float) -> void:
 	
 	if vertical_sync:
@@ -74,6 +78,12 @@ func _process(delta: float) -> void:
 		set_fullscreen_mode()
 	if undo_history:
 		set_undo_history()
+		
+	if ui_scale:
+		set_ui_scale()
+		
+	if toggle_sprint:
+		GlobalGameplayValues.sprint_is_toggle = toggle_sprint.button_pressed
 	
 
 	pass

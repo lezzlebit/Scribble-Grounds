@@ -49,7 +49,7 @@ func pick_color():
 		pick_color_selector.visible = true
 
 func update_undo_buttons(undo: int, redo: int):
-	print(undo)
+	pass
 
 func end_pick_color():
 	

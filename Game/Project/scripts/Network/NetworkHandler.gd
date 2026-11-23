@@ -17,9 +17,10 @@ var model_name: String = GlobalNetworkValues.model_name
 
 
 func _init():
-	GlobalGameplayValues.network_handler = self
+	pass
 
 func _ready():
+	GlobalGameplayValues.network_handler = self
 	if !wait_until_model_loaded:
 		begin_loading()
 	else:
@@ -28,8 +29,9 @@ func _ready():
 		Motd.text = "This is your local, offline save\nJoin a server to play with others"
 
 func begin_loading():
+	get_list_from_disk()
+	await GlobalGameplayValues.world_textures.update_image_pool(true)
 	retrieve_list()
-	GlobalGameplayValues.world_textures.update_image_pool(true)
 	initialize_process_timers()
 
 
@@ -51,7 +53,7 @@ func create_request(headers, method, body):
 	add_child(request)
 	request.network_handler = self
 	request.request_completed.connect(request._http_request_completed)
-	request.timeout = 10
+	request.timeout = 20
 	headers.append("Authorization: " + GlobalNetworkValues.server_password + "," + GlobalNetworkValues.compatibility_version)
 	request.request_raw(network_address, headers, method, body)
 
@@ -92,10 +94,7 @@ func headers_to_dictionary(strings: PackedStringArray):
 
 
 
-# Get required images (GET)
-func retrieve_list():
-	
-	
+func get_list_from_disk():
 	DirAccess.make_dir_absolute(directory)
 	
 	if (FileAccess.file_exists(directory + changelog_filename)):
@@ -103,6 +102,12 @@ func retrieve_list():
 		var read = FileAccess.open(directory + changelog_filename, FileAccess.READ)
 		current_images = text_list_to_dictionary(read.get_as_text())
 	current_images = discard_images(current_images)
+
+# Get required images (GET)
+func retrieve_list():
+	
+	
+	get_list_from_disk()
 	
 	var body = "retrieve_drawings_list".to_ascii_buffer()
 	
@@ -113,6 +118,7 @@ func retrieve_list():
 		return
 	create_request(headers, HTTPClient.METHOD_GET, body)
 	if GlobalGameplayValues.use_footsteps: send_steps()
+
 
 
 func discard_images(dict: Dictionary[String, String]):
@@ -214,7 +220,7 @@ func _on_retrieve_image(headers, body):
 	current_images[filename] = new_images[filename]
 	save_current_changelog()
 	if len(required_images) > 0:
-		GlobalGameplayValues.user_message_log("Updating drawings (" + str(len(required_images)) + " remaining)")
+		GlobalGameplayValues.user_message_log("Retrieving from Server (" + str(len(required_images)) + " drawings remaining)")
 	else:
 		GlobalGameplayValues.user_message_log("World updated")
 	

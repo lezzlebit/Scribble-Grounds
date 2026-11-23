@@ -53,7 +53,6 @@ func get_file_name(path: String):
 	return file_name
 
 func save_unsaved_textures():
-	print(painted_tiles)
 	var path = GlobalNetworkValues.save_directory + GlobalNetworkValues.save_folder
 	
 	for i in painted_tiles:
@@ -107,12 +106,20 @@ func update_image_pool(update_all: bool):
 	if update_all: files_to_get = network_handler.current_images
 	if !update_all: files_to_get = network_handler.required_images
 	
+	
+	var loaded_index: int = 0
+	var total_to_load: int = len(files_to_get)
+	
 	for i in files_to_get:
 		
+		loaded_index += 1
 		var selected_name = i.split(".")[0]
 		get_one_image(selected_name, i)
-	
-	assign_all_textures()
+		assign_one_texture(selected_name)
+		GlobalGameplayValues.user_message_log("Loading from disk (" + str(total_to_load - loaded_index) + " remaining)")
+		if loaded_index % 2 == 0:
+			await get_tree().process_frame
+	GlobalGameplayValues.user_message_log("")
 
 	pass
 	
@@ -134,8 +141,16 @@ func assign_all_textures():
 			var tile_found: DrawTile = tiles[file_name]
 			tile_found.set_image(image_username, image_pool[i])
 
+func assign_one_texture(tex_path):
+	var file_name: String = get_file_name(tex_path)
+	var image_username: String = tex_path.split("/")[0]
+	if tiles.has(file_name):
+		var tile_found: DrawTile = tiles[file_name]
+		tile_found.set_image(image_username, image_pool[tex_path])
+
 func add_image_to_queue(image_path: String):
 	updated_image_queue[image_path] = 0.3
+
 
 func process_image_queue(delta: float):
 	

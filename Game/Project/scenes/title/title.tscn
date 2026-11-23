@@ -35,6 +35,7 @@ content_margin_right = 0.0
 content_margin_bottom = 0.0
 
 [node name="Title" type="Control" unique_id=15814928]
+texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -513,11 +514,12 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Loading..."
 
-[node name="ApplyOptions" type="Node" parent="." unique_id=246683911 node_paths=PackedStringArray("volume_slider", "sensitivity_slider", "fullscreen_mode")]
+[node name="ApplyOptions" type="Node" parent="." unique_id=246683911 node_paths=PackedStringArray("volume_slider", "sensitivity_slider", "fullscreen_mode", "ui_scale")]
 script = ExtResource("15_rtgr4")
 volume_slider = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Options/Volume/HBoxContainer/Volume")
 sensitivity_slider = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Options/Sensitivity/HBoxContainer/Sensitivity")
 fullscreen_mode = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Options/FullscreenMode")
+ui_scale = NodePath("../MarginContainer/HBoxContainer/Panel2/MarginContainer/VBoxContainer/Options/UIScale/HBoxContainer/UiScale")
 metadata/_custom_type_script = "uid://dhrbxd84tmb3u"
 
 [connection signal="on_press_any" from="." to="Click" method="play"]

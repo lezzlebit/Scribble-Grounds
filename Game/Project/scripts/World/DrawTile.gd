@@ -67,7 +67,6 @@ func _ready():
 	initialize_material()
 	for i in get_children():
 		if i is MeshInstance3D:
-			print(i.name)
 			i.set_surface_override_material(0, material_override)
 
 func initialize_footsteps():
@@ -268,14 +267,12 @@ func pick_pixel(x: float, y:float) -> Color:
 		user_color_at_pos = user_layer.get_image().get_pixelv(drawPos)
 	
 	if user_color_at_pos.a == 0:
-		print("was transparent")
 		var color_options: Array[Color]
 		
 		for i in painted_textures:
 			var color_at_pos = painted_textures[i].get_image().get_pixelv(drawPos)
 			if color_at_pos.a != 0:
 				color_options.append(color_at_pos)
-		print(color_options)
 		if len(color_options) > 0:
 			final_color = color_options[0]
 	else:

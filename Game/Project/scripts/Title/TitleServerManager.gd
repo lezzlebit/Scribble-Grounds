@@ -32,6 +32,9 @@ var created_instances: Array[ServerButton]
 
 signal make_new_button
 
+var new_scene_path: String
+var loading_new_scene: bool
+
 func _ready() -> void:
 	DirAccess.make_dir_absolute(GlobalNetworkValues.game_directory)
 	DirAccess.make_dir_absolute(server_path)
@@ -72,7 +75,7 @@ func play_locally():
 	GlobalGameplayValues.viewing_offline = false
 	GlobalNetworkValues.network_address = ""
 	GlobalNetworkValues.save_folder = "local/"
-	get_tree().change_scene_to_packed(main_game)
+	start_load_scene(main_game)
 
 func connect_to_server(button: ServerButton):
 	GlobalGameplayValues.playing_locally = false
@@ -99,9 +102,26 @@ func connect_to_server(button: ServerButton):
 	
 	if button.has_custom_world:
 		GlobalNetworkValues.model_name = button.server_world
+		start_load_scene(custom_world_game)
 		get_tree().change_scene_to_packed(custom_world_game)
 	else:
-		get_tree().change_scene_to_packed(main_game)
+		start_load_scene(main_game)
+
+func start_load_scene(scene: PackedScene):
+	new_scene_path = scene.resource_path
+	ResourceLoader.load_threaded_request(new_scene_path)
+	loading_new_scene = true
+	
+
+func _process(delta: float) -> void:
+	if loading_new_scene:
+		var progress: Array[float]
+		var status: = ResourceLoader.load_threaded_get_status(new_scene_path, progress)
+		
+		if status == ResourceLoader.THREAD_LOAD_LOADED:
+			pass
+			var scene_to_load = ResourceLoader.load_threaded_get(new_scene_path)
+			get_tree().change_scene_to_packed(scene_to_load)
 
 func set_editor_enabled(is_enabled: bool):
 	editor_parent.visible = is_enabled

@@ -15,6 +15,7 @@ var controller_camera_speed = 1024
 var vertical_look: float
 var acceleration: Vector3 = Vector3.ZERO
 var speed_lerp: float = 0
+var currently_sprinting: bool = false
 
 var GameValues = GlobalGameplayValues
 var first_person_switch: bool = false
@@ -65,6 +66,12 @@ func apply_vertical_look():
 
 func process_movement(delta: float):
 	
+	if GlobalGameplayValues.sprint_is_toggle:
+		if Input.is_action_just_pressed("sprint"):
+			currently_sprinting = !currently_sprinting
+	else:
+		currently_sprinting = Input.is_action_pressed("sprint")
+	
 	controller_look(delta)
 	
 	var move_friction: float = 7.0
@@ -89,7 +96,7 @@ func process_movement(delta: float):
 		direction = direction.normalized()
 	if direction:
 		var true_speed = lerp(min_speed, max_speed, speed_lerp)
-		if Input.is_action_pressed("sprint"):
+		if currently_sprinting:
 			true_speed *= 1.5
 		acceleration.x = lerp(acceleration.x, direction.x * true_speed, delta * move_friction)
 		acceleration.z = lerp(acceleration.z, direction.z * true_speed, delta * move_friction)

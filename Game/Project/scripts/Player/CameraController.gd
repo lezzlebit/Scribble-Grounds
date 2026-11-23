@@ -10,7 +10,7 @@ var GameValues = GlobalGameplayValues
 @export var wall_sticker: Node3D
 @export var wall_camera_pivot: Node3D
 @export var drawing_controls: Control
-@export var pause_screen: Control
+@export var pause_screen: PauseMenu
 @export var first_person_environment: Environment
 @export var drawing_environment: Environment
 
@@ -36,6 +36,9 @@ var current_raw_pixel_scale: float = 1
 var current_texture_scale: int = 1
 var current_uv_up_position: Vector2 = Vector2.UP
 
+var base_raycast_distance: float = 3.5
+var long_raycast_distance: float = 35
+
 
 var current_zoom_level: int = 4
 var zoom_values: Array[int] = [1, 2, 3, 4, 6, 8, 16, 24, 32]
@@ -59,6 +62,8 @@ signal on_stop_drawing
 
 var mouse_motion_occupied: bool = false
 
+var dot_threshold: float = 0.8
+
 func _ready() -> void:
 	GameValues.main_camera = self
 	pass
@@ -78,11 +83,14 @@ func _unhandled_input(event: InputEvent):
 	# if Input.is_action_pressed("button_draw"): currently_drawing = true
 
 	if event is InputEventMouseMotion:
-		mouse_drawing_position = event.position
+		
+		var scale_factor: float = get_window().content_scale_factor
+		
+		mouse_drawing_position = event.position * scale_factor
 
 		if Input.is_action_pressed("pan_mouse") or (Input.is_action_pressed("pen_down") and currently_panning):
 			currently_panning = true
-			pan_pixels += (event.relative / float(screen_pixel_size)).rotated(-pan_rotation)
+			pan_pixels += (event.relative / float(screen_pixel_size)).rotated(-pan_rotation) * scale_factor
 			clamp_pan()
 	
 	if !mouse_motion_occupied:
@@ -110,11 +118,11 @@ func find_paint_wall():
 			wall_sticker.reparent(result.get_parent())
 			wall_sticker.global_position = collision_position
 			
-			print("normal: " + str(collision_normal))
+			# print("normal: " + str(collision_normal))
 			
 			var dot_to_up: float = collision_normal.dot(Vector3.UP)
 			
-			if (dot_to_up > 0.8):
+			if (dot_to_up > dot_threshold):
 				wall_sticker.look_at(wall_sticker.global_position - Vector3.UP, Vector3.UP)
 			else:
 				wall_sticker.look_at(wall_sticker.global_position - collision_normal, Vector3.UP)
@@ -128,9 +136,7 @@ func find_paint_wall():
 				
 			
 			var up_dot: float = abs(collision_normal.dot(Vector3.UP))
-			print(up_dot)
-			if up_dot > 0.85:
-				print("looking up")
+			if up_dot > dot_threshold:
 				var up_normal: Vector3 = Vector3(current_uv_up_position.y, 0, current_uv_up_position.x).normalized()
 				wall_sticker.look_at(wall_sticker.global_position - collision_normal, up_normal)
 
@@ -321,11 +327,13 @@ func key_pan(delta: float):
 
 func _process(delta: float) -> void:
 	
+	var raycast_distance: float = base_raycast_distance
 	
 	if Input.is_action_pressed("first_person_zoom"):
-		fps_zoom_fov_multiplier_lerp = lerp(fps_zoom_fov_multiplier_lerp, fps_zoom_fov_multiplier, delta*30)
+		raycast_distance = long_raycast_distance
+		fps_zoom_fov_multiplier_lerp = lerp(fps_zoom_fov_multiplier_lerp, fps_zoom_fov_multiplier, delta*20)
 	else:
-		fps_zoom_fov_multiplier_lerp = lerp(fps_zoom_fov_multiplier_lerp, 1.0, delta*30)
+		fps_zoom_fov_multiplier_lerp = lerp(fps_zoom_fov_multiplier_lerp, 1.0, delta*20)
 
 	handle_zoom()
 	
@@ -338,14 +346,14 @@ func _process(delta: float) -> void:
 	
 	
 	if GameValues.first_person and !GameValues.paused:
-		if Input.is_action_pressed("sprint"):
+		if GlobalGameplayValues.player_controller.currently_sprinting:
 			sprint_fov_multiplier_lerp = lerp(sprint_fov_multiplier_lerp, 1.06, delta*15)
 		else:
 			sprint_fov_multiplier_lerp = lerp(sprint_fov_multiplier_lerp, 1.0, delta*15)
 		find_paint_wall()
 		raycast.position = Vector3.ZERO
 		raycast.rotation = Vector3.ZERO
-		raycast.target_position = Vector3(0, 0, -3.5)
+		raycast.target_position = Vector3(0, 0, -raycast_distance)
 
 	elif Input.is_action_just_pressed("end_drawing") and !picking_color:
 		
@@ -353,16 +361,15 @@ func _process(delta: float) -> void:
 			on_stop_drawing.emit()
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 		GameValues.first_person = true
-		print(use_drawing_environment_for_first_person)
 		if use_drawing_environment_for_first_person == true: environment = drawing_environment
 		if use_drawing_environment_for_first_person == false: environment = first_person_environment
 		GameValues.world_textures.save_unsaved_textures()
 
 	if !GameValues.first_person:
 		if Input.is_action_just_pressed("rotate_left"):
-			pan_rotation += deg_to_rad(-90)
+			pan_rotation += deg_to_rad(-45)
 		if Input.is_action_just_pressed("rotate_right"):
-			pan_rotation += deg_to_rad(90)
+			pan_rotation += deg_to_rad(45)
 		key_pan(delta)
 
 	update_position(delta)
@@ -371,7 +378,7 @@ func _process(delta: float) -> void:
 	if GameValues.paused:
 		pause_screen.process_mode = Node.PROCESS_MODE_INHERIT
 	else:
-		pause_screen.process_mode = Node.PROCESS_MODE_DISABLED
+		pause_screen.unpause()
 	
 	if !GameValues.paused and GameValues.first_person and !GameValues.player_controller.paused:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED

@@ -58,9 +58,10 @@
 [ext_resource type="Texture2D" uid="uid://crnxmc5bs7xjb" path="res://assets/UI/DrawingTextures/color_picker.png" id="47_uygh0"]
 [ext_resource type="Resource" uid="uid://ieoflfw4u2qd" path="res://assets/Brushes/Small/2x_brush.tres" id="49_upxxc"]
 [ext_resource type="PackedScene" uid="uid://b8emmr35u0852" path="res://scenes/ui/options.tscn" id="55_uygh0"]
+[ext_resource type="Texture2D" uid="uid://cyxdq1sqndae8" path="res://assets/UI/ButtonIcons/options.PNG" id="57_hdvrm"]
 [ext_resource type="Script" uid="uid://dhrbxd84tmb3u" path="res://scripts/Options/ApplyOptions.gd" id="57_uygh0"]
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_w8qe1"]
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_hdvrm"]
 points = PackedVector3Array(0.5, 0.5, 0, 0.46193975, 0.5, 0.19134171, 0.35355338, 0.5, 0.35355338, 0.19134171, 0.5, 0.46193975, 3.061516e-17, 0.5, 0.5, -0.19134171, 0.5, 0.46193975, -0.35355338, 0.5, 0.35355338, -0.46193975, 0.5, 0.19134171, -0.5, 0.5, 6.123032e-17, -0.46193975, 0.5, -0.19134171, -0.35355338, 0.5, -0.35355338, -0.19134171, 0.5, -0.46193975, -9.1845477e-17, 0.5, -0.5, 0.19134171, 0.5, -0.46193975, 0.35355338, 0.5, -0.35355338, 0.46193975, 0.5, -0.19134171, 0.5, -0.5, 0, 0.46193975, -0.5, 0.19134171, 0.35355338, -0.5, 0.35355338, 0.19134171, -0.5, 0.46193975, 3.061516e-17, -0.5, 0.5, -0.19134171, -0.5, 0.46193975, -0.35355338, -0.5, 0.35355338, -0.46193975, -0.5, 0.19134171, -0.5, -0.5, 6.123032e-17, -0.46193975, -0.5, -0.19134171, -0.35355338, -0.5, -0.35355338, -0.19134171, -0.5, -0.46193975, -9.1845477e-17, -0.5, -0.5, 0.19134171, -0.5, -0.46193975, 0.35355338, -0.5, -0.35355338, 0.46193975, -0.5, -0.19134171, 0, 1, 0, 0, -1, 0)
 
 [sub_resource type="PrismMesh" id="PrismMesh_g4v7s"]
@@ -106,7 +107,7 @@ min_camera_sensitivity = 0.1
 ground_raycast = NodePath("RayCast3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=679124615]
-shape = SubResource("ConvexPolygonShape3D_w8qe1")
+shape = SubResource("ConvexPolygonShape3D_hdvrm")
 script = ExtResource("2_t1aof")
 
 [node name="CameraPivot" type="Node3D" parent="CharacterBody3D" unique_id=30639229]
@@ -228,6 +229,7 @@ stream = ExtResource("8_pk8ii")
 volume_db = -12.0
 
 [node name="Reticle" type="Control" parent="." unique_id=615782849 node_paths=PackedStringArray("able_to_draw", "label")]
+texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -289,6 +291,7 @@ script = ExtResource("18_5q8fn")
 
 [node name="Drawing Controls" type="Control" parent="Button Audio" unique_id=2036386123 node_paths=PackedStringArray("selection_indicator", "button_parent", "eraser", "brush_buttons", "pick_color_selector", "replace_color", "alpha_replace_mode_text", "alpha_replace_mode_selector")]
 visible = false
+texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -555,8 +558,7 @@ NodePath("../MarginContainer/VBoxContainer/Brushes/GridContainer/Brush 4"): ExtR
 default_brush = NodePath("../MarginContainer/VBoxContainer/Brushes/GridContainer/Brush 1")
 replace_alpha = NodePath("../MarginContainer/VBoxContainer/Brushes/GridContainer/Alpha")
 
-[node name="Pause" type="Control" parent="Button Audio" unique_id=299459546]
-visible = false
+[node name="Pause" type="Control" parent="Button Audio" unique_id=299459546 node_paths=PackedStringArray("options_screen")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -565,6 +567,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("4_fm80t")
 script = ExtResource("22_cnsyf")
+options_screen = NodePath("Panel/Panel/HBoxContainer/Options")
 
 [node name="Panel" type="Panel" parent="Button Audio/Pause" unique_id=368317589]
 layout_mode = 1
@@ -590,43 +593,63 @@ offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Button Audio/Pause/Panel/Panel" unique_id=1175412428]
+[node name="HBoxContainer" type="HBoxContainer" parent="Button Audio/Pause/Panel/Panel" unique_id=250247347]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -258.0
+offset_top = -166.5
+offset_right = 258.0
+offset_bottom = 166.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 16
 alignment = 1
 
-[node name="Resume" type="Button" parent="Button Audio/Pause/Panel/Panel/VBoxContainer" unique_id=1533899347]
+[node name="VBoxContainer" type="VBoxContainer" parent="Button Audio/Pause/Panel/Panel/HBoxContainer" unique_id=1175412428]
+layout_mode = 2
+alignment = 1
+
+[node name="Resume" type="Button" parent="Button Audio/Pause/Panel/Panel/HBoxContainer/VBoxContainer" unique_id=1533899347]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 text = "Resume"
 icon = ExtResource("22_ioxgp")
 
-[node name="Button" type="Button" parent="Button Audio/Pause/Panel/Panel/VBoxContainer" unique_id=413260028]
+[node name="Options" type="Button" parent="Button Audio/Pause/Panel/Panel/HBoxContainer/VBoxContainer" unique_id=1806938959]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "Options"
+icon = ExtResource("57_hdvrm")
+
+[node name="Quit" type="Button" parent="Button Audio/Pause/Panel/Panel/HBoxContainer/VBoxContainer" unique_id=413260028]
 layout_mode = 2
 mouse_default_cursor_shape = 2
 text = "Quit to title"
 icon = ExtResource("23_cnsyf")
 
-[node name="Options" parent="Button Audio/Pause/Panel/Panel/VBoxContainer" unique_id=1520550846 instance=ExtResource("55_uygh0")]
+[node name="Info" parent="Button Audio/Pause/Panel/Panel/HBoxContainer/VBoxContainer" unique_id=1961662103 instance=ExtResource("25_007i1")]
 layout_mode = 2
 
-[node name="Info" parent="Button Audio/Pause/Panel/Panel/VBoxContainer" unique_id=1961662103 instance=ExtResource("25_007i1")]
+[node name="Options" parent="Button Audio/Pause/Panel/Panel/HBoxContainer" unique_id=1520550846 instance=ExtResource("55_uygh0")]
+visible = false
 layout_mode = 2
 
-[node name="ApplyOptions" type="Node" parent="." unique_id=2029212884 node_paths=PackedStringArray("reflection_quality", "volume_slider", "sensitivity_slider", "left_palette", "fullscreen_mode", "tablet_driver", "undo_history", "vertical_sync", "palette_margin_container")]
+[node name="ApplyOptions" type="Node" parent="." unique_id=2029212884 node_paths=PackedStringArray("reflection_quality", "volume_slider", "sensitivity_slider", "left_palette", "fullscreen_mode", "tablet_driver", "undo_history", "ui_scale", "vertical_sync", "toggle_sprint", "palette_margin_container")]
 script = ExtResource("57_uygh0")
-reflection_quality = NodePath("../Button Audio/Pause/Panel/Panel/VBoxContainer/Options/Reflection/HBoxContainer/Reflection")
-volume_slider = NodePath("../Button Audio/Pause/Panel/Panel/VBoxContainer/Options/Volume/HBoxContainer/Volume")
-sensitivity_slider = NodePath("../Button Audio/Pause/Panel/Panel/VBoxContainer/Options/Sensitivity/HBoxContainer/Sensitivity")
-left_palette = NodePath("../Button Audio/Pause/Panel/Panel/VBoxContainer/Options/PaletteOnLeft")
-fullscreen_mode = NodePath("../Button Audio/Pause/Panel/Panel/VBoxContainer/Options/FullscreenMode")
-tablet_driver = NodePath("../Button Audio/Pause/Panel/Panel/VBoxContainer/Options/TabletDriver")
-undo_history = NodePath("../Button Audio/Pause/Panel/Panel/VBoxContainer/Options/UndoHistory/HBoxContainer/UndoHistory")
-vertical_sync = NodePath("../Button Audio/Pause/Panel/Panel/VBoxContainer/Options/VerticalSync")
+reflection_quality = NodePath("../Button Audio/Pause/Panel/Panel/HBoxContainer/Options/Reflection/HBoxContainer/Reflection")
+volume_slider = NodePath("../Button Audio/Pause/Panel/Panel/HBoxContainer/Options/Volume/HBoxContainer/Volume")
+sensitivity_slider = NodePath("../Button Audio/Pause/Panel/Panel/HBoxContainer/Options/Sensitivity/HBoxContainer/Sensitivity")
+left_palette = NodePath("../Button Audio/Pause/Panel/Panel/HBoxContainer/Options/PaletteOnLeft")
+fullscreen_mode = NodePath("../Button Audio/Pause/Panel/Panel/HBoxContainer/Options/FullscreenMode")
+tablet_driver = NodePath("../Button Audio/Pause/Panel/Panel/HBoxContainer/Options/TabletDriver")
+undo_history = NodePath("../Button Audio/Pause/Panel/Panel/HBoxContainer/Options/UndoHistory/HBoxContainer/UndoHistory")
+ui_scale = NodePath("../Button Audio/Pause/Panel/Panel/HBoxContainer/Options/UIScale/HBoxContainer/UiScale")
+vertical_sync = NodePath("../Button Audio/Pause/Panel/Panel/HBoxContainer/Options/VerticalSync")
+toggle_sprint = NodePath("../Button Audio/Pause/Panel/Panel/HBoxContainer/Options/ToggleSprint")
 palette_margin_container = NodePath("../Button Audio/Drawing Controls/MarginContainer")
 metadata/_custom_type_script = "uid://dhrbxd84tmb3u"
 
@@ -639,7 +662,8 @@ metadata/_custom_type_script = "uid://dhrbxd84tmb3u"
 [connection signal="toggled" from="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Brushes/GridContainer/Alpha" to="Button Audio/Drawing Controls" method="set_replace_mode"]
 [connection signal="pressed" from="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/Brushes/GridContainer/Pick" to="Button Audio/Drawing Controls" method="pick_color"]
 [connection signal="pressed" from="Button Audio/Drawing Controls/MarginContainer/VBoxContainer/GridContainer/Erase" to="Button Audio/Drawing Controls" method="set_erase"]
-[connection signal="pressed" from="Button Audio/Pause/Panel/Panel/VBoxContainer/Resume" to="Button Audio/Pause" method="unpause"]
-[connection signal="pressed" from="Button Audio/Pause/Panel/Panel/VBoxContainer/Button" to="Button Audio/Pause" method="load_title"]
+[connection signal="pressed" from="Button Audio/Pause/Panel/Panel/HBoxContainer/VBoxContainer/Resume" to="Button Audio/Pause" method="unpause"]
+[connection signal="pressed" from="Button Audio/Pause/Panel/Panel/HBoxContainer/VBoxContainer/Options" to="Button Audio/Pause" method="toggle_options_visibility"]
+[connection signal="pressed" from="Button Audio/Pause/Panel/Panel/HBoxContainer/VBoxContainer/Quit" to="Button Audio/Pause" method="load_title"]
 
-[editable path="Button Audio/Pause/Panel/Panel/VBoxContainer/Options"]
+[editable path="Button Audio/Pause/Panel/Panel/HBoxContainer/Options"]

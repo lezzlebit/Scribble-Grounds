@@ -15,6 +15,7 @@ grow_vertical = 0
 mouse_behavior_recursive = 1
 
 [node name="Label" type="Panel" parent="." unique_id=727563538]
+custom_minimum_size = Vector2(0, 160)
 custom_maximum_size = Vector2(125, -1)
 layout_mode = 1
 anchors_preset = 2
@@ -39,10 +40,12 @@ Z:
 Y  /  Shift+Z:
 Mouse3 / Space:
 Left / Right arrows:
-F1:"
+F1:
+C:"
 horizontal_alignment = 2
 
 [node name="Label2" type="Panel" parent="." unique_id=1916323234]
+custom_minimum_size = Vector2(0, 160)
 custom_maximum_size = Vector2(123, -1)
 layout_mode = 1
 anchors_preset = 3
@@ -70,7 +73,8 @@ Undo
 Redo
 Pan Canvas
 Rotate Canvas
-Toggle Lighting"
+Toggle Lighting
+First-person zoom"
 
 [node name="Label3" type="Label" parent="." unique_id=312470124]
 visible = false

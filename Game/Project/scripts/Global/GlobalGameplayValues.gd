@@ -16,6 +16,7 @@ var camera_sensitivity: float = 0
 var use_footsteps: bool = false
 var viewing_offline: bool = false
 var playing_locally: bool = false
+var sprint_is_toggle: bool = false
 
 var undo_limit = 16
 

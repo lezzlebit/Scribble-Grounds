@@ -1,3 +1,10 @@
+Nov 22 2026
+[hr]
+	- Added the option to change your maximum undo history
+	- Added the option to change the UI scale
+	- When joining a server, images will be loaded from your disk over a short time instead of all at once
+	- You can now press C to zoom in
+
 Nov 16 2026
 [hr]
 	- Added a slider to reduce the water reflection quality
